@@ -19,6 +19,7 @@ def solve(u, v, boundary, dx, dy, u_inf, nu):
             c = - 1 / (4*dx) * prev*prev - nu / (dy*dy) * (top + u[i-1][j-1] - prev) \
                 + v[i-1][j] * (top - u[i-1][j-1]) / (2 * dy)
             
+            assert b*b - 4*a*c >= 0
             pu = (-b + sqrt(b*b - 4*a*c)) / (2*a)
             
             if (pu) > u_inf * 0.9995:
@@ -33,6 +34,6 @@ def solve(u, v, boundary, dx, dy, u_inf, nu):
     # Calculate v
     for i in range(1, x_count):
         for j in range(1, y_count):
-            pv = - (u[i][j] + u[i][j-1] - u[i-1][j] - u[i-1][j-1]) / (2 * dx) + v[i][j-1] / dy
+            pv = - (u[i][j] - u[i-1][j]) / (dx) + v[i][j-1] / dy
             pv = pv * dy
             v[i][j] = pv

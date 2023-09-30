@@ -33,6 +33,6 @@ def solve(u, v, boundary, dx, dy, u_inf, nu):
     # Calculate v
     for i in range(1, x_count):
         for j in range(1, y_count):
-            pv = - (u[i][j] + u[i][j-1] - u[i-1][j] - u[i-1][j-1]) + v[i][j-1]
+            pv = - (u[i][j] + u[i][j-1] - u[i-1][j] - u[i-1][j-1]) / (dx) + v[i][j-1] / dy
             pv = pv * dy
             v[i][j] = pv

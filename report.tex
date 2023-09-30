@@ -65,14 +65,57 @@
     u_{x,y} \frac{u_{x+1, y} - u_{x,y}}{\Delta x} + v_{x,y} \frac{u_{x,y+1} - u_{x,y-1}}{2 \Delta y} = 
     \nu \frac{u_{x,y+1} - 2 u_{x, y} + u_{x,y-1}}{(\Delta y)^2}
 \]
-而不可压缩方程变为：
+而质量连续性方程变为：
 \[ \frac{u_{x+1,y} - u_{x,y}}{\Delta x} + \frac{v_{x+1,y} - v_{x+1,y-1}}{\Delta y} = 0 \]
+
+因此，我们可以使用$u_{x,y+1}, u_{x, y}, u_{x,y-1}$来求解$u_{x+1,y}$。
+注意到方程中还有一个未知数$v_{x,y}$，我们可以选择在计算$u$的同时利用连续性方程计算$v$，也可以选择先设$v$为某初始值，计算$u$，然后计算$v$，然后再迭代一次，重新计算。
+第二种方法可称为预测-校正法，这种方法实现较为简单，因此我们选择这种方法。
 
 \subsection{全显式法}
 
-\subsection{DuFort-Frankel法}
+将第一个方程移项，可得：
+\[ 
+    u_{x+1,y} = \frac{\Delta x}{u_{x,y}} 
+    \left( 
+        \nu \frac{u_{x,y+1} - 2 u_{x, y} + u_{x,y-1}}{(\Delta y)^2}  
+        - v_{x,y} \frac{u_{x,y+1} - u_{x, y-1}}{2 \Delta y} + \frac{u_{x,y} u_{x,y}}{\Delta x}
+    \right) 
+\]
+正如上文所述，若需要求解$u_{x+1,y}$，我们需要先求出$u_{x,y+1}, u_{x, y}, u_{x,y-1}$，这意味着我们只能先沿$x$轴前进，再沿$y$轴前进。
+只有这样才能保证在计算$u_{x+1, y}$时需要的值都已经求出。
 
-\section{解析解}
+同理，$v_{x+1,y}$也可以使用这种方法求解。
+
+这种方式即为全显式法，其易于实现，不需要求解复杂的线性或非线性方程组，因此通常不需要进行迭代。
+
+然而，其缺点在于稳定性不足。该方法的稳定性约束为\cite{book:9105}：
+\[ \frac{2\nu \Delta x}{u_{x,y} (\Delta y)^2} \le 1 \quad \text{且} \quad \frac{v_{x,y}^2 \Delta x}{u_{x,y} \nu} \le 2 \]
+可以注意到若网格在$y$方向上划分过细，则该算法反而会不稳定。
+此外，该方法的稳定性也与求出的解有关，这意味着我们必须调整参数才能获得稳定的解。
+这些问题促使我们寻找更优秀的算法。
+
+\subsection{Du Fort-Frankel法}
+
+为了解决全显式法的不稳定的问题，同时保持显式方法易于理解、编写和求解的优点，Du Fort和Frankel提出了一个更稳定的解决方案\cite{du1953stability}。
+对于欲在$x$方向上使用步进方法求解的物理量$\phi_{x+1,y}$，可使用其在$x$方向上的平均来替代$\phi_{x, y}$，即在方程中将所有$\phi_{x,y}$代替为：
+\[ \overline{\phi_{x,y}} = \frac{\phi_{x+1,y} + \phi_{x-1,y}}{2} \]
+
+现在可以重写动量方程：
+\begin{multline*}
+    \frac{u_{x+1,y} + u_{x-1,y}}{2 \Delta x} \left( u_{x+1,y} - \frac{u_{x+1,y}+u_{x-1,y}}{2} \right) \\
+    + v_{x,y} \frac{u_{x, y+1} - u_{x, y-1}}{2 \Delta y} \\
+    = \frac{\nu}{(\Delta y)^2} (u_{x,y+1} - u_{x+1,y} - u_{x-1,y} + u_{x,y-1})
+\end{multline*}
+    
+
+\subsection{精确解}
+
+\section{结论}
+
+\subsection{稳定性}
+
+\subsection{准确性}
 
 \printbibliography
 

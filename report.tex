@@ -1,0 +1,79 @@
+\documentclass[12pt]{ctexart}
+\usepackage{amsmath}
+\usepackage[backend=biber,style=gb7714-2015]{biblatex}
+
+\title{计算普朗特方程的数值解}
+\author{***REMOVED*** \\ ***REMOVED***}
+
+\addbibresource{references.bib}
+
+\begin{document}
+    \maketitle
+
+\section{问题陈述}
+我们知道，不可压缩的牛顿流体的流动满足纳维尔-斯托克斯方程：
+\[
+\left\{
+\begin{aligned}
+& \frac{\partial \vec U}{\partial t} + (\vec U \cdot \nabla) \vec U = - \frac{1}{\rho} \nabla p + \nu \nabla^2 \vec U + \vec f \\
+& \nabla \cdot \vec U = 0
+\end{aligned}
+\right.
+\]
+该方程是一个复杂的非线性偏微分方程，其光滑解的存在性至今仍是未解之谜\cite{millenniumNSeq}。
+为了更加方便地研究各种不同状态下流体的状态变化，流体力学家们一直在尝试简化该方程。
+
+1909年，物理学家阿诺尔德·索末菲以奥斯鲍恩·雷诺的名字命名了一个新的常数，雷诺数，定义为\cite{sommerfeld1909beitrag}：
+\[ \mathrm{Re} = \frac{Ul}{\nu} \]
+雷诺数表征了流体的惯性作用和黏性作用之比\cite{10.1371/journal.pone.0141848}，当其远大于1时，流体的惯性在流动中起主要作用，因此可以在一定程度上忽略黏性的作用，从而降低求解N-S方程的难度。
+
+然而，N-S方程中的黏度项不仅与运动黏度$\nu$有关，还和流速的拉普拉斯算子有关，这意味着对速度梯度变化极快的区域，直接忽略黏性项会产生非常大的误差。
+为了解决这一问题，流体力学家路德维希·普朗特提出了边界层的概念\cite{Tollmien1961}。
+由于速度梯度的快速变化通常在壁面附近发生，他将高雷诺数的流体分为靠近壁面和远离壁面两个部分，并将靠近壁面的一部分称为边界层。
+在边界层外，可以使用无黏性的近似来求解N-S方程；而在边界层内则依然需要考虑黏性。
+
+普朗特利用量级分析将边界层中的N-S方程简化为以下方程：
+\[
+    \left\{
+        \begin{aligned}
+            & u \partial_x u + v \partial_y u = - \frac{1}{\rho} \partial_x p + \nu \partial_{yy} u \\
+            & \partial_y p = 0 \\
+            & \partial_x u + \partial_y v = 0
+        \end{aligned}
+    \right.
+\]
+
+我们考虑一侧为平板，另一侧为以固定速度流动的无黏性区域流体之间的边界层。
+对无黏性的流体使用伯努利定律，可发现其压力不变，故$\partial_x p = 0$。
+因此普朗特方程可进一步简化为：
+\[
+    \left\{
+        \begin{aligned}
+            & u \partial_x u + v \partial_y u = \nu \partial_{yy} u \\
+            & \partial_x u + \partial_y v = 0
+        \end{aligned}
+    \right.
+\]
+我们将使用有限差分法求出该方程的数值解。
+
+\section{有限差分法}
+
+我们首先考虑动量方程，即第一个方程，因为该方程较为复杂。
+注意到该方程是一个\emph{抛物偏微分方程}，对$y$具有二阶偏导，而对$x$只具有一阶偏导，因此我们可以选择以$x$作为行进方向。
+因此，我们将$u$沿$x$方向的导数写为后向差分，而将沿$y$方向的导数写成中间差分，该方程变为：
+\[ 
+    u_{x,y} \frac{u_{x+1, y} - u_{x,y}}{\Delta x} + v_{x,y} \frac{u_{x,y+1} - u_{x,y-1}}{2 \Delta y} = 
+    \nu \frac{u_{x,y+1} - 2 u_{x, y} + u_{x,y-1}}{(\Delta y)^2}
+\]
+而不可压缩方程变为：
+\[ \frac{u_{x+1,y} - u_{x,y}}{\Delta x} + \frac{v_{x+1,y} - v_{x+1,y-1}}{\Delta y} = 0 \]
+
+\subsection{全显式法}
+
+\subsection{DuFort-Frankel法}
+
+\section{解析解}
+
+\printbibliography
+
+\end{document}

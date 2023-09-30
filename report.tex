@@ -1,6 +1,20 @@
 \documentclass[12pt]{ctexart}
 \usepackage{amsmath}
+\usepackage{listings}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
 \usepackage[backend=biber,style=gb7714-2015]{biblatex}
+
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    keywordstyle=\bfseries\color{NavyBlue},
+    commentstyle=\itshape\color{ForestGreen},
+    stringstyle=\color{Apricot},
+    columns=flexible,
+    frame=single
+}
 
 \title{计算普朗特方程的数值解}
 \author{***REMOVED*** \\ ***REMOVED***}
@@ -72,6 +86,9 @@
 注意到方程中还有一个未知数$v_{x,y}$，我们可以选择在计算$u$的同时利用连续性方程计算$v$，也可以选择先设$v$为某初始值，计算$u$，然后计算$v$，然后再迭代一次，重新计算。
 第二种方法可称为预测-校正法，这种方法实现较为简单，因此我们选择这种方法。
 
+为了求解边界层厚度，我们从靠近墙壁的方向向外迭代求解，并在流向速度大于一定阈值的时候中断。
+流体力学中通常以自由流速的$99\%$作为阈值，此处我们取$99.95\%$。
+
 \subsection{全显式法}
 
 将第一个方程移项，可得：
@@ -107,16 +124,80 @@
     + v_{x,y} \frac{u_{x, y+1} - u_{x, y-1}}{2 \Delta y} \\
     = \frac{\nu}{(\Delta y)^2} (u_{x,y+1} - u_{x+1,y} - u_{x-1,y} + u_{x,y-1})
 \end{multline*}
-    
+这是一个关于$u_{x+1, y}$的二次方程，其写成标准形式$ax^2+bx+c=0$后的系数为：
+\[
+    \begin{aligned}
+        a &= \frac{1}{4 \Delta x} \\
+        b &= - \frac{\nu}{(\Delta y)^2} \\
+        c &= - \frac{u_{x-1,j}^2}{4 \Delta x} - \frac{\nu}{\Delta y^2} \left( u_{x,y+1} + u_{x,y-1} - u_{x-1,y} \right) + v_{x,y} \frac{u_{x, y+1} - u_{x, y-1}}{2 \Delta y}
+    \end{aligned}
+\]
+注意到$v_{x,y}$极小，因此可认为$c$是负数，总和$a$异号，因此该二次方程的判别式应当总是大于零。
+实践表明在$y$轴网格不太细的情况下，该方程总是能求出实数解。
+注意到在$a,c$异号时，根据韦达定理，二次方程的两个解的必然\emph{异号}，我们总是选择正的那个解。
+
+这种方法对稳定性的要求进一步降低。
 
 \subsection{精确解}
 
+我们对边界层方程的简化最早由普朗特的学生布拉休斯提出，这种简化允许我们求出边界层厚度的精确解\cite{blasius1907grenzschichten}。
+通过寻找方程的相似性、进行无量纲化并引入流函数，可将普朗特方程转化成一个三阶非线性全微分方程，这种方程可以比较容易地使用数值方法（如打靶法）求解。
+
+除去用数值方法求解速度之外，还可以直接代入定义求出边界层厚度。
+以该方法求出的边界层厚度（自由流速$u_\infty$的$99\%$）为：
+\[ \delta = 5.0 \sqrt{\frac{\nu x}{u_\infty}} \]
+
+我们可以使用该结论来验证求解的正确性。
+
 \section{结论}
+
+\subsection{准确性}
+取流向长度为$x = 10$，划分$1000$个网格，法向高度为$y = 0.005$，划分$50$个网格。
+设动力粘度为$\nu = 10^{-6}$，自由流速为$u_\infty = 10$，然后进行求解，可得以下结果。
+
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+        \includegraphics[width=\textwidth]{figure/explicit_with_exact_solution}
+        \subcaption{全显式法}
+    \end{subfigure}
+    \begin{subfigure}{0.4\textwidth}
+        \includegraphics[width=\textwidth]{figure/dufort_with_exact_solution_2_iters}
+        \subcaption{DuFort-Frankel法}
+    \end{subfigure}
+    \caption{数值解的速度场和边界层厚度，橙色线为精确解}
+\end{figure}
+
+可以发现，DuFort-Frankel法比全显式法的误差更小，更加接近精确解。
 
 \subsection{稳定性}
 
-\subsection{准确性}
+我们已经知道，当$y$方向网格过密或速度过大时，全显式法不能得到稳定的解，我们构造了一组特别的数据以说明该问题。
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+        \includegraphics[width=\textwidth]{figure/explict_unstable.pdf}
+        \subcaption{全显式法}
+    \end{subfigure}
+    \begin{subfigure}{0.4\textwidth}
+        \includegraphics[width=\textwidth]{figure/dufort_stable.pdf}
+        \subcaption{DuFort-Frankel法}
+    \end{subfigure}
+    \caption{数值解的速度场和边界层厚度，橙色线为精确解}
+\end{figure}
+从该图中不难看出，全显式法的解很快发散，难以求出可用的解，而DuFort-Frankel法仍能给出不错的结果，尽管解出现了比较严重的变形。
 
+\clearpage
+\appendix
+\section{代码}
+
+\subsection{全显式法}
+\lstinputlisting[language=python]{code/full_explicit_solver.py}
+
+\subsection{Du Fort-Frankel法}
+\lstinputlisting[language=python]{code/dufort_frankel_solver.py}
+
+\clearpage
 \printbibliography
 
 \end{document}

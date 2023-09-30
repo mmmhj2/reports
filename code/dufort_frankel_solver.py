@@ -1,5 +1,5 @@
 
-from numpy import sqrt
+from numpy import sqrt, max
 
 def solve(u, v, boundary, dx, dy, u_inf, nu):
     assert u.shape == v.shape
@@ -16,9 +16,10 @@ def solve(u, v, boundary, dx, dy, u_inf, nu):
             
             a = 1 / (4 * dx)
             b = nu / (dy * dy)
-            c = - 1 / (4*dx) * prev*prev - nu / (dy*dy) * (top + u[i-1][j-1] - prev)
+            c = - 1 / (4*dx) * prev*prev - nu / (dy*dy) * (top + u[i-1][j-1] - prev) \
+                + v[i-1][j] * (top - u[i-1][j-1]) / (2 * dy)
             
-            pu = (-b + sqrt(b*b - 4*a*c)) / (2*a)
+            pu = (-b + sqrt(max([b*b - 4*a*c, 0]))) / (2*a)
             
             if (pu) > u_inf * 0.9995:
                 if not boundaryFound:

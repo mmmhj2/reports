@@ -1,5 +1,5 @@
 
-from numpy import sqrt, max
+from numpy import sqrt
 
 def solve(u, v, boundary, dx, dy, u_inf, nu):
     assert u.shape == v.shape

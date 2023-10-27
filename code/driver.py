@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from downsampler import downsample2d, downsample1d
 from exact_boundary import solve_exact
-from dufort_frankel_solver import solve
+from full_explicit_solver import solve
 
 x_length = 10
 x_count = 1000
@@ -32,6 +32,7 @@ for i in range(x_count):
     u[i][0] = v[i][0] = 0
 
 solve(u, v, boundary, dx, dy, u_inf, nu)
+solve(u, v, boundary, dx, dy, u_inf, nu)
 
 U, V = downsamplexy(u), downsamplexy(v)
 plt.quiver(np.transpose(U), np.transpose(V), scale=500)
@@ -39,8 +40,8 @@ plt.quiver(np.transpose(U), np.transpose(V), scale=500)
 B = downsamplex(boundary)
 plt.plot(B / downsample_coef_y)
 
-#B2 = solve_exact(x_length, dx, nu, u_inf, x_count=x_count, dy=dy)
-#B2 = downsamplex(B2 / downsample_coef_y)
-#plt.plot(B2)
+B2 = solve_exact(x_length, dx, nu, u_inf, x_count=x_count, dy=dy)
+B2 = downsamplex(B2 / downsample_coef_y)
+plt.plot(B2)
 
 plt.show()

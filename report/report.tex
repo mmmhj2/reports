@@ -149,6 +149,68 @@
     \end{bmatrix}
 \]
 
+然后我们可以利用矩阵乘法计算任何两个关节坐标系之间的变换。
+首先考虑机械手外部的变换，即从坐标系$1$到坐标系$3$的变换：
+\[
+    \prescript{1}{3}{T} = \prescript{1}{2}{T} \prescript{2}{3}{T} =
+    \begin{bmatrix}
+        \cos{\left( {{\theta }_3}+{{\theta }_2}\right) } & -\sin{\left( {{\theta }_3}+{{\theta }_2}\right) } & 0 & {L_2} \cos{ {{\theta }_2} }+{L_1}\\
+        0 & 0 & 1 & 0\\
+        -\sin{\left( {{\theta }_3}+{{\theta }_2}\right) } & -\cos{\left( {{\theta }_3}+{{\theta }_2}\right) } & 0 & - {L_2} \sin{ {{\theta }_2} } \\
+        0 & 0 & 0 & 1
+    \end{bmatrix}
+\]
+
+然后考虑机械手内部的变换，即从坐标系$4$到坐标系$6$的变换：
+\[
+    \prescript{4}{6}{T} = \prescript{4}{5}{T} \prescript{5}{6}{T} =
+    \begin{bmatrix}\cos{ {{\theta }_5} } \cos{ {{\theta }_6} } & - \cos{ {{\theta }_5} } \sin{ {{\theta }_6} }  & -\sin{ {{\theta }_5} } & 0\\
+        \sin{ {{\theta }_6} } & \cos{ {{\theta }_6} } & 0 & 0\\
+        \sin{ {{\theta }_5} } \cos{ {{\theta }_6} } & - \sin{ {{\theta }_5} } \sin{ {{\theta }_6} }  & \cos{ {{\theta }_5} } & 0\\
+        0 & 0 & 0 & 1
+    \end{bmatrix}
+\]
+从而可得
+\[
+        \prescript{3}{6}{T} = \\
+    \begin{bmatrix}\cos{{{\theta }_4} } \cos{ {{\theta }_5} } \cos{ {{\theta }_6} }-\sin{ {{\theta }_4} } \sin{ {{\theta }_6} } & - \cos{ {{\theta }_4} } \cos{ {{\theta }_5} } \sin{ {{\theta }_6} } -\sin{ {{\theta }_4} } \cos{ {{\theta }_6} } & - \cos{ {{\theta }_4} } \sin{ {{\theta }_5} }  & {L_3}\\
+        \sin{ {{\theta }_5} } \cos{ {{\theta }_6} } & - \sin{ {{\theta }_5} } \sin{ {{\theta }_6} }  & \cos{ {{\theta }_5} } & 0\\
+        - \cos{{{\theta }_4}} \sin{ {{\theta }_6} } -\sin{ {{\theta }_4} } \cos{ {{\theta }_5} } \cos{ {{\theta }_6} } & \sin{ {{\theta }_4} } \cos{ {{\theta }_5} } \sin{ {{\theta }_6} }-\cos{ {{\theta }_4} } \cos{ {{\theta }_6} } & \sin{ {{\theta }_4} } \sin{ {{\theta }_5} } & 0\\
+        0 & 0 & 0 & 1
+    \end{bmatrix}
+\]
+
+将所有矩阵依次相乘，即可得到本机械臂系统的运动学方程。
+\[
+    \prescript{0}{6}{T} = \begin{bmatrix}
+        r_{11} & r_{12} & r_{13} & p_x \\
+        r_{21} & r_{22} & r_{23} & p_y \\
+        r_{31} & r_{32} & r_{33} & p_z \\
+        0 & 0 & 0 & 1
+    \end{bmatrix}
+\]
+其中
+\[
+    \begin{aligned}
+        r_{11} = & \cos\theta_1 \left( \cos{\left( {{\theta }_3}+{{\theta }_2}\right) } \left( \cos\theta_4 \cos\theta_5 \cos\theta_6-\sin\theta_4 \sin\theta_6\right) - \sin{\left( {{\theta }_3}+{{\theta }_2}\right) } \sin\theta_5 \cos\theta_6\right) \\ 
+        &-\sin\theta_1 \left( -\left( \cos\theta_4 \sin\theta_6\right) -\sin\theta_4 \cos\theta_5 \cos\theta_6\right)   \\
+        r_{12} = & \cos\theta_1 \left( \cos{\left( {{\theta }_3}+{{\theta }_2}\right) } \left( -\left( \cos\theta_4 \cos\theta_5 \sin\theta_6\right) -\sin\theta_4 \cos\theta_6\right) +\sin{\left( {{\theta }_3}+{{\theta }_2}\right) } \sin\theta_5 \sin\theta_6\right) \\ 
+        &-\sin\theta_1 \left( \sin\theta_4 \cos\theta_5 \sin\theta_6-\cos\theta_4 \cos\theta_6\right) \\
+        r_{13} = & \cos\theta_1 \left( -\left( \cos{\left( {{\theta }_3}+{{\theta }_2}\right) } \cos\theta_4 \sin\theta_5\right) -\sin{\left( {{\theta }_3}+{{\theta }_2}\right) } \cos\theta_5\right) -\sin\theta_1 \sin\theta_4 \sin\theta_5 \\
+        r_{21} = & \sin\theta_1 \left( \cos{\left( {{\theta }_3}+{{\theta }_2}\right) } \left( \cos\theta_4 \cos\theta_5 \cos\theta_6-\sin\theta_4 \sin\theta_6\right) -\sin{\left( {{\theta }_3}+{{\theta }_2}\right) } \sin\theta_5 \cos\theta_6\right) \\
+        &+\cos\theta_1 \left( -\left( \cos\theta_4 \sin\theta_6\right) -\sin\theta_4 \cos\theta_5 \cos\theta_6\right) \\
+        r_{22} = & \sin\theta_1 \left( \cos{\left( {{\theta }_3}+{{\theta }_2}\right) } \left( -\left( \cos\theta_4 \cos\theta_5 \sin\theta_6\right) -\sin\theta_4 \cos\theta_6\right) +\sin{\left( {{\theta }_3}+{{\theta }_2}\right) } \sin\theta_5 \sin\theta_6\right) \\
+        & +\cos\theta_1 \left( \sin\theta_4 \cos\theta_5 \sin\theta_6-\cos\theta_4 \cos\theta_6\right) \\
+        r_{23} = & \sin\theta_1 \left( -\left( \cos{\left( {{\theta }_3}+{{\theta }_2}\right) } \cos\theta_4 \sin\theta_5\right) -\sin{\left( {{\theta }_3}+{{\theta }_2}\right) } \cos\theta_5\right) +\cos\theta_1 \sin\theta_4 \sin\theta_5 \\
+        r_{31} = &  -\left( \sin{\left( {{\theta }_3}+{{\theta }_2}\right) } \left( \cos\theta_4 \cos\theta_5 \cos\theta_6-\sin\theta_4 \sin\theta_6\right) \right) -\cos{\left( {{\theta }_3}+{{\theta }_2}\right) } \sin\theta_5 \cos\theta_6 \\
+        r_{32} = & \cos{\left( {{\theta }_3}+{{\theta }_2}\right) } \sin\theta_5 \sin\theta_6-\sin{\left( {{\theta }_3}+{{\theta }_2}\right) } \left( -\left( \cos\theta_4 \cos\theta_5 \sin\theta_6\right) -\sin\theta_4 \cos\theta_6\right) \\
+        r_{33} = & \sin{\left( {{\theta }_3}+{{\theta }_2}\right) } \cos\theta_4 \sin\theta_5-\cos{\left( {{\theta }_3}+{{\theta }_2}\right) } \cos\theta_5 \\
+        p_x = & \cos{\left( {{\theta }_1}\right) } \left( {L_3} \cos{\left( {{\theta }_3}+{{\theta }_2}\right) }+{L_2} \cos{\left( {{\theta }_2}\right) }+{L_1}\right) \\
+        p_y = & \sin{\left( {{\theta }_1}\right) } \left( {L_3} \cos{\left( {{\theta }_3}+{{\theta }_2}\right) }+{L_2} \cos{\left( {{\theta }_2}\right) }+{L_1}\right)  \\
+        p_z = & -\left( {L_3} \sin{\left( {{\theta }_3}+{{\theta }_2}\right) }\right) -{L_2} \sin{\left( {{\theta }_2}\right) }
+    \end{aligned}
+\]
+这就完成了对该机械臂系统的运动学分析。
 
 \subsection{逆向运动学}
 

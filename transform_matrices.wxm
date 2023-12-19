@@ -1,0 +1,78 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 23.05.1 ] */
+/* [wxMaxima: input   start ] */
+T01: matrix(
+ [cos(θ_1),-sin(θ_1),0,0], 
+ [sin(θ_1),cos(θ_1),0,0], 
+ [0,0,1,0], 
+ [0,0,0,1]
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T12: matrix(
+ [cos(θ_2),-sin(θ_2),0,L_1], 
+ [0,0,1,0], 
+ [-sin(θ_2),-cos(θ_2),0,0], 
+ [0,0,0,1]
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T23: matrix(
+[cos(θ_3), -sin(θ_3), 0, L_2],[sin(θ_3), cos(θ_3), 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T34: matrix(
+[cos(θ_4), -sin(θ_4), 0, L_3], [0, 0, 1, 0], [-sin(θ_4), -cos(θ_4), 0, 0], [0,0,0,1]
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T45: matrix(
+[cos(θ_5), -sin(θ_5), 0, 0], [0, 0, -1, 0], [sin(θ_5), cos(θ_5), 0, 0], [0, 0, 0, 1]
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T56: matrix(
+[cos (θ_6), -sin(θ_6), 0, 0], [0, 0, 1, 0], [-sin(θ_6), -cos(θ_6), 0, 0], [0, 0, 0, 1]
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T13: trigreduce(T12.T23);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+trigsimp(T45.T56);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T36: trigsimp(T34.%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T01.T13.T36;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+trigrat(%);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 23.05.1"$

@@ -205,14 +205,54 @@
         r_{31} = &  -\left( \sin{\left( {{\theta }_3}+{{\theta }_2}\right) } \left( \cos\theta_4 \cos\theta_5 \cos\theta_6-\sin\theta_4 \sin\theta_6\right) \right) -\cos{\left( {{\theta }_3}+{{\theta }_2}\right) } \sin\theta_5 \cos\theta_6 \\
         r_{32} = & \cos{\left( {{\theta }_3}+{{\theta }_2}\right) } \sin\theta_5 \sin\theta_6-\sin{\left( {{\theta }_3}+{{\theta }_2}\right) } \left( -\left( \cos\theta_4 \cos\theta_5 \sin\theta_6\right) -\sin\theta_4 \cos\theta_6\right) \\
         r_{33} = & \sin{\left( {{\theta }_3}+{{\theta }_2}\right) } \cos\theta_4 \sin\theta_5-\cos{\left( {{\theta }_3}+{{\theta }_2}\right) } \cos\theta_5 \\
-        p_x = & \cos{\left( {{\theta }_1}\right) } \left( {L_3} \cos{\left( {{\theta }_3}+{{\theta }_2}\right) }+{L_2} \cos{\left( {{\theta }_2}\right) }+{L_1}\right) \\
-        p_y = & \sin{\left( {{\theta }_1}\right) } \left( {L_3} \cos{\left( {{\theta }_3}+{{\theta }_2}\right) }+{L_2} \cos{\left( {{\theta }_2}\right) }+{L_1}\right)  \\
-        p_z = & -\left( {L_3} \sin{\left( {{\theta }_3}+{{\theta }_2}\right) }\right) -{L_2} \sin{\left( {{\theta }_2}\right) }
+        p_x = & \cos{\theta_1} \left( {L_3} \cos{\left( {{\theta }_3}+{{\theta }_2}\right) }+{L_2} \cos{\theta_2}+{L_1}\right) \\
+        p_y = & \sin{\theta_1} \left( {L_3} \cos{\left( {{\theta }_3}+{{\theta }_2}\right) }+{L_2} \cos{\theta_2}+{L_1}\right)  \\
+        p_z = & -{L_3} \sin{\left( {{\theta }_3}+{{\theta }_2}\right) } -{L_2} \sin{\theta_2}
     \end{aligned}
 \]
 这就完成了对该机械臂系统的运动学分析。
 
 \subsection{逆向运动学}
+
+根据我们已完成的运动学分析，通过求解方程即可得到逆运动学关系。
+注意到仿射变换$\prescript{0}{6}{T}$的平移部分$p_x, p_y, p_z$仅仅与前三个关节的夹角有关，我们可以先求解这三个夹角，即$\theta_1, \theta_2$和$\theta_3$。
+列出以下方程：
+\begin{eqnarray}
+    \label{eqn:ik-1}
+    p_x & = & \cos{\theta_1} \left( {L_3} \cos{\left( {{\theta }_3}+{{\theta }_2}\right) }+{L_2} \cos{\theta_2}+{L_1}\right) \\
+    \label{eqn:ik-2}
+    p_y & = & \sin{\theta_1} \left( {L_3} \cos{\left( {{\theta }_3}+{{\theta }_2}\right) }+{L_2} \cos{\theta_2}+{L_1}\right)  \\
+    \label{eqn:ik-3}
+    p_z & = & -{L_3} \sin{\left( {{\theta }_3}+{{\theta }_2}\right) } -{L_2} \sin{\theta_2}
+\end{eqnarray}
+将方程\eqref{eqn:ik-1}与\eqref{eqn:ik-2}相除，即可得到
+\begin{equation}
+    \label{eqn:ik-theta-one}
+    \frac{\sin \theta_1}{\cos \theta_1} = \tan \theta_1 = \frac{p_y}{p_x}
+\end{equation}
+将方程\eqref{eqn:ik-1}移项并平方，可得
+\begin{equation*}
+    \left( \frac{p_x}{\cos \theta_1} - L_1 \right)^2 =
+    L_3^2 \cos^2(\theta_3 + \theta_2) + L_2^2 \cos^2 (\theta_2) + 2 L_3 L_2 \cos (\theta_3 + \theta_2) \cos (\theta_2)
+\end{equation*}
+将\eqref{eqn:ik-3}平方并与上式相加，得到
+\begin{eqnarray}
+    \label{eqn:ik-theta-three}
+    \left( \frac{p_x}{\cos \theta_1} - L_1 \right)^2 + p_z^2 
+    & = & L_3^2 + L_2^2 + 2 L_3 L_2 \left( \cos(\theta_3 + \theta_2) \cos \theta_2 + \sin(\theta_3 + \theta_2) \sin \theta_2 \right) \nonumber \\
+    & = & L_3^2 + L_2^2 + 2 L_3 L_2 \cos \theta_3 \nonumber \\
+    \implies \cos \theta_3 & = & \frac{\left( \frac{p_x}{\cos \theta_1} - L_1 \right)^2 + p_z^2 - L_2^2 - L_3^2}{2 L_2 L_3}
+\end{eqnarray}
+最后，将方程\eqref{eqn:ik-3}利用和角公式展开，得到
+\begin{equation*}
+    - p_z = L_3 (\sin \theta_2 \cos \theta_3 + \cos \theta_2 \sin \theta_3) + L_2 \sin \theta_2
+\end{equation*}
+利用$u = \tan \frac{\theta_2}{2}$转化为多项式进行求解，得到
+\begin{eqnarray*}
+    - p_z (1 + u^2) &=& L_3 (2u \cos \theta_3 + (1 - u^2) \sin \theta_3) + 2 L_2 u \\
+    0 &=& (p_z - L_3 \sin \theta_3) u^2 + (2 L_2 + 2 L_3 \cos \theta_3) u + L_3 \sin \theta_3 + p_z
+\end{eqnarray*}
+求解该二次方程即可得到$\theta_2$，这就完成了机械臂部分逆向运动学的求解。
 
 \section{动力学模型}
 

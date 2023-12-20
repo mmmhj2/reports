@@ -1,11 +1,12 @@
 % !TeX root = report.tex
 \documentclass{ctexart}
 
-\usepackage{tikz}
-\usetikzlibrary{3d}
-
+\usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{mathtools}
+
+\usepackage{tikz}
+\usetikzlibrary{3d}
 
 \title{六自由度机械臂系统建模分析}
 \author{***REMOVED*** \\ ***REMOVED***}
@@ -160,6 +161,16 @@
         0 & 0 & 0 & 1
     \end{bmatrix}
 \]
+从而
+\[
+    \prescript{0}{3}{T} =
+    \begin{bmatrix}
+        \cos \theta_1 \cos{\left( {{\theta }_3}+{{\theta }_2}\right) } & - \cos \theta_1 \sin{\left( {{\theta }_3}+{{\theta }_2}\right) }  & -\sin \theta_1 & \cos \theta_1 \left( {L_2} \cos\theta_2+{L_1}\right) \\
+            \sin \theta_1 \cos{\left( {{\theta }_3}+{{\theta }_2}\right) } & - \sin \theta_1 \sin{\left( {{\theta }_3}+{{\theta }_2}\right) }  & \cos \theta_1 & \sin \theta_1 \left( {L_2} \cos\theta_2+{L_1}\right) \\
+            -\sin{\left( {{\theta }_3}+{{\theta }_2}\right) } & -\cos{\left( {{\theta }_3}+{{\theta }_2}\right) } & 0 & - {L_2} \sin \theta_2 \\
+            0 & 0 & 0 & 1
+    \end{bmatrix}
+\]
 
 然后考虑机械手内部的变换，即从坐标系$4$到坐标系$6$的变换：
 \[
@@ -254,7 +265,222 @@
 \end{eqnarray*}
 求解该二次方程即可得到$\theta_2$，这就完成了机械臂部分逆向运动学的求解。
 
+接下来考虑求解机械手的逆向运动学模型，即求解$\theta_4$、$\theta_5$和$\theta_6$。
+我们已经通过计算求得了$\theta_1$、$\theta_2$和$\theta_3$，因此变换$\prescript{0}{1}{T}$、$\prescript{1}{2}{T}$和$\prescript{2}{3}{T}$可视为是已知的。
+考虑将方程进行分离变量：
+\[ 
+    \prescript{0}{6}{T} = \prescript{0}{3}{T}(\theta_1, \theta_2, \theta_3) \cdot \prescript{3}{6}{T} (\theta_4, \theta_5, \theta_6)
+    \iff
+    \prescript{0}{3}{T^{-1}} (\theta_1, \theta_2, \theta_3) \cdot \prescript{0}{6}{T} = \prescript{3}{6}{T} (\theta_4, \theta_5, \theta_6)
+\]
+注意到在变换矩阵$\prescript{3}{6}{T}$中，有几个组成非常简单的元素
+\[
+    \prescript{3}{6}{T} = \\
+    \begin{bmatrix}
+        c{{{\theta }_4} } c{ {{\theta }_5} } c{ {{\theta }_6} }-s{ {{\theta }_4} } s{ {{\theta }_6} } & 
+        - c{ {{\theta }_4} } c{ {{\theta }_5} } s{ {{\theta }_6} } -s{ {{\theta }_4} } c{ {{\theta }_6} } & 
+        \textcolor{red}{- \cos\theta_4 \sin\theta_5 } &
+        {L_3}\\
+        \textcolor{green}{\sin{ {{\theta }_5} } \cos{ {{\theta }_6} }} & 
+        \textcolor{green}{- \sin{ {{\theta }_5} } \sin{ {{\theta }_6} }}  & 
+        \textcolor{blue}{\cos{ {{\theta }_5} }}
+        & 0\\
+        - c{{{\theta }_4}} s{ {{\theta }_6} } -s{ {{\theta }_4} } c{ {{\theta }_5} } c{ {{\theta }_6} } &
+        s{ {{\theta }_4} } c{ {{\theta }_5} } s{ {{\theta }_6} }-c{ {{\theta }_4} } c{ {{\theta }_6} } &
+        \textcolor{red}{ \sin\theta_4 \sin\theta_5} & 0\\
+        0 & 0 & 0 & 1
+    \end{bmatrix}
+\]
+我们可将矩阵等式两侧的红色、蓝色和绿色项分别相等，从而得到五个方程。
+将红色项两个方程相除，即可得到$\tan \theta_4$，从而解出$\theta_4$。
+从蓝色项即可得到$\cos \theta_5$，从而解出$\theta_5$。
+将绿色项两个方程相除，即可得到$- \tan \theta_6$，从而解出$\theta_6$。
+
+这就完成了对机械手的逆向运动学分析。
+
 \section{动力学模型}
+
+接下来我们将研究该机械臂主体部分的动力学模型。
+我们首先计算每个关节与连杆的速度和角速度，然后利用拉格朗日方程给出该系统的动力学方程。
+
+\subsection{计算速度和角速度}
+
+关节处的速度和关节之间连杆的角速度可以用以下方程迭代地求出
+\begin{eqnarray*}
+    \prescript{i+1}{}{\omega_{i+1}} 
+    &=& \prescript{i+1}{i}{R} \prescript{i}{}{\omega_i} + \dot \theta_{i+1} \prescript{i+1}{}{\hat Z_{i+1}} 
+    = \prescript{i+1}{i}{R} \prescript{i}{}{\omega_i} + \begin{bmatrix}
+        0 \\ 0 \\ \dot \theta_{i+1}
+    \end{bmatrix}\\
+    \prescript{i+1}{}{v_{i+1}} 
+    &=& \prescript{i+1}{i}{R} (\prescript{i}{}{v_i} + \prescript{i}{ }{\omega_i} \times \prescript{i}{}{P_{i+1}})
+\end{eqnarray*}
+其中$\prescript{i}{}{P_{i+1}}$表示从坐标系$i$的原点到$i+1$的原点的向量在坐标系$i$中的坐标。
+
+我们只考虑机械臂的主体部分，从而只需要以下四个矩阵：
+\begin{eqnarray*}
+    \prescript{0}{1}{R} &=&
+    \begin{bmatrix}
+        \cos \theta_1 & - \sin \theta_1 & 0  \\
+        \sin \theta_1 & \cos \theta_1 & 0  \\
+        0 & 0 & 1  \\
+    \end{bmatrix} \\
+    \prescript{1}{2}{R} &=&
+    \begin{bmatrix}
+        \cos \theta_2 & - \sin \theta_2 & 0  \\
+        0 & 0 & 1 \\
+        -\sin \theta_2 & - \cos \theta_2 & 0
+    \end{bmatrix} \\
+    \prescript{2}{3}{R} &=&
+    \begin{bmatrix}
+        \cos \theta_3 & - \sin \theta_3 & 0  \\
+        \sin \theta_3 & \cos \theta_3 & 0 \\
+        0 & 0 & 1
+    \end{bmatrix} \\
+    \prescript{3}{4}{R} &=&
+    \begin{bmatrix}
+        \cos \theta_4 & - \sin \theta_4 & 0 \\
+        0 & 0 & 1 \\
+        -\sin \theta_4 & - \cos \theta_4 & 0
+    \end{bmatrix} \\
+\end{eqnarray*}
+
+我们依次考虑每个关节。
+对关节1，有
+\[
+    \prescript{1}{}{\omega_1} = \begin{bmatrix}
+        0 \\ 0 \\ \dot \theta_1
+    \end{bmatrix}, \quad
+    \prescript{1}{}{v_1} = \vec 0
+\]
+对关节2，有
+\[
+    \begin{aligned}
+    \prescript{2}{}{\omega_2} = & 
+    \begin{bmatrix}
+        \cos \theta_2 & - \sin \theta_2 & 0  \\
+        0 & 0 & 1 \\
+        -\sin \theta_2 & - \cos \theta_2 & 0
+    \end{bmatrix}^\top 
+    \begin{bmatrix}
+        0 \\ 0 \\ \dot \theta_1
+    \end{bmatrix} +
+    \begin{bmatrix}
+        0 \\ 0 \\ \dot \theta_2
+    \end{bmatrix} \\
+    = & \begin{bmatrix}
+        -\dot \theta_1 \sin\theta_2 \\
+        -\dot \theta_1 \cos\theta_2 \\
+        \dot \theta_2
+    \end{bmatrix} \\
+    \prescript{2}{}{v_2} = &
+    \begin{bmatrix}
+        \cos \theta_2 & - \sin \theta_2 & 0  \\
+        0 & 0 & 1 \\
+        -\sin \theta_2 & - \cos \theta_2 & 0
+    \end{bmatrix}^\top 
+    \left(
+        \begin{bmatrix}
+            0 \\ 0 \\ \dot \theta_1
+        \end{bmatrix}
+        \times
+        \begin{bmatrix}
+            0 \\ 0 \\ L_1
+        \end{bmatrix}
+    \right) \\ = & 0
+    \end{aligned}
+\]
+对关节3，有
+\[
+    \begin{aligned}
+        \prescript{3}{}{\omega_3} = &
+        \begin{bmatrix}
+            \cos \theta_3 & - \sin \theta_3 & 0  \\
+            \sin \theta_3 & \cos \theta_3 & 0 \\
+            0 & 0 & 1
+        \end{bmatrix}^\top
+        \begin{bmatrix}
+            - \dot \theta_1 \sin \theta_2 \\
+            - \dot \theta_1 \cos \theta_2 \\
+            \dot \theta_2
+        \end{bmatrix}
+        +
+        \begin{bmatrix}
+            0 \\ 0 \\ \dot \theta_3
+        \end{bmatrix} \\
+        = &
+        \begin{bmatrix}
+            -\dot\theta_1 \cos\theta_2 \sin\theta_3 -\dot\theta_1 \sin\theta_2 \cos\theta_3\\
+            \dot\theta_1 \sin\theta_2 \sin\theta_3 - \dot\theta_1 \cos\theta_2 \cos\theta_3\\
+            \dot\theta_3 + \dot\theta_2
+        \end{bmatrix}
+        \\
+        \prescript{3}{}{v_3} = & 
+        \begin{bmatrix}
+            \cos \theta_3 & - \sin \theta_3 & 0  \\
+            \sin \theta_3 & \cos \theta_3 & 0 \\
+            0 & 0 & 1
+        \end{bmatrix}^\top
+        \left( \begin{bmatrix}
+            -\dot \theta_1 \sin\theta_2 \\
+            -\dot \theta_1 \cos\theta_2 \\
+            \dot \theta_2
+        \end{bmatrix}
+        \times \begin{bmatrix}
+            L_2 \\ 0 \\ 0
+        \end{bmatrix} \right) \\
+        = &
+        \begin{bmatrix}
+            \cos \theta_3 & - \sin \theta_3 & 0  \\
+            \sin \theta_3 & \cos \theta_3 & 0 \\
+            0 & 0 & 1
+        \end{bmatrix}^\top
+        \begin{bmatrix}
+            0 \\ L_2 \dot \theta_2 \\ L_2 \dot \theta_1 \cos \theta_2
+        \end{bmatrix} \\
+        = & \begin{bmatrix}
+            {L_2} \dot\theta_2 \sin\theta_3\\
+                {L_2} \dot\theta_2 \cos\theta_3\\
+                {L_2} \dot\theta_1 \cos\theta_2
+        \end{bmatrix}
+    \end{aligned}
+\]
+
+\subsection{拉格朗日方程}
+
+为了使用拉格朗日方程进行动力学求解，我们需要知道每个连杆质心的速度和连杆的角速度。
+连杆刚体的角速度已经在上一节中求出了，因此我们只需要知道各连杆的质心速度。
+我们知道拉格朗日量的定义为
+\[ \mathcal L = \mathcal T - \mathcal V = \frac{1}{2} m v_c^\top v_c + \frac{1}{2} \prescript{i}{}{\omega_i}^\top \mathbf I \prescript{i}{}{\omega_i} - \mathcal V\]
+其中的平动动能与坐标系的选择无关，因此我们可以任取坐标系求解质心速度。
+
+假设连杆的质量均匀分布，则
+\[
+\prescript{i}{}{v_{c_{i}}} 
+    = \prescript{i}{}{v_i} + \prescript{i}{ }{\omega_i} \times \frac{1}{2} \prescript{i}{}{P_{i+1}}
+\]
+我们依次计算连杆的质心速度，对连杆1，
+\[
+    \prescript{1}{}{v_{c_1}} = 0
+\]
+对连杆2，
+\[
+    \prescript{2}{}{v_{c_2}} = 0
+\]
+对连杆3，
+\[
+    \prescript{3}{}{v_{c_3}} = 0
+\]
+从而总动能为
+\[
+    \begin{aligned}
+        \mathcal V = 
+    \end{aligned}
+\]
+
+接下来计算总势能。
+
+最后可得拉格朗日方程。
 
 \section{控制器设计与仿真}
 

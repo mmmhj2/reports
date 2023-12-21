@@ -560,24 +560,14 @@
 
 接下来计算总势能，我们只需要求出每条连杆质心坐标即可。
 对连杆一，有
-\[
-    \vec x_1 = \prescript{0}{1}{T} \cdot \begin{bmatrix}
-        0 \\ 0 \\ \frac{L_1}{2} \\ 1
-    \end{bmatrix} = \begin{bmatrix}
-        0 \\ 0 \\ \frac{L_1}{2} \\ 1
-    \end{bmatrix}
-\]
-从而其势能为
-\[
-    \mathcal V_1 = \frac{L_1}{2} g
-\]
+\[ h_1 = 0 \implies \mathcal V_1 = 0\]
 同理，连杆二和三的高度如下
 \[
-    h_2 = L_1 - \frac{L_2}{2} \sin \theta_2,\quad h_3 = L_1 - L_2 \sin \theta_2 - \frac{L_3}{2} \cos(\theta_2+\theta_3)
+    h_2 = - \frac{L_2}{2} \sin \theta_2,\quad h_3 = - L_2 \sin \theta_2 + \frac{L_3}{2} \cos(\theta_2+\theta_3)
 \]
 从而其总势能为
 \[
-    \mathcal V = (\frac{5L_1}{2} - \frac{3L_2}{2} \sin \theta_2 - \frac{L_3}{2} \cos(\theta_2+\theta_3))g
+    \mathcal V = (- \frac{3L_2}{2} \sin \theta_2 + \frac{L_3}{2} \cos(\theta_2+\theta_3))g
 \]
 
 最后可得拉格朗日方程。

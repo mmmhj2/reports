@@ -549,10 +549,17 @@
         &+ \frac{1}{2} I_{zz,3} (\dot\theta_3^2 + 2 \dot\theta_2 \dot\theta_3 + \dot\theta_2^2)
     \end{aligned}
 \]
-从而总动能为
+从而加和即可得到总动能
 \[
     \begin{aligned}
-        \mathcal T = 
+        \mathcal T = & \frac{1}{8} m_1 L_1^2 \dot\theta_1^2 + \frac{I_{zz,1}}{2} {\dot \theta_1}^2 \\
+        & + \frac{1}{2} m_2 (\frac{L_2^2}{4} \dot \theta_2^2 + \frac{L_2^2}{4}\dot\theta_1^2 \cos^2 \theta_2 + L_1^2 \dot\theta_1^2 + L_1 L_2 \dot\theta_1^2 \cos\theta_2) \\
+        & + \frac{I_{xx,2}}{2} {\dot\theta_1}^2 \sin^2\theta_2+ \frac{I_{yy,2}}{2} {\dot\theta_1}^2 \cos^2\theta_2 + \frac{I_{zz,2}}{2} {\dot\theta_2}^2\\
+        & + \frac{1}{2} m_3 \Big[ {{\left( {L_2} \sin\theta_3 \dot\theta_2-\frac{{L_3} \left( \dot\theta_3+\dot\theta_2\right) }{2}\right) }^{2}}+{{{L_2}}^{2}} {{\cos\theta_3}^{2}} {{\dot\theta_2}^{2}} \\ 
+        &+ {{\left( {L_2} \cos\theta_2 \dot\theta_1 + L_1 \dot \theta_1 -\frac{{L_3} \left( \cos\theta_2 \sin\theta_3 \dot\theta_1+\sin\theta_2 \cos\theta_3 \dot\theta_1\right) }{2}\right) }^{2}} \Big] \\
+        &+ \frac{1}{4} I_{xx,3} \dot\theta_1^2 \big( 1 - \cos(2\theta_2 + 2\theta_3) \big) \\
+        &+ \frac{1}{4} I_{yy,3} \dot\theta_1^2 \big( 1 + \cos(2\theta_2 + 2\theta_3) \big) \\
+        &+ \frac{1}{2} I_{zz,3} (\dot\theta_3^2 + 2 \dot\theta_2 \dot\theta_3 + \dot\theta_2^2)
     \end{aligned}
 \]
 
@@ -570,7 +577,10 @@
     \mathcal V = (- \frac{3L_2}{2} \sin \theta_2 + \frac{L_3}{2} \cos(\theta_2+\theta_3))g
 \]
 
-最后可得拉格朗日方程。
+最后可得拉格朗日方程：
+\[
+    \frac{\partial}{\partial t} \frac{\partial \mathcal L}{\partial \dot \Theta} - \frac{\partial \mathcal L}{\partial \Theta} = \tau
+\]
 
 \section{控制器设计与仿真}
 

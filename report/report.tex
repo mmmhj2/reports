@@ -385,9 +385,11 @@
         \end{bmatrix}
         \times
         \begin{bmatrix}
-            0 \\ 0 \\ L_1
+           L_1 \\ 0 \\ 0 
         \end{bmatrix}
-    \right) \\ = & 0
+    \right) \\ = & \begin{bmatrix}
+        0 \\ 0 \\ L_1 \dot\theta_1
+    \end{bmatrix}
     \end{aligned}
 \]
 对关节三，有
@@ -422,6 +424,9 @@
             0 & 0 & 1
         \end{bmatrix}^\top
         \left( \begin{bmatrix}
+            0 \\ 0 \\ L_1 \dot\theta_1
+            \end{bmatrix} +
+            \begin{bmatrix}
             -\dot \theta_1 \sin\theta_2 \\
             -\dot \theta_1 \cos\theta_2 \\
             \dot \theta_2
@@ -436,12 +441,12 @@
             0 & 0 & 1
         \end{bmatrix}^\top
         \begin{bmatrix}
-            0 \\ L_2 \dot \theta_2 \\ L_2 \dot \theta_1 \cos \theta_2
+            0 \\ L_2 \dot \theta_2 \\ L_2 \dot \theta_1 \cos \theta_2 + L_1 \dot\theta_1
         \end{bmatrix} \\
         = & \begin{bmatrix}
             {L_2} \dot\theta_2 \sin\theta_3\\
                 {L_2} \dot\theta_2 \cos\theta_3\\
-                {L_2} \dot\theta_1 \cos\theta_2
+                {L_2} \dot\theta_1 \cos\theta_2 + L_1 \dot\theta_1
         \end{bmatrix}
     \end{aligned}
 \]
@@ -463,34 +468,48 @@
 \]
 我们依次计算连杆的质心速度，对连杆一，
 \[
-    \prescript{1}{}{v_{c_1}} = 0
+    \prescript{1}{}{v_{c_1}} = \begin{bmatrix}
+        0 \\ 0 \\ \dot\theta_1
+    \end{bmatrix} \times \begin{bmatrix}
+        \frac{L_1}{2} \\ 0 \\ 0
+    \end{bmatrix} = \begin{bmatrix}
+       0 \\ \frac{L_1}{2} \dot \theta_1 \\ 0
+    \end{bmatrix}
 \]
 考虑到其惯性张量是对称的，其动能为
 \[
-    \mathcal T_1 
-    = \frac{1}{2} (I_{xx,1} \omega_x^2 + I_{yy,1} \omega_y^2 + I_{zz,1} \omega_z^2) 
-    = \frac{I_{zz,1}}{2} {\dot \theta_1}^2
+    \begin{aligned}
+        \mathcal T_1 
+        = & \frac{1}{8} m_1 L_1^2 \dot\theta_1^2 + \frac{1}{2} (I_{xx,1} \omega_x^2 + I_{yy,1} \omega_y^2 + I_{zz,1} \omega_z^2) \\
+        = & \frac{1}{8} m_1 L_1^2 \dot\theta_1^2 + \frac{I_{zz,1}}{2} {\dot \theta_1}^2
+    \end{aligned}
 \]
 
 对连杆二，
 \[
-    \prescript{2}{}{v_{c_2}} = \begin{bmatrix}
-        -\dot \theta_1 \sin\theta_2 \\
-        -\dot \theta_1 \cos\theta_2 \\
-        \dot \theta_2
-    \end{bmatrix} \times \begin{bmatrix}
-        \frac{L_2}{2} \\ 0 \\ 0
-    \end{bmatrix}
-    = \begin{bmatrix}
-        0 \\ 
-        \frac{1}{2} L_2 \dot \theta_2 \\ 
-        \frac{1}{2} L_2 \dot \theta_1 \cos \theta_2
-    \end{bmatrix}
+    \begin{aligned}
+        \prescript{2}{}{v_{c_2}} = &
+        \begin{bmatrix}
+            0 \\ 0 \\ L_1 \dot \theta_1
+        \end{bmatrix} +
+        \begin{bmatrix}
+            -\dot \theta_1 \sin\theta_2 \\
+            -\dot \theta_1 \cos\theta_2 \\
+            \dot \theta_2
+        \end{bmatrix} \times \begin{bmatrix}
+            \frac{L_2}{2} \\ 0 \\ 0
+        \end{bmatrix} \\
+        = & \begin{bmatrix}
+            0 \\ 
+            \frac{1}{2} L_2 \dot \theta_2 \\ 
+            L_1 \dot \theta_1 + \frac{1}{2} L_2 \dot \theta_1 \cos \theta_2
+        \end{bmatrix}
+    \end{aligned}
 \]
 从而其动能为
 \[
     \begin{aligned}
-        \mathcal T_2 = & \frac{1}{8} m_2 L_2^2 (\dot \theta_2^2 + \dot\theta_1^2 \cos \theta_2) \\
+        \mathcal T_2 = & \frac{1}{2} m_2 (\frac{L_2^2}{4} \dot \theta_2^2 + \frac{L_2^2}{4}\dot\theta_1^2 \cos^2 \theta_2 + L_1^2 \dot\theta_1^2 + L_1 L_2 \dot\theta_1^2 \cos\theta_2) \\
         & + \frac{I_{xx,2}}{2} {\dot\theta_1}^2 \sin^2\theta_2+ \frac{I_{yy,2}}{2} {\dot\theta_1}^2 \cos^2\theta_2 + \frac{I_{zz,2}}{2} {\dot\theta_2}^2\\
     \end{aligned}
 \]
@@ -501,7 +520,7 @@
         \prescript{3}{}{v_{c_3}} & = \begin{bmatrix}
             {L_2} \dot\theta_2 \sin\theta_3\\
                 {L_2} \dot\theta_2 \cos\theta_3\\
-                {L_2} \dot\theta_1 \cos\theta_2
+                {L_2} \dot\theta_1 \cos\theta_2 + L_1 \dot \theta_1
         \end{bmatrix} + \begin{bmatrix}
             -\dot\theta_1 \cos\theta_2 \sin\theta_3 -\dot\theta_1 \sin\theta_2 \cos\theta_3\\
             \dot\theta_1 \sin\theta_2 \sin\theta_3 - \dot\theta_1 \cos\theta_2 \cos\theta_3\\
@@ -512,7 +531,7 @@
         & = \begin{bmatrix}
             {L_2} \dot\theta_2 \sin\theta_3\\
                 {L_2} \dot\theta_2 \cos\theta_3\\
-                {L_2} \dot\theta_1 \cos\theta_2
+                {L_2} \dot\theta_1 \cos\theta_2 + L_1 \dot \theta_1
         \end{bmatrix} + \begin{bmatrix}
             - \frac{L_3}{2} \left( \dot \theta_2 + \dot \theta_3\right) \\
             0 \\
@@ -524,7 +543,7 @@
 \[
     \begin{aligned}
         \mathcal T_3 = & \frac{1}{2} m_3 \Big[ {{\left( {L_2} \sin\theta_3 \dot\theta_2-\frac{{L_3} \left( \dot\theta_3+\dot\theta_2\right) }{2}\right) }^{2}}+{{{L_2}}^{2}} {{\cos\theta_3}^{2}} {{\dot\theta_2}^{2}} \\ 
-        &+ {{\left( {L_2} \cos\theta_2 \dot\theta_1-\frac{{L_3} \left( \cos\theta_2 \sin\theta_3 \dot\theta_1+\sin\theta_2 \cos\theta_3 \dot\theta_1\right) }{2}\right) }^{2}} \Big] \\
+        &+ {{\left( {L_2} \cos\theta_2 \dot\theta_1 + L_1 \dot \theta_1 -\frac{{L_3} \left( \cos\theta_2 \sin\theta_3 \dot\theta_1+\sin\theta_2 \cos\theta_3 \dot\theta_1\right) }{2}\right) }^{2}} \Big] \\
         &+ \frac{1}{4} I_{xx,3} \dot\theta_1^2 \big( 1 - \cos(2\theta_2 + 2\theta_3) \big) \\
         &+ \frac{1}{4} I_{yy,3} \dot\theta_1^2 \big( 1 + \cos(2\theta_2 + 2\theta_3) \big) \\
         &+ \frac{1}{2} I_{zz,3} (\dot\theta_3^2 + 2 \dot\theta_2 \dot\theta_3 + \dot\theta_2^2)

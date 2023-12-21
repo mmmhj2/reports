@@ -346,14 +346,14 @@
 \end{eqnarray*}
 
 我们依次考虑每个关节。
-对关节1，有
+对关节一，有
 \[
     \prescript{1}{}{\omega_1} = \begin{bmatrix}
         0 \\ 0 \\ \dot \theta_1
     \end{bmatrix}, \quad
     \prescript{1}{}{v_1} = \vec 0
 \]
-对关节2，有
+对关节二，有
 \[
     \begin{aligned}
     \prescript{2}{}{\omega_2} = & 
@@ -390,7 +390,7 @@
     \right) \\ = & 0
     \end{aligned}
 \]
-对关节3，有
+对关节三，有
 \[
     \begin{aligned}
         \prescript{3}{}{\omega_3} = &
@@ -454,31 +454,112 @@
 \[ \mathcal L = \mathcal T - \mathcal V = \frac{1}{2} m v_c^\top v_c + \frac{1}{2} \prescript{i}{}{\omega_i}^\top \mathbf I \prescript{i}{}{\omega_i} - \mathcal V\]
 其中的平动动能与坐标系的选择无关，因此我们可以任取坐标系求解质心速度。
 
+\subsubsection{计算动能}
+
 假设连杆的质量均匀分布，则
 \[
 \prescript{i}{}{v_{c_{i}}} 
     = \prescript{i}{}{v_i} + \prescript{i}{ }{\omega_i} \times \frac{1}{2} \prescript{i}{}{P_{i+1}}
 \]
-我们依次计算连杆的质心速度，对连杆1，
+我们依次计算连杆的质心速度，对连杆一，
 \[
     \prescript{1}{}{v_{c_1}} = 0
 \]
-对连杆2，
+考虑到其惯性张量是对称的，其动能为
 \[
-    \prescript{2}{}{v_{c_2}} = 0
+    \mathcal T_1 
+    = \frac{1}{2} (I_{xx,1} \omega_x^2 + I_{yy,1} \omega_y^2 + I_{zz,1} \omega_z^2) 
+    = \frac{I_{zz,1}}{2} {\dot \theta_1}^2
 \]
-对连杆3，
+
+对连杆二，
 \[
-    \prescript{3}{}{v_{c_3}} = 0
+    \prescript{2}{}{v_{c_2}} = \begin{bmatrix}
+        -\dot \theta_1 \sin\theta_2 \\
+        -\dot \theta_1 \cos\theta_2 \\
+        \dot \theta_2
+    \end{bmatrix} \times \begin{bmatrix}
+        \frac{L_2}{2} \\ 0 \\ 0
+    \end{bmatrix}
+    = \begin{bmatrix}
+        0 \\ 
+        \frac{1}{2} L_2 \dot \theta_2 \\ 
+        \frac{1}{2} L_2 \dot \theta_1 \cos \theta_2
+    \end{bmatrix}
+\]
+从而其动能为
+\[
+    \begin{aligned}
+        \mathcal T_2 = & \frac{1}{8} m_2 L_2^2 (\dot \theta_2^2 + \dot\theta_1^2 \cos \theta_2) \\
+        & + \frac{I_{xx,2}}{2} {\dot\theta_1}^2 \sin^2\theta_2+ \frac{I_{yy,2}}{2} {\dot\theta_1}^2 \cos^2\theta_2 + \frac{I_{zz,2}}{2} {\dot\theta_2}^2\\
+    \end{aligned}
+\]
+
+对连杆三，
+\[
+    \begin{aligned}
+        \prescript{3}{}{v_{c_3}} & = \begin{bmatrix}
+            {L_2} \dot\theta_2 \sin\theta_3\\
+                {L_2} \dot\theta_2 \cos\theta_3\\
+                {L_2} \dot\theta_1 \cos\theta_2
+        \end{bmatrix} + \begin{bmatrix}
+            -\dot\theta_1 \cos\theta_2 \sin\theta_3 -\dot\theta_1 \sin\theta_2 \cos\theta_3\\
+            \dot\theta_1 \sin\theta_2 \sin\theta_3 - \dot\theta_1 \cos\theta_2 \cos\theta_3\\
+            \dot\theta_3 + \dot\theta_2
+        \end{bmatrix} \times \begin{bmatrix}
+            0 \\ \frac{L_3}{2} \\ 0 \\
+        \end{bmatrix} \\
+        & = \begin{bmatrix}
+            {L_2} \dot\theta_2 \sin\theta_3\\
+                {L_2} \dot\theta_2 \cos\theta_3\\
+                {L_2} \dot\theta_1 \cos\theta_2
+        \end{bmatrix} + \begin{bmatrix}
+            - \frac{L_3}{2} \left( \dot \theta_2 + \dot \theta_3\right) \\
+            0 \\
+            - \frac{{L_3}}{2}  \left( \cos\theta_2 \sin\theta_3 \dot\theta_1 + \sin\theta_2 \cos\theta_3 \dot\theta_1 \right) 
+        \end{bmatrix}
+    \end{aligned}
+\]
+从而其动能为
+\[
+    \begin{aligned}
+        \mathcal T_3 = & \frac{1}{2} m_3 \Big[ {{\left( {L_2} \sin\theta_3 \dot\theta_2-\frac{{L_3} \left( \dot\theta_3+\dot\theta_2\right) }{2}\right) }^{2}}+{{{L_2}}^{2}} {{\cos\theta_3}^{2}} {{\dot\theta_2}^{2}} \\ 
+        &+ {{\left( {L_2} \cos\theta_2 \dot\theta_1-\frac{{L_3} \left( \cos\theta_2 \sin\theta_3 \dot\theta_1+\sin\theta_2 \cos\theta_3 \dot\theta_1\right) }{2}\right) }^{2}} \Big] \\
+        &+ \frac{1}{4} I_{xx,3} \dot\theta_1^2 \big( 1 - \cos(2\theta_2 + 2\theta_3) \big) \\
+        &+ \frac{1}{4} I_{yy,3} \dot\theta_1^2 \big( 1 + \cos(2\theta_2 + 2\theta_3) \big) \\
+        &+ \frac{1}{2} I_{zz,3} (\dot\theta_3^2 + 2 \dot\theta_2 \dot\theta_3 + \dot\theta_2^2)
+    \end{aligned}
 \]
 从而总动能为
 \[
     \begin{aligned}
-        \mathcal V = 
+        \mathcal T = 
     \end{aligned}
 \]
 
-接下来计算总势能。
+\subsubsection{计算势能}
+
+接下来计算总势能，我们只需要求出每条连杆质心坐标即可。
+对连杆一，有
+\[
+    \vec x_1 = \prescript{0}{1}{T} \cdot \begin{bmatrix}
+        0 \\ 0 \\ \frac{L_1}{2} \\ 1
+    \end{bmatrix} = \begin{bmatrix}
+        0 \\ 0 \\ \frac{L_1}{2} \\ 1
+    \end{bmatrix}
+\]
+从而其势能为
+\[
+    \mathcal V_1 = \frac{L_1}{2} g
+\]
+同理，连杆二和三的高度如下
+\[
+    h_2 = L_1 - \frac{L_2}{2} \sin \theta_2,\quad h_3 = L_1 - L_2 \sin \theta_2 - \frac{L_3}{2} \cos(\theta_2+\theta_3)
+\]
+从而其总势能为
+\[
+    \mathcal V = (\frac{5L_1}{2} - \frac{3L_2}{2} \sin \theta_2 - \frac{L_3}{2} \cos(\theta_2+\theta_3))g
+\]
 
 最后可得拉格朗日方程。
 

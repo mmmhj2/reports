@@ -96,7 +96,6 @@ R34: matrix([cos(θ_4), -sin(θ_4), 0], [0, 0, 1], [-sin(θ_4), -cos(θ_4), 0])$
 
 
 /* [wxMaxima: input   start ] */
-
 omega_2: transpose(R12).matrix([0], [0], [Φ_1]) + matrix([0], [0], [Φ_2]); 
 /* [wxMaxima: input   end   ] */
 
@@ -112,7 +111,22 @@ load("vect"); [-x_1*sin(y_2), -x_1*cos(y_2), x_2] ~ [L_2, 0, 0]; express(%);
 
 
 /* [wxMaxima: input   start ] */
-transpose(R23).matrix([0], [L_2*Φ_2], [L_2*Φ_1*cos(θ_2)]);
+[0, 0, θ_1] ~ [L_1, 0, 0]$ express(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+transpose(R12) . matrix([0], [L_1 * φ_1], [0]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+y2: matrix([L_2/2], [0], [0], [1])$
+T12.y2$
+trigsimp(%);
+y3: matrix([0], [-L_3/2], [0], [1])$
+T01.T12.T23.y3$
+trigsimp(%);
 /* [wxMaxima: input   end   ] */
 
 

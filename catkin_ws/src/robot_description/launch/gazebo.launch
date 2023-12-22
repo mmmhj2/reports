@@ -1,0 +1,9 @@
+<launch>
+    <arg name="model" default="$(find robot_description)/urdf/robotic-arm-3dof.urdf" />
+    <include file="$(find gazebo_ros)/launch/empty_world.launch" />
+    <param name="urdf_desc" command="$(find xacro)/xacro $(arg model)" />
+
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+        args="-z 5.0 -urdf -model rhex4 -param urdf_desc"
+        respawn="false" output="screen" />
+</launch>

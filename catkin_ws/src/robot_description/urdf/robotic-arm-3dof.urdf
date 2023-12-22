@@ -28,14 +28,15 @@
       </geometry>
     </collision>
     <inertial>
-      <inertia ixx="0.02723" ixy="0.00000" ixz="0.00000" iyy="0.58138" iyz="-0.00000" izz="0.60282"/>
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.53846 -0.00000 0.00000"/>
+      <inertia ixx="0.02723" ixy="0.00000" ixz="0.00000" iyy="0.58138" iyz="0.00000" izz="0.60282"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.53846 0.00000 0.00000"/>
       <mass value="1.00000"/>
     </inertial>
     <visual name="Cylinder.001">
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <material name="Default OBJ"/>
       <geometry>
-        <mesh filename="../meshes/obj/Cylinder.001.obj" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="package://robot_description/meshes/Cylinder.001.dae" scale="1.00000 1.00000 1.00000"/>
       </geometry>
     </visual>
   </link>
@@ -47,14 +48,15 @@
       </geometry>
     </collision>
     <inertial>
-      <inertia ixx="0.01588" ixy="-0.00000" ixz="0.00000" iyy="0.12671" iyz="-0.00000" izz="0.12900"/>
+      <inertia ixx="0.01588" ixy="0.00000" ixz="0.00000" iyy="0.12671" iyz="0.00000" izz="0.12900"/>
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.23077 0.00000 0.00000"/>
       <mass value="1.00000"/>
     </inertial>
     <visual name="Cylinder.002">
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <material name="Default OBJ.001"/>
       <geometry>
-        <mesh filename="../meshes/obj/Cylinder.003.obj" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="package://robot_description/meshes/Cylinder.003.dae" scale="1.00000 1.00000 1.00000"/>
       </geometry>
     </visual>
   </link>
@@ -66,14 +68,15 @@
       </geometry>
     </collision>
     <inertial>
-      <inertia ixx="0.08836" ixy="-0.00000" ixz="0.00000" iyy="0.08734" iyz="0.00000" izz="0.00864"/>
-      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 -0.26316"/>
+      <inertia ixx="0.08836" ixy="0.00000" ixz="0.00000" iyy="0.08734" iyz="0.00000" izz="0.00864"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.26316"/>
       <mass value="1.00000"/>
     </inertial>
     <visual name="Cylinder.003">
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <material name="Default OBJ.002"/>
       <geometry>
-        <mesh filename="../meshes/obj/Cylinder.004.obj" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="package://robot_description/meshes/Cylinder.004.dae" scale="1.00000 1.00000 1.00000"/>
       </geometry>
     </visual>
   </link>
@@ -85,9 +88,22 @@
     </inertial>
     <visual name="Cylinder">
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <material name="Default OBJ.003"/>
       <geometry>
-        <mesh filename="../meshes/obj/Cylinder.obj" scale="1.00000 1.00000 1.00000"/>
+        <mesh filename="package://robot_description/meshes/Cylinder.dae" scale="1.00000 1.00000 1.00000"/>
       </geometry>
     </visual>
   </link>
+  <material name="Default OBJ">
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
+  </material>
+  <material name="Default OBJ.001">
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
+  </material>
+  <material name="Default OBJ.002">
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
+  </material>
+  <material name="Default OBJ.003">
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
+  </material>
 </robot>

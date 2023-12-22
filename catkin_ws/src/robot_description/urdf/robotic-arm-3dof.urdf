@@ -1,4 +1,11 @@
 <robot name="robotic-arm-3dof" version="1.0">
+
+  <link name="world"/>
+  <joint name="fixed_to_world" type="fixed">
+    <parent link="world" />
+    <child link="Cylinder_link" />
+  </joint>
+
   <joint name="joint_1" type="revolute">
     <limit lower="-3.14000" upper="3.14000" effort="0.00000" velocity="0.00000"/>
     <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.20000"/>

@@ -117,4 +117,12 @@
   <material name="Default OBJ.003">
     <color rgba="0.80000 0.80000 0.80000 1.00000"/>
   </material>
+
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/robotic_arm</robotNamespace>
+      <robotParam>/robot_description</robotParam>
+    </plugin>
+  </gazebo>
+
 </robot>

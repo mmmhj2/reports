@@ -2,6 +2,7 @@
 \documentclass{ctexart}
 
 \usepackage{xcolor}
+\usepackage{subcaption}
 \usepackage{hyperref}
 \usepackage{mathtools}
 
@@ -583,5 +584,71 @@
 \]
 
 \section{控制器设计与仿真}
+
+从上文的动力学方程中，不难发现被控制量，即关节的角度，受到二阶非线性偏微分方程组的统治，且三个控制量之间是强耦合的。
+这意味着被控制系统是一个二阶非线性的多输入、多输出 （MIMO） 系统。
+即使只考虑对位置的控制，为这样的系统设计复杂的控制器也是困难的。
+
+对报告中的机械臂，我们为每个关节分配一个独立的PID控制器以实现对前三个关节的位置控制。
+设$E = \Theta - \Theta_d$，表示当前关节位置与目标位置之间的误差，则我们设计的控制器的方程为
+\[
+    \tau = K_p E + K_i \int E \mathrm d t + K_d \dot E
+\]
+其中$K_p, K_i, K_d$为三个对角矩阵。
+
+该控制器虽然简单，但是对被控系统的影响却难以计算，这是因为被控系统并非简单的单输入单输出线性系统。
+然而，非常多的实际经验表明，对于简单的三自由度机械臂主体部分的控制，单关节PID控制器已经足够达到相当好的性能。
+
+\subsection{仿真结果}
+
+本技术报告利用一套完全开源的环境与工具链实现本机器人的仿真。
+本机械臂的建模利用开源三维模型编辑软件 Blender 实现，并通过 Phobos 插件将机器人模型导出为统一机器人描述格式（URDF）文件。
+此后，通过结合机器人操作系统（ROS）中的 Gazebo 仿真软件实现机器人的仿真。
+机械臂的模型如图\ref{fig:model}所示。
+
+\begin{figure}[ht]
+    \hfill
+    \begin{subfigure}{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/robotic-arm-gazebo}
+        \caption{Gazebo 界面}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/robotic-arm-rviz}
+        \caption{ROS RViz 界面}
+    \end{subfigure}
+    \hfill
+    \caption{仿真使用的模型}
+    \label{fig:model}
+\end{figure}
+
+我们使用简单的PID控制器对机械臂的前三个转动关节的角度$\theta_{1,2,3}$进行控制。
+该控制器由 ROS 中的软件包 \emph{ros\_control} 实现。
+通过将控制器参数载入 ROS 参数服务器，在 Gazebo 中加载控制器插件 \emph{gazebo\_ros\_control}，在URDF文件中指定传动信息等操作，即可实现机械臂的控制仿真。
+
+我们为每一个关节分配了根据位置控制扭矩的PID控制器，并根据仿真的结果调整参数。
+以关节二为例，仿真结果如图\ref{fig:simulated-result-joint-2}所示。
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/result-joint-2}
+    \caption[关节二仿真结果]{关节二仿真结果（蓝色为指令，红色为关节角度）}
+    \label{fig:simulated-result-joint-2}
+\end{figure}
+
+仿真中使用的参数为
+\[
+    \begin{aligned}
+        K_p = & \begin{bmatrix}
+            1000 & 0 & 0 \\
+            0 & 600 & 0 \\
+            0 & 0 & 100 \\
+        \end{bmatrix} \\
+        K_i = & 0.01 \mathbf I \\
+        K_d = & 10 \mathbf I
+    \end{aligned}
+\]
 
 \end{document}

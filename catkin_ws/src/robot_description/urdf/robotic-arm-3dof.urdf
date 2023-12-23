@@ -1,4 +1,4 @@
-<robot name="robotic-arm-3dof" version="1.0">
+<robot name="robotic-arm-3dof" version="1.0" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <link name="world"/>
   <joint name="fixed_to_world" type="fixed">
@@ -124,5 +124,22 @@
       <robotParam>/robot_description</robotParam>
     </plugin>
   </gazebo>
+
+  <xacro:macro name="define_transmission" params="joint_name">
+    <transmission name="trans_${joint_name}" type="SimpleTransmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${joint_name}">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor_${joint_name}">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+
+  <xacro:define_transmission joint_name="joint_1" />
+  <xacro:define_transmission joint_name="joint_2" />
+  <xacro:define_transmission joint_name="joint_3" />
 
 </robot>

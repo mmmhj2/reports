@@ -7,28 +7,28 @@
   </joint>
 
   <joint name="joint_1" type="revolute">
-    <limit lower="-3.14000" upper="3.14000" effort="0.00000" velocity="0.00000"/>
+    <limit lower="-3.14000" upper="3.14000" effort="1e4" velocity="10"/>
     <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.20000"/>
     <parent link="Cylinder_link"/>
     <child link="Cylinder.001_link"/>
     <axis xyz="0.00000 0.00000 1.00000"/>
-    <dynamics damping="5"/>
+    <dynamics damping="0.2"/>
   </joint>
   <joint name="joint_2" type="revolute">
-    <limit lower="-3.14000" upper="3.14000" effort="0.00000" velocity="0.00000"/>
+    <limit lower="-3.14000" upper="3.14000" effort="1e4" velocity="10"/>
     <origin rpy="0.00000 0.00000 0.00000" xyz="2.50000 0.00000 0.00000"/>
     <parent link="Cylinder.001_link"/>
     <child link="Cylinder.002_link"/>
     <axis xyz="0.00000 1.00000 0.00000"/>
-    <dynamics damping="5"/>
+    <dynamics damping="0.2"/>
   </joint>
   <joint name="joint_3" type="revolute">
-    <limit lower="-3.14000" upper="3.14000" effort="0.00000" velocity="0.00000"/>
+    <limit lower="-3.14000" upper="3.14000" effort="1e4" velocity="10"/>
     <origin rpy="0.00000 0.00000 0.00000" xyz="1.20000 0.00000 0.00000"/>
     <parent link="Cylinder.002_link"/>
     <child link="Cylinder.003_link"/>
     <axis xyz="0.00000 1.00000 0.00000"/>
-    <dynamics damping="5"/>
+    <dynamics damping="0.2"/>
   </joint>
 
   <link name="Cylinder.001_link">
@@ -133,7 +133,7 @@
       </joint>
       <actuator name="motor_${joint_name}">
         <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-        <mechanicalReduction>1</mechanicalReduction>
+        <mechanicalReduction>200</mechanicalReduction>
       </actuator>
     </transmission>
   </xacro:macro>

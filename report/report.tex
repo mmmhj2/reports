@@ -1,6 +1,15 @@
 % !TeX root = report.tex
 \documentclass{ctexart}
 
+\usepackage{listings}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    showspaces=false,                
+    showstringspaces=false,
+    numbers=left,
+    frame=single
+}
+
 \usepackage{xcolor}
 \usepackage{subcaption}
 \usepackage{hyperref}
@@ -15,6 +24,7 @@
 \begin{document}
 
 \maketitle
+\tableofcontents
 
 \section{问题简述}
 
@@ -636,7 +646,7 @@
 该控制器虽然简单，但是对被控系统的影响却难以计算，这是因为被控系统并非简单的单输入单输出线性系统。
 然而，非常多的实际经验表明，对于简单的三自由度机械臂主体部分的控制，单关节PID控制器已经足够达到相当好的性能。
 
-\subsection{仿真结果}
+\subsection{模型设计}
 
 本技术报告利用一套完全开源的环境与工具链实现本机器人的仿真。
 本机械臂的建模利用开源三维模型编辑软件 Blender 实现，并通过 Phobos 插件将机器人模型导出为统一机器人描述格式（URDF）文件。
@@ -661,18 +671,67 @@
     \label{fig:model}
 \end{figure}
 
+利用 Blender 这一商业级三维模型编辑软件，可以非常容易地得到高精度的机械臂三维模型。
+通过将模型三角面化，然后指定材质，即可使用 Phobos 插件比较容易地计算出每个部件的质量和转动惯量。
+为了简单起见，我们使用具有质量对称轴且与坐标轴对齐的几何形状进行设计，从而得到的惯量张量总是对角矩阵，具体数值如下所示。
+\[
+    \begin{aligned}
+        I_1 = &
+        \begin{bmatrix}
+            0.02723 & 0 & 0 \\
+            0 & 0.58138 & 0 \\
+            0 & 0 & 0.60282 \\
+        \end{bmatrix} \\
+        I_2 = &
+        \begin{bmatrix}
+            0.01588 & 0 & 0 \\
+            0 & 0.12671 & 0 \\
+            0 & 0 & 0.12900 \\
+        \end{bmatrix} \\
+        I_3 = &
+        \begin{bmatrix}
+            0.08836 & 0 & 0 \\
+            0 & 0.08734 & 0 \\
+            0 & 0 & 0.00864 \\ 
+        \end{bmatrix}
+    \end{aligned}
+\]
+除此之外，还需要设计用于碰撞检测的几何模型。
+直接使用网格会造成较大的性能负担，因此通常使用简单的几何形状如长方体等进行计算。
+导出 URDF 文件后，还需要手动输入一些物理属性，如关节处的电机减速比和关节的阻尼与摩擦系数等。
+除此之外，还需要在 URDF 中指定 Gazebo 插件等仿真使用的数据。
+
+此后，通过将 URDF 与三维模型文件组织成 ROS 软件包的形式，撰写``.launch''文件，指定控制器和控制器的参数等步骤，即可完成仿真环境的搭建。
+以下为仿真中使用的``.launch''文件。
+\lstinputlisting[language=XML]{../catkin_ws/src/robot_description/launch/gazebo.launch}
+
+\subsection{仿真结果}
+
 我们使用简单的PID控制器对机械臂的前三个转动关节的角度$\theta_{1,2,3}$进行控制。
 该控制器由 ROS 中的软件包 \emph{ros\_control} 实现。
 通过将控制器参数载入 ROS 参数服务器，在 Gazebo 中加载控制器插件 \emph{gazebo\_ros\_control}，在URDF文件中指定传动信息等操作，即可实现机械臂的控制仿真。
 
 我们为每一个关节分配了根据位置控制扭矩的PID控制器，并根据仿真的结果调整参数。
-以关节二为例，仿真结果如图\ref{fig:simulated-result-joint-2}所示。
+以关节二为例，仿真结果如图\ref{fig:simulated-result}所示。
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/result-joint-2}
-    \caption[关节二仿真结果]{关节二仿真结果（蓝色为指令，红色为关节角度）}
-    \label{fig:simulated-result-joint-2}
+    \begin{subfigure}{0.8\linewidth}
+        \includegraphics[width=\linewidth]{figures/result-joint-1.PNG}
+        \caption{关节一}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.8\linewidth}
+        \includegraphics[width=\linewidth]{figures/result-joint-2.PNG}
+        \caption{关节二}
+    \end{subfigure}
+    \\
+    \begin{subfigure}{0.8\linewidth}
+        \includegraphics[width=\linewidth]{figures/result-joint-3.PNG}
+        \caption{关节三}
+    \end{subfigure}
+    \caption[仿真结果]{仿真结果（蓝色为指令，红色为关节角度）}
+    \label{fig:simulated-result}
 \end{figure}
 
 仿真中使用的参数为

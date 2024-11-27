@@ -1,0 +1,146 @@
+
+本节主要介绍固体物理课程上学习到的各种基础知识，这些知识将用于支撑对半导体材料的性质的计算。
+
+\subsection{代数学基本知识}
+
+我们首先介绍几个常用的代数学定义。
+
+\begin{definition}
+    群（group）是装备有二元关系$\cdot$的非空集合$G$构成的有序二元组$(G, +)$，该二元关系满足：
+    \begin{enumerate}[nosep]
+        \item 结合性，即
+            $$x\cdot ( y \cdot z) = (x \cdot y) \cdot z, \; \forall x,y,z \in G$$
+        \item 存在单位元，即
+            $$\exists e \in G, \text{s.t. } x \cdot e = e\cdot x = x, \; \forall x \in G$$
+        \item 存在逆元，即
+            $$\forall x \in G, \exists y \in G, \text{s.t. } x \cdot y = y \cdot x = e$$
+    \end{enumerate}
+    若该二元关系还是可交换的，即
+    $$x \cdot y = y \cdot x, \; \forall x, y \in G$$
+    那么这个群称为交换的，或阿贝尔的（abelian）。
+\end{definition}
+
+可以证明，群的单位元和每个元素的逆元都是唯一的。
+
+\begin{definition}
+    格点（lattice）是向量空间$\mathbb R^n$的有限生成阿贝尔子群（finitely-generated abelian subgroup），满足
+    $$\Lambda = \left\{ \sum_{i=1}^n a_i v_i \; \middle\vert\; a_i \in \mathbb Z \right\}$$
+    其中$v_i$是向量空间$\mathbb R^n$的基底。对偶空间中的格点称为该格点的对偶格点（dual lattice），满足
+    $$\Lambda^* = \left\{ v^* \in \mathbb R^n \; \middle\vert \; v^* \cdot v \in \mathbb Z ,\, \forall v \in \Lambda \right\}$$
+    数学上可认为对偶格点中的元素在对偶空间${{\mathbb{R}}^n}^*$中。
+\end{definition}
+
+不同的基底可以生成相同的格点，然而从格点还原计算基底是困难的。
+但是这些基底的行列式的绝对值，即一个格点对应的面积或体积，永远是一致的。
+
+\subsection{晶格对称性的数学表述}
+
+晶体中所有原子的排列服从一定的规律，这种规则的排列称为晶体的晶格。
+晶格的特点是具有周期性，无论具有什么样的结构，总是可以看作是由某平行六面体划出的单元沿着三条边的方向重复排列而成的。
+这种重复的排列在数学上可由格点表示。
+
+\begin{definition}
+    晶体的最小周期单元称为该晶格的原胞（primitive cell），其棱张成的格点称为晶体的布拉伐格点（Bravais lattice），这一格点的基底，即原胞的棱，习惯上用$a_i$表示。
+\end{definition}
+
+晶体的周期性表明，晶体中任何具有物理意义的量总是满足关于晶格的平移对称性。
+
+\begin{proposition}
+    设$V: \mathbb R^{2,3} \to K$为晶格中一物理量，则
+    $$V(x) = V(x + l), \; \forall l \in \Lambda$$
+    其中$\Lambda$是是晶格的布拉伐格点。
+\end{proposition}
+
+在考虑了晶胞的平移对称性后，我们还希望考虑其旋转对称性，而这在数学上通常通过群来完成。
+
+\begin{definition}
+    点群（point group）是欧几里得空间中具有共同不动点的等距变换构成的群，习惯上这一共同的不动点选取在欧几里得空间的原点处。这些群是正交群$O(n)$的子群。
+\end{definition}
+
+以二维空间为例，所有$n$次旋转，即每次转动$\frac{2\pi}{n}$角度的旋转，均可构成一个点群，这些点群表征了二维平面上的中心对称，记作$C_n$。
+这些群同构于$Z_n$。
+
+若同时考虑晶格的旋转对称性和平移对称性，则并非所有的旋转均可与平移兼容，所有这些兼容的仿射变换，即同时包括平移和旋转的变换，又构成一个群，称为空间群。
+
+\begin{definition}
+    三维空间中晶体中可能出现的仿射变换组成的群称为空间群（space group）。
+    二维空间中这样的群称为壁纸群（wallpaper group）或平面群（plane group）。
+\end{definition}
+
+当同时考虑平移和旋转对称性时，能够发现，并非所有平移和旋转变换均可兼容。
+
+\begin{theorem}
+    （晶体学限制定理）
+    在二维和三维的格点中，能够出现的表示旋转的点群的阶数，能且仅能是$1,2,3,4,6$其中之一。
+\end{theorem}
+
+\begin{proof}
+    课上给出了一个几何的证明，此处利用变换的迹给出另一个证明。
+    我们知道，矩阵的迹是相似不变的，即任意选择空间的基底，同一变换在不同基底之下的矩阵表示的迹是一致的。因此，在格点空间中，由于变换一定将整数坐标映射到整数坐标，因此一定可以选择恰当的基底，使得矩阵的迹是整数。而正交矩阵的迹与旋转角度有关：
+    $$\mathrm{tr}(O) = 1 - 2 \cos \theta \in \mathbb Z \implies \cos \theta = 0, \pm 1, \pm \frac{1}{2}.$$
+    从而旋转角度仅能为
+    $$\theta = 0^\circ, 60^\circ, 90^\circ, 120^\circ, 180^\circ. \qedhere$$
+\end{proof}
+
+三维空间中的点群可分为七个大类，其中每一类均有无限个群，然而由于晶体学限制定理，可能在三维晶体中出现的仅有32种。
+这三十二种点群又分为七种晶系和十四种布拉伐格点，进而产生230中空间群。
+这些空间群就表示了晶体所有可能的结构。
+
+\subsection{倒易空间}
+
+在研究薛定谔方程时，我们通过傅里叶变换将实空间中的粒子变换到傅里叶空间中进行研究。
+在晶体中，我们也可以利用傅里叶变换，在对偶空间中研究晶体的性质，这一点尤其重要，因为我们知道，电磁波的衍射与傅里叶变换有密切的关系。
+
+\begin{definition}
+    晶体的布拉伐格点的对偶格点，称为该晶体的倒易格点（Reciprocal lattice），简称倒格点。
+\end{definition}
+
+\begin{proposition}
+    三维空间中倒格点的一组基底是
+    $$b_1 = \frac{a_2 \times a_3}{a_1 \cdot (a_2 \times a_3)}, b_2 = \frac{a_3 \times a_1}{a_2 \cdot (a_3 \times a_1)}, b_3 = \frac{a_1 \times a_2}{a_3 \cdot (a_1 \times a_2)},$$
+    这是倒格点最常用的一组基底。这组基底满足正交性，即
+    $$a_i b_j = \delta_{ij}.$$
+\end{proposition}
+
+基底的正交性容易验证，此处给出该基底确实为对偶格点基底的证明。
+
+\begin{proof}
+    首先，显然$b_i$是线性独立的，因此其必是$\mathbb R^3$的一组基底，因此对偶格点中的所有向量均可由其表出：
+    $$v^* = h_1 b_1 + h_2 b_2 + h_3 b_3, \; \forall v^* \in \Lambda^*.$$
+    仅需证明$h_i$均为整数即可。
+    根据对偶格点的定义，有$v^* \cdot a_1\in \mathbb Z$，
+    从而
+    $$(h_1 b_1 + h_2 b_2 + h_3 b_3) a_1 = h_1 \in \mathbb Z$$
+    其他两轴同理。
+    因此，$b_i$确为对偶格点的基底。
+\end{proof}
+
+在物理中，我们倾向于使用以下基底：
+$$
+b_1 = 2\pi \frac{a_2 \times a_3}{a_1 \cdot (a_2 \times a_3)}, 
+b_2 = 2\pi \frac{a_3 \times a_1}{a_2 \cdot (a_3 \times a_1)}, 
+b_3 = 2\pi \frac{a_1 \times a_2}{a_3 \cdot (a_1 \times a_2)}
+$$
+这种表示方式不符合数学上的对偶格点的要求，但是在研究傅里叶展开时更加有用。
+
+倒易空间的重要性由以下命题揭示。
+\begin{proposition}
+    若某一函数在正空间中具有周期性，即
+    $$f(r) = f(r + R), \; \forall R \in \Lambda,$$
+    则其傅里叶变换在倒空间中具有相同的周期性，即
+    $$F(k) = F(k + G), \; \forall G \in \Lambda^*.$$
+\end{proposition}
+
+\begin{proof}
+    考虑周期函数的傅里叶变换：
+    $$F(k) = \iiint_{V_\text{晶胞}} f(r) \exp[-ik\cdot r] \,\mathrm d V$$
+    计算$F(k + G)$：
+    $$F(k+G) = \iiint_{V_\text{晶胞}} f(r) \exp[-i(k+G)\cdot r] \, \mathrm d V$$
+    现在，根据倒空间的基底，注意到$G \cdot r \in 2 \pi \mathbb Z$，
+    从而
+    $$F(k+G) = \iiint_{V_\text{晶胞}} f(r) \exp[-ik\cdot r] \exp[-2i\pi] = F(k). \qedhere$$
+\end{proof}
+
+这意味着，晶体的周期性不仅存在于实空间——即位置空间——中，也存在于傅里叶变换之后的空间——即动量空间——中。
+因此，晶体的晶胞也不仅仅存在于一个看得见、摸得着的实际的空间中，也存在于动量空间中。
+特别地，倒空间中的原胞称为布里渊区。

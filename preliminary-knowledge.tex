@@ -119,11 +119,11 @@
 \end{proof}
 
 在物理中，我们倾向于使用以下基底：
-$$
-b_1 = 2\pi \frac{a_2 \times a_3}{a_1 \cdot (a_2 \times a_3)}, 
-b_2 = 2\pi \frac{a_3 \times a_1}{a_2 \cdot (a_3 \times a_1)}, 
-b_3 = 2\pi \frac{a_1 \times a_2}{a_3 \cdot (a_1 \times a_2)}
-$$
+\begin{equation}
+b_1 = \frac{\mathcolor{red}{2\pi} a_2 \times a_3}{a_1 \cdot (a_2 \times a_3)}, 
+b_2 = \frac{\mathcolor{red}{2\pi} a_3 \times a_1}{a_2 \cdot (a_3 \times a_1)}, 
+b_3 = \frac{\mathcolor{red}{2\pi} a_1 \times a_2}{a_3 \cdot (a_1 \times a_2)}
+\end{equation}
 这种表示方式不符合数学上的对偶格点的要求，但是在研究傅里叶展开时更加有用，其正交性也变为$a_i b_j = 2\pi \delta_{ij}$。
 
 倒易空间的重要性由以下命题揭示。
@@ -136,9 +136,9 @@ $$
 
 \begin{proof}
     考虑周期函数的傅里叶变换：
-    \begin{equation}F(k) = \iiint_{V_\text{晶胞}} f(r) \exp[-ik\cdot r] \,\mathrm d V\end{equation}
+    \begin{equation}F(k) = \iiint_{V_\text{晶胞}} f(r) \exp[-ik\cdot r] \,\mathrm d V.\end{equation}
     计算$F(k + G)$：
-    \begin{equation}F(k+G) = \iiint_{V_\text{晶胞}} f(r) \exp[-i(k+G)\cdot r] \, \mathrm d V\end{equation}
+    \begin{equation}F(k+G) = \iiint_{V_\text{晶胞}} f(r) \exp[-i(k+G)\cdot r] \, \mathrm d V.\end{equation}
     现在，根据倒空间的基底，注意到$G \cdot r \in 2 \pi \mathbb Z$，
     从而
     \begin{equation}F(k+G) = \iiint_{V_\text{晶胞}} f(r) \exp[-ik\cdot r] \exp[-2i\pi] = F(k). \qedhere\end{equation}
@@ -146,6 +146,103 @@ $$
 
 这意味着，晶体的周期性不仅存在于实空间——即位置空间——中，也存在于傅里叶变换之后的空间——即动量空间——中。
 因此，晶体的晶胞也不仅仅存在于一个看得见、摸得着的实际的空间中，也存在于动量空间中。
+更进一步地，由于电磁波的衍射实际展示的是傅里叶变换后的光栅，这意味着在X射线衍射下，所有晶体展示的都是倒空间的晶格。
 特别地，倒空间中的维格纳-赛兹原胞称为（第一）布里渊区。
 
+回忆到傅里叶变换后的变量实际上是波矢$k$，而函数相当于原函数在指定波矢下波的响应，那么可以认为，晶格对波的响应也符合周期性，因此我们不必研究动量空间中所有的波矢，而只需要研究第一布里渊区内部的波矢即可。
+这是后文中许多研究的基础。
+
 在研究晶体时，我们希望有一种指明晶格中的几何特征的方法，而这可通过密勒指数实现。
+
+\begin{definition}
+    密勒指数（Miller index）$[hkl]$表示倒空间中与矢量
+    \begin{equation}
+        G = h b_1 + k b_2 + l b_3
+    \end{equation}
+    正交的平面。在正空间中，这相当于由
+    \begin{equation}
+        (1/h, 0, 0), \; (0, 1/k, 0), \; (0, 0, 1/l).
+    \end{equation}
+    三个点确定的平面。其中，若某一数为零，则取正无穷。
+    习惯上约定$h,k,l$三个数是互质的整数。
+\end{definition}
+
+假设晶体在正空间中为晶格参数为$a$的立方晶系，那么由密勒指数$[hkl]$规定的两个平行的晶面之间的距离为
+\begin{equation}
+    d_{hkl} = \frac{a}{\sqrt{h^2 + k^2 + l^2}}.
+\end{equation}
+这个距离可用于衍射的判定。
+
+\subsection{晶格动力学}
+本节中我们考虑一维原子链构成的晶体中，晶体原子偏移平衡点产生的波动。
+该波动满足以下命题。
+\begin{proposition}
+    晶体中原子偏移平衡点的位移是波矢为
+    \begin{equation}q = \frac{2n\pi}{L} = \frac{2n\pi}{Na}, \; n \in \mathbb Z\end{equation}
+    的波，其中$L$是材料的长度，$a$为晶格长度，$N$为材料中的晶格数。这种波称为格波（lattice wave）。
+\end{proposition}
+
+\begin{proof}
+    根据晶格中的周期性，我们知道任何物理量在布拉伐格点上均有周期性，因此晶体原子的位移也具有周期性：
+    \begin{equation}
+        u(x + a, t) = u(x, t), \; \forall x \in \mathbb R, a \in \Lambda
+    \end{equation}
+    现在令$a = L = Na$，即有$u(x + L, t) = u(x, t)$。
+    针对该周期将原函数写为傅里叶级数，得到
+    \begin{equation}
+        u(x, t) = \sum_{n} A_n \exp[i \frac{2n\pi}{L} x] = \sum_{n} A_n \exp[i q x].
+    \end{equation}
+    因此，格波的波矢即为$q = \frac{2n\pi}{L}$。
+\end{proof}
+
+严格上讲，这一周期性是根据晶体中波函数的波恩-冯·卡门边界条件推出的。
+
+根据上文提到的波矢的周期性关系，我们只关心第一布里渊区内的格波波矢数量，这可以很容易地计算出。
+\begin{corollary}
+    一维晶格中的布里渊区大小为$\frac{2\pi}{a}$，因此布里渊区中的格波波矢数量恰为材料中的晶胞数量。
+\end{corollary}
+
+即使对一维原子链这样简单的模型，我们仍然需要考虑电子与原子核的相互影响，而这对求解过于复杂。
+因此，我们使用波恩-奥本海默近似来降低求解的复杂程度。
+\begin{theorem}
+    绕原子核运动的电子相较于原子核的质量极低，因此可认为电子无法影响原子核的运动，从而总是可以先求解电子的薛定谔方程，然后根据电子产生的平均势能求解原子核的薛定谔方程，这一近似称为波恩-奥本海默近似（Born-Oppenheimer approximation）。
+\end{theorem}
+
+利用该近似，我们可给出一维原子链的动力学方程。
+\begin{proposition}
+    一维单原子链的动力学方程具有
+    \begin{equation}
+        \hat D A(q) = \omega_q^2 A(q)
+    \end{equation}
+    的形式，其中$\hat D$称为动力学矩阵，$A$是每个原子的位移组成的向量，$\omega_q$是$q$波矢下的角频率。
+\end{proposition}
+
+\begin{proof}
+    设系统的势能为
+    \begin{equation}
+        W(u_1, \dots, u_n) = \sum_{i,j} W_{i,j} (u_i, u_j)
+    \end{equation}
+    在平衡点处进行泰勒展开，有
+    \begin{equation}
+        \begin{aligned}
+            W &= \sum_{i,j=1}^n W_{i,j}(0,0) + \sum_{i,j=1}^n \frac{\partial W_{i,j}}{\partial u_i} u_i \\
+            &+ \frac{1}{2} \sum_{i,j=1}^n \frac{\partial^2 W_{i,j}}{\partial u_i \partial u_j} u_i u_j + O(u^3).
+        \end{aligned}
+    \end{equation}
+    势能的零点可任意选择，因此我们令平衡处势能为零。
+    又平衡处一阶微分总是零，因此取二阶近似，可认为势能是关于位移的二次函数，即
+    \begin{equation}
+        W(u_1, \dots, u_n) = \sum_{i,j=1}^n V_{ij}' u_i u_j  = \sum_{i,j=1}^n V_{ij} (u_i - u_j)^2.
+    \end{equation}
+    利用该势能，可写出单个原子的运动方程
+    \begin{equation}
+        m_i \ddot u_i = - 2 \sum_{j=1}^n V_{ij}(u_i - u_j)
+    \end{equation}
+    带入谐波解$u_i = A_i(q) \exp[i \omega_q t]$，即可得到
+    \begin{equation}
+        - \omega_q^2 A_i(q) + \sum_j D_{i,j} A_j(q) = 0.
+    \end{equation}
+    重写为矩阵形式即可。
+\end{proof}
+
+\subsection{能带结构}

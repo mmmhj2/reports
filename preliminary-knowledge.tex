@@ -9,14 +9,14 @@
     群（group）是装备有二元关系$\cdot$的非空集合$G$构成的有序二元组$(G, +)$，该二元关系满足：
     \begin{enumerate}[nosep]
         \item 结合性，即
-            $$x\cdot ( y \cdot z) = (x \cdot y) \cdot z, \; \forall x,y,z \in G$$
+            \begin{equation}x\cdot ( y \cdot z) = (x \cdot y) \cdot z, \; \forall x,y,z \in G\end{equation}
         \item 存在单位元，即
-            $$\exists e \in G, \text{s.t. } x \cdot e = e\cdot x = x, \; \forall x \in G$$
+            \begin{equation}\exists e \in G, \text{s.t. } x \cdot e = e\cdot x = x, \; \forall x \in G\end{equation}
         \item 存在逆元，即
-            $$\forall x \in G, \exists y \in G, \text{s.t. } x \cdot y = y \cdot x = e$$
+            \begin{equation}\forall x \in G, \exists y \in G, \text{s.t. } x \cdot y = y \cdot x = e\end{equation}
     \end{enumerate}
     若该二元关系还是可交换的，即
-    $$x \cdot y = y \cdot x, \; \forall x, y \in G$$
+    \begin{equation}x \cdot y = y \cdot x, \; \forall x, y \in G\end{equation}
     那么这个群称为交换的，或阿贝尔的（abelian）。
 \end{definition}
 
@@ -24,9 +24,9 @@
 
 \begin{definition}
     格点（lattice）是向量空间$\mathbb R^n$的有限生成阿贝尔子群（finitely-generated abelian subgroup），满足
-    $$\Lambda = \left\{ \sum_{i=1}^n a_i v_i \; \middle\vert\; a_i \in \mathbb Z \right\}$$
+    \begin{equation}\Lambda = \left\{ \sum_{i=1}^n a_i v_i \; \middle\vert\; a_i \in \mathbb Z \right\}\end{equation}
     其中$v_i$是向量空间$\mathbb R^n$的基底。对偶空间中的格点称为该格点的对偶格点（dual lattice），满足
-    $$\Lambda^* = \left\{ v^* \in \mathbb R^n \; \middle\vert \; v^* \cdot v \in \mathbb Z ,\, \forall v \in \Lambda \right\}$$
+    \begin{equation}\Lambda^* = \left\{ v^* \in \mathbb R^n \; \middle\vert \; v^* \cdot v \in \mathbb Z ,\, \forall v \in \Lambda \right\}\end{equation}
     数学上可认为对偶格点中的元素在对偶空间${{\mathbb{R}}^n}^*$中。
 \end{definition}
 
@@ -50,7 +50,7 @@
 
 \begin{proposition}
     设$V: \mathbb R^{2,3} \to K$为晶格中一物理量，则
-    $$V(x) = V(x + l), \; \forall l \in \Lambda$$
+    \begin{equation}V(x) = V(x + l), \; \forall l \in \Lambda\end{equation}
     其中$\Lambda$是是晶格的布拉伐格点。
 \end{proposition}
 
@@ -80,9 +80,9 @@
 \begin{proof}
     课上给出了一个几何的证明，此处利用变换的迹给出另一个证明。
     我们知道，矩阵的迹是相似不变的，即任意选择空间的基底，同一变换在不同基底之下的矩阵表示的迹是一致的。因此，在格点空间中，由于变换一定将整数坐标映射到整数坐标，因此一定可以选择恰当的基底，使得矩阵的迹是整数。而正交矩阵的迹与旋转角度有关：
-    $$\mathrm{tr}(O) = 1 - 2 \cos \theta \in \mathbb Z \implies \cos \theta = 0, \pm 1, \pm \frac{1}{2}.$$
+    \begin{equation}\mathrm{tr}(O) = 1 - 2 \cos \theta \in \mathbb Z \implies \cos \theta = 0, \pm 1, \pm \frac{1}{2}.\end{equation}
     从而旋转角度仅能为
-    $$\theta = 0^\circ, 60^\circ, 90^\circ, 120^\circ, 180^\circ. \qedhere$$
+    \begin{equation}\theta = 0^\circ, 60^\circ, 90^\circ, 120^\circ, 180^\circ. \qedhere\end{equation}
 \end{proof}
 
 三维空间中的点群可分为七个大类，其中每一类均有无限个群，然而由于晶体学限制定理，可能在三维晶体中出现的仅有32种。
@@ -100,20 +100,20 @@
 
 \begin{proposition}
     三维空间中倒格点的一组基底是
-    $$b_1 = \frac{a_2 \times a_3}{a_1 \cdot (a_2 \times a_3)}, b_2 = \frac{a_3 \times a_1}{a_2 \cdot (a_3 \times a_1)}, b_3 = \frac{a_1 \times a_2}{a_3 \cdot (a_1 \times a_2)},$$
+    \begin{equation}b_1 = \frac{a_2 \times a_3}{a_1 \cdot (a_2 \times a_3)}, b_2 = \frac{a_3 \times a_1}{a_2 \cdot (a_3 \times a_1)}, b_3 = \frac{a_1 \times a_2}{a_3 \cdot (a_1 \times a_2)},\end{equation}
     这是倒格点最常用的一组基底。这组基底满足正交性，即
-    $$a_i b_j = \delta_{ij}.$$
+    \begin{equation}a_i b_j = \delta_{ij}.\end{equation}
 \end{proposition}
 
 基底的正交性容易验证，此处给出该基底确实为对偶格点基底的证明。
 
 \begin{proof}
     首先，显然$b_i$是线性独立的，因此其必是$\mathbb R^3$的一组基底，因此对偶格点中的所有向量均可由其表出：
-    $$v^* = h_1 b_1 + h_2 b_2 + h_3 b_3, \; \forall v^* \in \Lambda^*.$$
+    \begin{equation}v^* = h_1 b_1 + h_2 b_2 + h_3 b_3, \; \forall v^* \in \Lambda^*.\end{equation}
     仅需证明$h_i$均为整数即可。
     根据对偶格点的定义，有$v^* \cdot a_1\in \mathbb Z$，
     从而
-    $$(h_1 b_1 + h_2 b_2 + h_3 b_3) a_1 = h_1 \in \mathbb Z$$
+    \begin{equation}(h_1 b_1 + h_2 b_2 + h_3 b_3) a_1 = h_1 \in \mathbb Z\end{equation}
     其他两轴同理。
     因此，$b_i$确为对偶格点的基底。
 \end{proof}
@@ -124,26 +124,28 @@ b_1 = 2\pi \frac{a_2 \times a_3}{a_1 \cdot (a_2 \times a_3)},
 b_2 = 2\pi \frac{a_3 \times a_1}{a_2 \cdot (a_3 \times a_1)}, 
 b_3 = 2\pi \frac{a_1 \times a_2}{a_3 \cdot (a_1 \times a_2)}
 $$
-这种表示方式不符合数学上的对偶格点的要求，但是在研究傅里叶展开时更加有用，其正交性也变为$a_i b_j = 2\pi \delta_{ij}$
+这种表示方式不符合数学上的对偶格点的要求，但是在研究傅里叶展开时更加有用，其正交性也变为$a_i b_j = 2\pi \delta_{ij}$。
 
 倒易空间的重要性由以下命题揭示。
 \begin{proposition}
     若某一函数在正空间中具有周期性，即
-    $$f(r) = f(r + R), \; \forall R \in \Lambda,$$
+    \begin{equation}f(r) = f(r + R), \; \forall R \in \Lambda,\end{equation}
     则其傅里叶变换在倒空间中具有相同的周期性，即
-    $$F(k) = F(k + G), \; \forall G \in \Lambda^*.$$
+    \begin{equation}F(k) = F(k + G), \; \forall G \in \Lambda^*.\end{equation}
 \end{proposition}
 
 \begin{proof}
     考虑周期函数的傅里叶变换：
-    $$F(k) = \iiint_{V_\text{晶胞}} f(r) \exp[-ik\cdot r] \,\mathrm d V$$
+    \begin{equation}F(k) = \iiint_{V_\text{晶胞}} f(r) \exp[-ik\cdot r] \,\mathrm d V\end{equation}
     计算$F(k + G)$：
-    $$F(k+G) = \iiint_{V_\text{晶胞}} f(r) \exp[-i(k+G)\cdot r] \, \mathrm d V$$
+    \begin{equation}F(k+G) = \iiint_{V_\text{晶胞}} f(r) \exp[-i(k+G)\cdot r] \, \mathrm d V\end{equation}
     现在，根据倒空间的基底，注意到$G \cdot r \in 2 \pi \mathbb Z$，
     从而
-    $$F(k+G) = \iiint_{V_\text{晶胞}} f(r) \exp[-ik\cdot r] \exp[-2i\pi] = F(k). \qedhere$$
+    \begin{equation}F(k+G) = \iiint_{V_\text{晶胞}} f(r) \exp[-ik\cdot r] \exp[-2i\pi] = F(k). \qedhere\end{equation}
 \end{proof}
 
 这意味着，晶体的周期性不仅存在于实空间——即位置空间——中，也存在于傅里叶变换之后的空间——即动量空间——中。
 因此，晶体的晶胞也不仅仅存在于一个看得见、摸得着的实际的空间中，也存在于动量空间中。
 特别地，倒空间中的维格纳-赛兹原胞称为（第一）布里渊区。
+
+在研究晶体时，我们希望有一种指明晶格中的几何特征的方法，而这可通过密勒指数实现。

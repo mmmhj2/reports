@@ -175,33 +175,6 @@ b_3 = \frac{\mathcolor{red}{2\pi} a_1 \times a_2}{a_3 \cdot (a_1 \times a_2)}
 
 \subsection{晶格动力学}
 本节中我们考虑一维原子链构成的晶体中，晶体原子偏移平衡点产生的波动。
-该波动满足以下命题。
-\begin{proposition}
-    晶体中原子偏移平衡点的位移是波矢为
-    \begin{equation}q = \frac{2n\pi}{L} = \frac{2n\pi}{Na}, \; n \in \mathbb Z\end{equation}
-    的波，其中$L$是材料的长度，$a$为晶格长度，$N$为材料中的晶格数。这种波称为格波（lattice wave）。
-\end{proposition}
-
-\begin{proof}
-    根据晶格中的周期性，我们知道任何物理量在布拉伐格点上均有周期性，因此晶体原子的位移也具有周期性：
-    \begin{equation}
-        u(x + a, t) = u(x, t), \; \forall x \in \mathbb R, a \in \Lambda
-    \end{equation}
-    现在令$a = L = Na$，即有$u(x + L, t) = u(x, t)$。
-    针对该周期将原函数写为傅里叶级数，得到
-    \begin{equation}
-        u(x, t) = \sum_{n} A_n \exp[i \frac{2n\pi}{L} x] = \sum_{n} A_n \exp[i q x].
-    \end{equation}
-    因此，格波的波矢即为$q = \frac{2n\pi}{L}$。
-\end{proof}
-
-严格上讲，这一周期性是根据晶体中波函数的波恩-冯·卡门边界条件推出的。
-
-根据上文提到的波矢的周期性关系，我们只关心第一布里渊区内的格波波矢数量，这可以很容易地计算出。
-\begin{corollary}
-    一维晶格中的布里渊区大小为$\frac{2\pi}{a}$，因此布里渊区中的格波波矢数量恰为材料中的晶胞数量。
-\end{corollary}
-
 即使对一维原子链这样简单的模型，我们仍然需要考虑电子与原子核的相互影响，而这对求解过于复杂。
 因此，我们使用波恩-奥本海默近似来降低求解的复杂程度。
 \begin{theorem}
@@ -244,5 +217,172 @@ b_3 = \frac{\mathcolor{red}{2\pi} a_1 \times a_2}{a_3 \cdot (a_1 \times a_2)}
     \end{equation}
     重写为矩阵形式即可。
 \end{proof}
+
+一般认为仅有相邻的原子之间的相互作用才足够显著，其他原子则不予考虑，此时的动力学方程能够更加简单。
+
+我们考虑较简单的一种情况，即无穷长一维双原子链的情况。
+
+\begin{proposition}
+    考虑无穷长的甲、乙两种原子组成的一维双原子链，其质量分别为$m,M$。
+    平衡时，两种原子之间等间距分布，间距为$a$。
+    两种原子之间的相互作用可视为弹力，等价的弹性系数为$k$，则该原子链的运动方程为
+    \begin{equation}
+        \left\{
+            \begin{aligned}
+                m \ddot u_{2n} &= k(u_{2n+1} + u_{2n-1}) - 2ku_{2n} \\
+                M \ddot u_{2n+1} &= k(u_{2n+2} + u_{2n}) - 2ku_{2n+1} \\
+            \end{aligned}
+        \right.
+    \end{equation}
+    而其一组解具有行波的形式，即
+    \begin{equation}
+        \left\{
+        \begin{aligned}
+            u_{2n} &= A \exp[i(\omega_q t - \cdot 2na q)], \\
+            u_{2n+1} &= B\exp[i(\omega_q t - \cdot (2n+1)a q)].
+        \end{aligned}
+        \right.
+    \end{equation}
+    这种波称为格波（lattice wave）。其中$\omega_q$满足
+    \begin{equation}
+        \omega_q^2 = k \frac{m+M}{mM} \left( 1 \pm \sqrt{1 - \frac{4mM}{(m+M)^2} \sin^2 ( a q)} \right).
+    \end{equation}
+\end{proposition}
+
+\begin{proof}
+    首先给出运动方程。题设相邻两原子之间的势能为
+    \begin{equation}
+        E(u_i, u_{i+1}) = \frac{1}{2} k (u_i - u_{i-1})^2,
+    \end{equation}
+    则对甲种原子，其运动方程为
+    \begin{equation}
+        m \ddot u_\text{i} = k(u_{i+1} - u_i) + k(u_{i-1} - u_i) = k(u_{i+1} + u_{i-1}) - 2ku_i.
+    \end{equation}
+    现在将甲种原子放置在$2n$的位置上即可，乙原子的运动方程与其大致相同。
+    考虑一般的行波解
+    \begin{equation}
+        u = K \exp[i(\omega t - qx)],
+    \end{equation}
+    代入方程，得到
+    \begin{equation}
+        \left\{
+        \begin{aligned}
+            \omega_q^2 A &= \frac{2k}{m} A - \frac{k}{m}[\exp(-iaq) + \exp(i aq)] B, \\
+            \omega_q^2 B &= \frac{2k}{M} B - \frac{k}{M}[\exp(-i aq) + \exp(i aq)] A.
+        \end{aligned}
+        \right.
+    \end{equation}
+    重组成矩阵形式，即
+    \begin{equation}
+        \omega_q^2 X = D X,
+    \end{equation}
+    其中
+    \begin{equation}
+        \begin{aligned}
+            X &= \begin{pmatrix}
+                A \\ B
+            \end{pmatrix}, \\
+            D &= k \begin{pmatrix}
+                \frac{2}{m} & - \frac{\exp(-iaq) + \exp(iaq)}{m} \\
+                - \frac{\exp(-i aq) + \exp(iaq)}{M} & \frac{2}{M}
+            \end{pmatrix}.
+        \end{aligned}
+    \end{equation}
+    求解该特征值问题，得到
+    \begin{equation}
+        \omega_q^2 = k \frac{m+M}{mM} \left( 1 \pm \sqrt{1 - \frac{4mM}{(m+M)^2} \sin^2 aq} \right).
+    \end{equation}
+    这就是格波的色散关系。
+\end{proof}
+
+格波具有两种色散关系。
+在长波极限，即$q \to 0$时，两种色散关系分别具有机械波和电磁波类似的性质，因此这两种格波分别称为声学波和光学波，对应的色散关系称为声学支（acoustic branch）和光学支（optical branch）。
+
+若原子链是无穷长的，那么其运动学方程的形式比较简单，但是由于有无穷多个原子而无法在实际情况下求解。
+如果考虑有限长的原子链，那么链条两端的原子的运动学方程势必不同，从而求解更加困难。
+为解决这一问题，我们可以使用波恩-冯·卡门边界条件。
+
+\begin{proposition}
+    晶体中对向边界处的波函数应当相同，即一维原子链可视为一根有限长的环，环的长度为$Na$，其中$N$是原子个数，$a$是两原子之间的间距。
+    这种边界条件称为波恩-冯·卡门边界条件（Born-von Karman boundary condition）或循环边界条件（Cyclic boundary condition）。
+\end{proposition}
+利用该边界条件，我们可以给出格波的所有波矢。
+\begin{proposition}
+    晶体中原子偏移平衡点的位移是波矢为
+    \begin{equation}q = \frac{2n\pi}{L} = \frac{2n\pi}{Na}, \; n \in \mathbb Z\end{equation}
+    的波，其中$L$是材料的长度，$a$为晶格长度，$N$为材料中的晶格数。
+\end{proposition}
+
+\begin{proof}
+    考虑格波的周期性，有
+    \begin{equation}
+        u = K \exp[i(\omega t)] = K \exp[i(\omega t - N a q)].
+    \end{equation}
+    从而
+    \begin{equation}
+        N a q \in 2 \pi \mathbb Z \implies q \in \frac{2\pi}{Na} \mathbb Z.
+    \end{equation}
+\end{proof}
+
+根据上文提到的波矢的周期性关系，我们只关心第一布里渊区内的格波波矢数量，这可以很容易地计算出。
+\begin{corollary}
+    一维晶格中的布里渊区大小为$\frac{2\pi}{a}$，因此布里渊区中的格波波矢数量恰为材料中的晶胞数量。
+\end{corollary}
+
+晶格动力学模型的一大用处在于预测材料的比热。
+\begin{proposition}
+    晶格动力学模型预测，材料的体积比热为
+    \begin{equation}
+        C_V = \frac{1}{V} \sum_q \hbar \omega_q \frac{\partial n_q}{\partial T},
+    \end{equation}
+    其中
+    \begin{equation}
+        n_q = \frac{1}{\exp[k_B T \hbar \omega_q ] - 1}
+    \end{equation}
+    表示格波$q$的平均原子数。
+\end{proposition}
+
+\begin{proof}
+    我们已经知道，格波的波矢是量子化的，从而其能量可由哈密顿算符表出：
+    \begin{equation}
+        \hat H = \sum_q (\hat N + \frac{1}{2}) \hbar \omega_q,
+    \end{equation}
+    其中$\hat N = \hat a^\dagger \hat a$是粒子数算符，$\hat a^\dagger$和$\hat a$分别是产生和湮灭算符，这种量子称为声子（phonons）。
+    从而每个本征态的本征能量为
+    \begin{equation}
+        \epsilon_s = \sum_q (n_{s,q} + \frac{1}{2}) \hbar \omega_q.
+    \end{equation}
+    本征态可由每个振动模态下的粒子数表示，即
+    \begin{equation}
+        \left| \psi \right> = \left| n_1, n_2, \dots, n_N \right>.
+    \end{equation}
+    注意我们只考虑布里渊区中的模态。现在计算正则配分函数
+    \begin{equation}
+        \begin{aligned}
+            Z &= \sum_s \exp \left[ -\beta \sum_q (n_{q,s} + \frac{1}{2}) \hbar \omega_q \right] \\
+            &= \exp \left[-\frac{\beta}{2} \sum_q \hbar \omega_q\right] \sum_s \exp\left[-\beta \sum_q n_{q,s} \hbar \omega_q\right] \\
+            &= \exp \left[-\frac{\beta}{2} \sum_q \hbar \omega_q\right] \sum_s \prod_q \exp \left[ -\beta n \hbar \omega_q \right] \\
+            &= \exp \left[-\frac{\beta}{2} \sum_q \hbar \omega_q\right] \prod_q \sum_{n = 0}^{\infty} \exp \left[ -\beta n \hbar \omega_q \right] \\
+            & = \exp \left[-\frac{\beta}{2} \sum_q \hbar \omega_q\right] \prod_q \frac{1}{1-\exp[-\beta\hbar\omega_q]}.
+        \end{aligned}
+    \end{equation}
+    倒数第二步将对每个状态$s$的每个模式$q$求和变为对每个模式$q$的声子数$n$求和，最后一步则使用了幂级数展开。
+    从而内能为
+    \begin{equation}
+        U = - \frac{\partial \ln Z}{\partial \beta} = \sum_q \left(\frac{1}{\exp[\beta\hbar\omega(q)]-1} + \frac{1}{2} \right) \hbar \omega(q).
+    \end{equation}
+    而单位体积的热容为
+    \begin{equation}
+        C_V = \frac{1}{V} \frac{\partial}{\partial T} U = \frac{1}{V} \sum_q \hbar \omega(q) \frac{\partial}{\partial T} \frac{1}{\exp[k_B T \hbar \omega_q ] - 1}.
+    \end{equation}
+\end{proof}
+
+在高温下，利用幂级数展开来求近似解，可得
+\begin{equation}
+    C_V = \frac{1}{V} \sum_q k_B = \frac{3 N k_B}{V},
+\end{equation}
+其中$N$是原子个数，注意在三维空间中布里渊区中的$q$点共有$3N$个。
+这与经典理论下的预测和测量结果一致。
+
 
 \subsection{能带结构}

@@ -128,6 +128,7 @@ b_3 = \frac{\mathcolor{red}{2\pi} a_1 \times a_2}{a_3 \cdot (a_1 \times a_2)}
 
 倒易空间的重要性由以下命题揭示。
 \begin{proposition}
+    \label{proposition:pontryagin-duality}
     若某一函数在正空间中具有周期性，即
     \begin{equation}f(r) = f(r + R), \; \forall R \in \Lambda,\end{equation}
     则其傅里叶变换在倒空间中具有相同的周期性，即
@@ -384,5 +385,37 @@ b_3 = \frac{\mathcolor{red}{2\pi} a_1 \times a_2}{a_3 \cdot (a_1 \times a_2)}
 其中$N$是原子个数，注意在三维空间中布里渊区中的$q$点共有$3N$个。
 这与经典理论下的预测和测量结果一致。
 
-
 \subsection{能带结构}
+在晶格动力学中，我们几乎完全忽略了电子对晶体结构的影响。
+然而，显然的是，电子对材料的性质——尤其是导电性和化学性质——具有相当重要的影响，甚至可以说决定了这些性质，因此，我们必须要将它们纳入考量。
+能带论则正是用于考量电子对物质性质影响的模型。
+能带论认为，固体中的电子在原子核产生的周期性势场中自由运动，而不受其他电子的影响。
+这一近似的理论在许多重要领域中得到了广泛的应用。
+本节主要关注一维晶体中的能带理论。
+
+电子在周期势场中运动的特点可由布洛赫定理说明。
+\begin{theorem}
+    （布洛赫定理）电子在晶格产生的周期性势场中自由运动的薛定谔方程的解，可由布洛赫函数组成的基底表出。布洛赫函数是形如
+    \begin{equation}
+        \psi(r) = \exp[i k \cdot r] u_k(r)
+    \end{equation}
+    的函数，其中$u_k$具有和晶格相同的周期性，即
+    \begin{equation}
+        u_k(r) = u_k(r + l), \; \forall l \in \Lambda.
+    \end{equation}
+\end{theorem}
+
+这个定理蕴涵了倒格点中的周期性。
+如果令
+\begin{equation}
+    k' = k + l^*, \; l^* \in \Lambda^*
+\end{equation}
+则因为
+\begin{equation}
+    l^* \cdot l \in 2 \pi \mathbb Z, \; \forall l \in \Lambda
+\end{equation}
+从而不会改变原基底，即
+\begin{equation}
+    \psi(r) = \exp[i k \cdot r] u_k(r) = \exp[i k' \cdot r] u_{k'}(r)
+\end{equation}
+因此对周期势场中电子的波函数的研究可被限制在第一布里渊区之中，这是对命题~\ref{proposition:pontryagin-duality}的一种重述。

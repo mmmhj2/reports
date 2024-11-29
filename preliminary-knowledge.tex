@@ -419,3 +419,107 @@ b_3 = \frac{\mathcolor{red}{2\pi} a_1 \times a_2}{a_3 \cdot (a_1 \times a_2)}
     \psi(r) = \exp[i k \cdot r] u_k(r) = \exp[i k' \cdot r] u_{k'}(r)
 \end{equation}
 因此对周期势场中电子的波函数的研究可被限制在第一布里渊区之中，这是对命题~\ref{proposition:pontryagin-duality}的一种重述。
+
+\begin{proof}
+    仅对一维单种原子情况的进行证明，设晶体长度为$L = Na$，其中$a$是单个晶胞的长度。
+    考虑单一电子在原子产生的周期势场$V(x)$中运动，根据波恩-奥本海默近似，我们忽略电子与原子之间的相互作用。
+    利用摄动理论，我们可认为电子在平均的均匀势场$\overline V$中运动，而实际的势场可使用摄动近似，
+    那么电子运动的定态薛定谔方程为：
+    \begin{equation}
+        - \frac{\hbar^2}{2m} \frac{\partial^2}{\partial x^2} \psi + \overline V \psi = \epsilon \psi.
+    \end{equation}
+    这是薛定谔方程的零阶近似，其波函数可记为$\psi^0$、本征能量为$\epsilon^0$。
+    零阶波函数以及对应的本征能量容易求出，即
+    \begin{equation}
+        \psi^0_k (x) = \frac{1}{\sqrt L} \exp[ikx], \; \epsilon^0 = \frac{\hbar^2 k^2}{2m} + \overline V,
+    \end{equation}
+    其中$1/\sqrt L$是归一化系数。
+    对有限长度的晶体，考虑波恩-冯·卡门边界条件，此时有$k L = k N a = 2 \pi n, n \in \mathbb Z$.
+    从而$k = \frac{2\pi n}{Na}$，与格波相同。
+    考虑一般的非简并态微扰的计算，本征值的一阶和二阶修正为
+    \begin{equation}
+        \epsilon_k^1 = \braket{k|\Delta V|k}, \; \epsilon_k^2 = \sum_{k' \neq k} \frac{\left\vert \braket{k'|\Delta V|k} \right\vert^2}{\epsilon_k^0 - \epsilon_{k'}^0},
+    \end{equation}
+    而波函数的一阶修正为
+    \begin{equation}
+        \psi^1_k = \sum_{k' \neq k} \frac{\left\vert \braket{k'|\Delta V|k} \right\vert^2}{\epsilon_k^0 - \epsilon_{k'}^0} \psi_{k'}^0,
+    \end{equation}
+    其中
+    \begin{equation}
+        \Delta V(x) = V(x) - \overline V, \; \ket{k} = \ket{\psi_k^0}.
+    \end{equation}
+    对一阶修正，注意到
+    \begin{equation}
+        \epsilon_k^1 = \braket{k|\Delta V|k} = \int |\psi_k^0|^2 V(x) \, \mathrm d x - \overline V = 0.
+    \end{equation}
+    对能量二阶修正与波函数一阶修正，注意到
+    \begin{equation}
+        \braket{k'|\Delta V(x)|k} = \braket{k'|V(x)|k} - \braket{k'|\overline V|k} = \braket{k'|V(x)|k},
+    \end{equation}
+    这是由于波函数具有正交性：
+    \begin{equation}
+        \braket{k'|k} = \int_0^L {\psi_{k'}^0}^* \psi_k^0 \, \mathrm d x = \delta_{kk'}.
+    \end{equation}
+    现在计算$\braket{k'|V|k}$，考虑到$V$在晶格中的周期性，有：
+    \begin{equation}
+        \begin{aligned}
+            \braket{k'|V|k} &= \frac{1}{L} \int_0^L \exp[i(k-k')x] V(x) \, \mathrm d x \\
+            &= \frac{1}{L} \sum_{n=1}^N \int_{(n-1)a}^{na} \exp[i(k-k')x] V(x) \, \mathrm d x \\
+            &= \frac{1}{L} \sum_{n=1}^N e^{i(k-k')(n-1)a} \int_0^a e^{i(k-k')x} V(x) \, \mathrm d x \\
+            &= \left[ \frac{1}{a} \int_0^a e^{i(k-k')x} V(x) \,\mathrm d x \right] \frac{1}{N} \sum_{n=1}^N \left[e^{i(k-k')a}\right]^{n-1}.
+        \end{aligned}
+    \end{equation}
+    接下来分两类讨论：
+    \begin{enumerate}
+        \item 若$k-k' \in \frac{2\pi}{a} \mathbb Z$，令$k-k' = \frac{2\pi n}{a}$，则
+        \begin{equation}
+            \frac{1}{N} \sum_{n=1}^N \left[e^{i(k-k')a}\right]^{n-1} = \frac{1}{N} \sum_{n=1}^N 1 = 1.
+        \end{equation}
+        从而
+        \begin{equation}
+            \braket{k'|V|k} = \frac{1}{a} \int_0^a \exp[2\pi i \frac{n}{a} x] V(x) \, \mathrm d x = V_n.
+        \end{equation}
+        \item 否则，有
+        \begin{equation}
+            \frac{1}{N} \sum_{n=1}^N \left[e^{i(k-k')a}\right]^{n-1} = \frac{1}{N} \frac{1 - \exp[i(k-k') Na]}{1 - \exp[i(k-k')a]}.
+        \end{equation}
+        又$k-k' \in \frac{2\pi}{Na} \mathbb Z$，从而
+        \begin{equation}
+            \frac{1}{N} \sum_{n=1}^N \left[e^{i(k-k')a}\right]^{n-1} = 0 \implies \braket{k'|V|k} = 0.
+        \end{equation}
+    \end{enumerate}
+    根据这一结果，一阶修正的波函数为
+    \begin{equation}
+        \begin{aligned}
+            \psi_k &= \psi_k^0 + \psi_k^1 \\
+            &= \frac{1}{\sqrt{L}} \exp[ikx] \left( 1 + \sum_n \frac{V_n \exp[2\pi i \frac{n}{a} x]}{\frac{\hbar^2}{2m} \left( k^2 - (k + \frac{2\pi n}{a})^2 \right)} \right) \\
+            &= \exp[ikx] u_k(x)
+        \end{aligned}
+    \end{equation}
+    不难验证$u_k(x)$对$a$的周期性，从而原命题得证。
+\end{proof}
+
+特别注意，当
+\begin{equation}
+    k^2 = (k + \frac{2\pi n}{a})^2 \implies k = - \frac{\pi n}{2a}
+\end{equation}
+时，即波矢在第一布里渊区边界上时，波函数会发散。此时注意到能量
+\begin{equation}
+    \epsilon_{k'}^0 = \frac{\hbar^2 k'^2}{2m} + \overline V = \frac{\hbar^2 (k + \frac{2\pi n}{a})^2}{2m} + \overline V = \epsilon_k^0
+\end{equation}
+这意味着有两个状态的能量一致，此时需使用简并态的摄动理论进行计算。
+
+\begin{proposition}
+    当波矢位于第一布里渊区边界附近时，电子的能量从抛物线$\frac{\hbar^2 k^2}{2m} + \overline V$中偏离，形成断开的能带。
+\end{proposition}
+
+\begin{proof}
+    考虑简并态的摄动理论，求解简并态下的能量$\epsilon$等价于求解特征值问题
+    \begin{equation}
+        \Delta V \ket{k} = 
+        \begin{pmatrix}
+            \braket{k|\Delta V|k} & \braket{k|\Delta V|k'} \\
+            \braket{k'|\Delta V|k} & \braket{k'|\Delta V|k'}
+        \end{pmatrix} \ket{k} = \epsilon_k^1 \ket{k}
+    \end{equation}
+\end{proof}

@@ -510,16 +510,184 @@ b_3 = \frac{\mathcolor{red}{2\pi} a_1 \times a_2}{a_3 \cdot (a_1 \times a_2)}
 这意味着有两个状态的能量一致，此时需使用简并态的摄动理论进行计算。
 
 \begin{proposition}
-    当波矢位于第一布里渊区边界附近时，电子的能量从抛物线$\frac{\hbar^2 k^2}{2m} + \overline V$中偏离，形成断开的能带。
+    当波矢位于（第一）布里渊区边界附近时，电子的能量从抛物线$\frac{\hbar^2 k^2}{2m} + \overline V$中偏离，形成断开的能带（bands），从而能带的长度恰好与布里渊区的长度和倒格点的大小相同。
 \end{proposition}
 
 \begin{proof}
-    考虑简并态的摄动理论，求解简并态下的能量$\epsilon$等价于求解特征值问题
+    简并摄动理论中，我们认为简并空间中完整波函数的一阶近似是简并状态波函数的线性组合，即
     \begin{equation}
-        \Delta V \ket{k} = 
-        \begin{pmatrix}
-            \braket{k|\Delta V|k} & \braket{k|\Delta V|k'} \\
-            \braket{k'|\Delta V|k} & \braket{k'|\Delta V|k'}
-        \end{pmatrix} \ket{k} = \epsilon_k^1 \ket{k}
+        \ket{\psi_k} = \sum_{k} \alpha_k \ket{\psi_k^0} + \lambda \ket{\psi_k^1} \approx \sum_k \alpha_k \ket{k}
     \end{equation}
+    我们仅考虑接近布里渊区边界的$k$状态以及与其能量相似的另一个状态$k'$，即
+    \begin{equation}
+        k = - \frac{\pi n}{2 a} (1 - \delta), \; k' = (k + \frac{2\pi n}{a}) = \frac{\pi n}{2a}(1 + \delta) \quad (\delta \to 0).
+    \end{equation}
+    而波函数可写为
+    \begin{equation}
+        \psi = \alpha \psi_k + \beta \psi_{k'}.
+    \end{equation}
+    在考虑一阶摄动的情况下，我们希望求解其能量，即求解一阶薛定谔方程的本征值：
+    \begin{equation}
+        - \frac{\hbar^2}{2m} \frac{\partial^2}{\partial x^2} \psi + [\overline V + \Delta V(x)] \psi = E \psi.
+    \end{equation}
+    即
+    \begin{equation}
+        \begin{pmatrix}
+            \braket{k|\hat H^1|k} & \braket{k'|\hat H^1|k} \\
+            \braket{k|\hat H^1|k'} & \braket{k'|\hat H^1|k'} \\
+        \end{pmatrix}
+        \begin{pmatrix}
+            \alpha \\ \beta
+        \end{pmatrix} = E \begin{pmatrix}
+            \alpha \\ \beta
+        \end{pmatrix}.
+    \end{equation}
+    该矩阵的特征方程为
+    \begin{equation}
+        - (\epsilon_k^0 - E)(\epsilon_{k'}^0 - E) + |V_n|^2 = 0,
+    \end{equation}
+    解为
+    \begin{equation}
+        E = \frac{1}{2} \left( (\epsilon_k^0 + \epsilon_{k'}^0) \pm \sqrt{(\epsilon_{k}^0 - \epsilon_{k'}^0)^2 + 4 |V_n|^2} \right).
+    \end{equation}
+    这两个状态的能量非常接近，因此可对$\sqrt{(\epsilon_{k}^0 - \epsilon_{k'}^0)^2 + 4 |V_n|^2}$进行级数展开，得到
+    \begin{equation}
+        E = \frac{1}{2} \left( (\epsilon_k^0 + \epsilon_{k'}^0) \pm \left( 2 |V_n| + \frac{(\epsilon_k^0 + \epsilon_{k'}^0)^2}{4|V_n|} \right) \right).
+    \end{equation}
+    将$\epsilon_k^0$展开，得到
+    \begin{equation}
+        \epsilon_k^0 = \overline V + \frac{\hbar^2}{2m} \left(\frac{2\pi n}{2a}\right)^2 (1-\delta)^2 = \overline V + E_n (1 - \delta)^2,
+    \end{equation}
+    同理将$\epsilon_{k'}^0$展开，重写原式，得到
+    \begin{equation}
+        E = \left\{
+            \begin{aligned}
+                \overline V + E_n + | V_n | + \delta^2 E_n \left( \frac{2 E_n}{|V_n|} + 1\right) \\
+                \overline V + E_n - | V_n | - \delta^2 E_n \left( \frac{2 E_n}{|V_n|} - 1\right) \\
+            \end{aligned}
+        \right.
+    \end{equation}
+    这确实是两个分立的能量，而随着$\delta$趋于零，即波矢$k$向布里渊区边界运动，电子的能量会逐步偏移$\overline V + E_n$而趋向$\overline V + E_n \pm |V_n|$，两者之间的差距$2 |V_n|$称为这两个能带的带隙（gap），其中不能够存在电子，因此也称为禁带（forbidden band）。
 \end{proof}
+
+晶体中有一个值得注意的现象，即，随着其中晶胞数$N$的增大，$k$可能的取值$\frac{2\pi n}{Na}$会从分立的逐渐展宽为（准）连续的，形成能带。
+而在上文的证明中，我们又说明了能带会被禁带分割开，每个能带的长度与布里渊区的大小$\frac{2 \pi}{a}$相同，这样，每个能带中可能的状态数也能求出了。
+
+\begin{corollary}
+    一维晶体中每个能带内的量子态数目，等于晶格中原胞的数目，从而，对一般宏观的固体，能带可视为准连续的。
+\end{corollary}
+
+由于电子具有$\frac{1}{2}$的自旋，因此能带中实际能容纳的电子是状态数的两倍。
+
+上文的大部分结论可以容易地推广至三维情况，但由于三维晶体中每个维度分量均具有自己的能带，对整个晶体可能存在能带的交叠，从而存在一个维度上的禁带在其他维度上能导通的情况。
+
+在三维空间中查看能带是十分困难的，因为能带实际上是由能量的值构成的，因此在三维空间中，数据的总维度高达四维。
+为此，为了计算三维固体中的能带，通常选择在布里渊区中绘制一条路径，并沿路径给出其上$k$波矢对应的能量。
+对每种可能的晶胞结构，均有一条通过尽可能多的对称性良好的点的约定好的路径，这条路径称为k路径（k-path）。
+
+上面的讨论局限于原子形成的晶体，而实际上，晶体中由原子形成的分子，由于其中的内层电子主要受到原子核的影响，可将另一个原子及其价电子的影响视为摄动，从而形成分子的紧束缚模型（tight binding model）。
+\begin{proposition}
+    分子晶体中绕某原子运动的电子，其解也满足布洛赫定理，且其布洛赫波正是各个格点上原子波函数的线性组合，即
+    \begin{equation}
+        \phi_n(x) = \frac{1}{\sqrt N} \sum_{R \in \Lambda} \exp[ik\cdot R] \psi_n(x - R).
+    \end{equation}
+\end{proposition}
+\begin{proof}
+    利用摄动理论，我们首先完全忽略原子和电子之间的相互影响，而只考虑在位于$R_m$处单个原子附近的电子，其满足类氢原子的薛定谔方程
+    \begin{equation}
+        \left[- \frac{\hbar^2}{2m} \nabla^2 + V(x - R_m)\right] \psi_n(x - R_m) = \epsilon_n \psi_n(x - R_m),
+    \end{equation}
+    其中$V$是原子核的势场。
+    我们已经知道其解可按主量子数$n$、角量子数$l$和磁量子数$m$分类。
+    这些状态的而本征能量仅与主量子数$n$有关，因此均构成简并态，从而根据摄动理论，电子的薛定谔方程可视为这些简并态的线性组合：
+    \begin{equation}
+        \phi_n = \sum_m a_{mn} \psi_n(x - R_m).
+    \end{equation}
+    考虑晶体中电子的薛定谔方程，即
+    \begin{equation}
+        \left[- \frac{\hbar^2}{2m} \nabla^2 + U(x)\right] \phi_n(x) = \epsilon \phi_n(x),
+    \end{equation}
+    其中$U$即为晶体的周期势场，根据布洛赫定理，其解满足
+    \begin{equation}
+        \phi_n(x + R_l) = \exp[ik\cdot(x + R_l)] u_k(x + R_l) = \exp[ik \cdot R_l] \phi_n(x).
+    \end{equation}
+    重写为线性组合，得到
+    \begin{equation}
+        \begin{aligned}
+            \phi_n(x + R_l) &= \sum_m a_{(m+l)n} \psi_n(x - R_m + R_l) \\
+            &= \exp[ik \cdot R_l] \sum_m a_{mn} \psi_n(x - R_m).
+        \end{aligned}
+    \end{equation}
+    从而
+    \begin{equation}
+        a_{(m+l)n} = \exp[ik\cdot R_l] a_{mn} \implies a_{mn} = \exp[ik \cdot R_m] a_{0n}.
+    \end{equation}
+    现在考虑归一化的问题。
+    我们认为晶体中原子之间的距离远大于$n$能级原子轨道的半径，因此原子之间的电子波函数不能相互影响，即
+    \begin{equation}
+        \int \psi_n^* (x - R_m) \psi_n(x - R_l) \, \mathrm d x^3 = \delta_{ml}.
+    \end{equation}
+    计算波函数的积分，得到
+    \begin{equation}
+        \begin{aligned}
+            1 &= \int \phi_n^*(x) \phi_n(x) \,\mathrm d x^3 \\
+            &= a^*_{0n} a_{0n} \sum_m e^{-ik\cdot R_m} \sum_l e^{ik\cdot R_l} \int \psi^*_n(x - R_m) \psi_n(x - R_l) \,\mathrm d x^3 \\
+            &= a^*_{0n} a_{0n} \sum_m e^{-ik\cdot R_m} \sum_l e^{ik\cdot R_l} \delta_{ml} \\
+            &= N a^*_{0n} a_{0n} \qquad \implies a_{0n} = \frac{1}{\sqrt N}.
+        \end{aligned}
+    \end{equation}
+    从而
+    \begin{equation}
+        \phi_n(x) = \frac{1}{\sqrt N} \sum_{m} \exp[ik\cdot R_m] \psi_n(x - R_m).
+    \end{equation}
+    这就完成了证明。
+\end{proof}
+这个波函数的本征能量为
+\begin{equation}
+    \epsilon_k = \epsilon_n - \sum_R J(R) \exp[-i k \cdot R],
+\end{equation}
+其中
+\begin{equation}
+    J(R) = -\int \psi_n^*(x - R) [U(x) - V(x)] \psi_n(R)\, \mathrm d x^3
+\end{equation}
+表示了原子对电子的影响导致的势能，一般仅考虑最靠近的几个原子。
+
+将周期性边界条件代入解中，可立刻得到以下推论。
+\begin{corollary}
+    $N$个原子形成的分子晶体中，单一的原子轨道展开成$N$个量子态，当原子数量足够多时，也能形成能带。
+\end{corollary}
+
+能带论的一大成就是成功说明了晶体的导电性，利用以上的命题和一些简单的推论，即可完备地定义导体和绝缘体。
+
+\begin{proposition}
+    若电子位于填满的能带中，则不能表现出导电性，即满带电子不导电。
+\end{proposition}
+
+\begin{proof}
+    考虑晶体周期性势场中的薛定谔方程及其布洛赫解
+    \begin{equation}
+        \hat H \psi_k = \epsilon_k \psi_k, \; \psi_k = \exp[ikx] u_k(x).
+    \end{equation}
+    取波动方程的复共轭，得到
+    \begin{equation}
+        \hat H \psi_k^* = \epsilon_k \psi_k^*, \; \psi_k^* = \exp[-ikx] u_k^*(x),
+    \end{equation}
+    显然$\psi_k^*$也是一组可行的解，这个解的波矢为$-k$。
+    由于哈密顿算子是厄米的，其特征值是实数，从而取复共轭不改变本征能量$\epsilon_k$，这意味着波矢相反的两个解的本征能量相同。
+    如果能带已经被电子填满，那么对每一个电子，均能找到对应的波矢相反的电子。
+    现在，考虑本征能量的导数
+    \begin{equation}
+        \epsilon(k)' = \frac{2 \hbar^2 k}{2m} = \frac{\hbar p}{m},\; \epsilon(-k)' = - \frac{2 \hbar^2 k}{2m} = - \frac{\hbar p}{m}
+    \end{equation}
+    这意味着波矢相反的电子的动量也相反，从而当两者共同运动时，其速度一定相反，产生的电流抵消，晶体宏观上不能表现出导电性。
+    外加的电场只能影响本征能量中的势能，因此不影响上面的推导。
+\end{proof}
+
+从而我们从微观的角度可给出导体和绝缘体的定义。
+\begin{definition}
+    电子恰好填满最低一系列能带的物质，不能导电，称为绝缘体；存在被电子部分填充的能带的物质，能够导电，称为导体。
+\end{definition}
+
+在一维情况下，能带能否被填满能够直接通过价电子的奇偶性判定：单个晶胞中价电子为奇数的晶体，不能填满能带，因此必为导体，反之亦然。
+然而在三维情况下，由于能带交叠，导电性不能仅仅由电子的个数判断。
+例如，对碱土金属，虽然其价电子数目是偶数，但由于能带交叠，电子在填满较低能带之前就能填充更高的能带，从而形成不满的能带而导电。

@@ -7,7 +7,7 @@ size(6cm);
 //currentprojection=perspective((45,45,30));
 currentprojection = orthographic((3,6,1));
 
-material sphereCcolor = material(diffusepen=black, specularpen=white);
+material sphereColor = material(diffusepen=black, specularpen=white);
 material cylcolor = material(diffusepen=white);
 
 real cylRadius = 0.1;
@@ -24,7 +24,7 @@ void drawRod(triple a, triple b) {
 }
 
 void drawAtom(triple center) {
-     draw(shift(center)*scale3(sphereRadius)*unitsphere, surfacepen=sphereCcolor);
+     draw(shift(center)*scale3(sphereRadius)*unitsphere, surfacepen=sphereColor);
 }
 
 triple Aa = (0,0,0);
@@ -131,5 +131,4 @@ drawCell(2Y+2Z, 2X+2Y+4Z);
 drawCell(2X+2Y, 4X+2Y+2Z);
 drawCell(2X+2Y, 2X+4Y+2Z);
 drawCell(2X+2Z, 2X+2Y+4Z);
-
 \end{asy}

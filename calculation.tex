@@ -10,7 +10,9 @@
 
 \begin{figure}[ht!]
     \centering
-    \input{silicon-cell.asy}
+    \begin{asy}
+        \input{silicon-cell.asy}
+    \end{asy}
     \caption{硅晶体的晶胞（红色）与原胞（蓝色）}\label{fig:silicon-cell}
 \end{figure}
 
@@ -35,8 +37,15 @@
 我们考虑金刚石型晶体——或更一般的，面心立方晶体的布里渊区的结构。
 
 \begin{proposition}
-    面心立方晶体的（第一）布里渊区是倒空间中的截角八面体（truncated octahedron），即从正八面体的角上截去六个相同的四棱锥形成的多面体。
+    面心立方晶体的（第一）布里渊区是倒空间中的截角八面体（truncated octahedron），即从正八面体的角上截去六个相同的四棱锥形成的多面体，如图~\ref{fig:truncated-octahedron}所示。
 \end{proposition}
+
+\begin{figure}[ht!]
+    \centering
+    \input{truncated-octahedron.asy}
+    \caption{倒空间中的截角八面体}
+    \label{fig:truncated-octahedron}
+\end{figure}
 
 \begin{proof}
     不妨设面心立方晶胞的边长为$\frac{2}{\pi}$，考虑正空间中的原胞产生的格点的基底

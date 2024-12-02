@@ -1,4 +1,5 @@
 \documentclass{ctexart}
+\usepackage[backend=biber]{biblatex}
 \usepackage{amsmath, amsfonts, amsthm}
 \usepackage{braket}
 \usepackage{enumitem}
@@ -14,6 +15,7 @@
 
 \title{固体物理学学习汇报}
 \author{***REMOVED***\thanks{***REMOVED***}}
+\addbibresource{references.bib}
 
 \begin{document}
 \maketitle
@@ -22,5 +24,12 @@
 
 \section{基础知识}
 \input{preliminary-knowledge.tex}
+
+\section{晶体计算}
+\input{calculation.tex}
+
+\section{参考文献}
+\nocite{*}
+\printbibliography[heading=none]
 
 \end{document}

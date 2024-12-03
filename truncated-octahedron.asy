@@ -1,4 +1,3 @@
-\begin{asy}
 import three;
 // settings.render=8;
 // settings.prc=false;
@@ -95,4 +94,3 @@ draw(O--facecentriod1, red, Arrow3);
 draw(O--facecentriod2, blue, Arrow3);
 draw(O--facecentriod3, green, Arrow3);
 draw(O--facecentriod4, black, Arrow3);
-\end{asy}

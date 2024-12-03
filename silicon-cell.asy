@@ -1,7 +1,4 @@
-\begin{asy}
 import three;
-settings.render=8;
-settings.prc=false;
 size(6cm);
 
 //currentprojection=perspective((45,45,30));
@@ -131,4 +128,3 @@ drawCell(2Y+2Z, 2X+2Y+4Z);
 drawCell(2X+2Y, 4X+2Y+2Z);
 drawCell(2X+2Y, 2X+4Y+2Z);
 drawCell(2X+2Z, 2X+2Y+4Z);
-\end{asy}

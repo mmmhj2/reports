@@ -1,7 +1,7 @@
 \begin{asy}
 import three;
-settings.render=8;
-settings.prc=false;
+// settings.render=8;
+// settings.prc=false;
 size(6cm);
 
 currentprojection = orthographic((3,6,1));
@@ -85,4 +85,14 @@ for (int i = 0; i < permutations.length; ++i) {
         drawRod(coords[i], coords[j]);
     }
 }
+
+triple facecentriod1 = (coords[0] + coords[1] + coords[2] + coords[3] + coords[4] + coords[5]) / 4;
+triple facecentriod2 = (coords[9] + coords[10] + coords[17] + coords[20] + coords[18] + coords[13]) / 4;
+triple facecentriod3 = (coords[7] + coords[15] + coords[22] + coords[23] + coords[14] + coords[6]) / 4;
+triple facecentriod4 = - (facecentriod1 + facecentriod2 + facecentriod3);
+
+draw(O--facecentriod1, red, Arrow3);
+draw(O--facecentriod2, blue, Arrow3);
+draw(O--facecentriod3, green, Arrow3);
+draw(O--facecentriod4, black, Arrow3);
 \end{asy}

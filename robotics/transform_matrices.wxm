@@ -1,0 +1,135 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 23.05.1 ] */
+/* [wxMaxima: input   start ] */
+T01: matrix(
+ [cos(θ_1),-sin(θ_1),0,0], 
+ [sin(θ_1),cos(θ_1),0,0], 
+ [0,0,1,0], 
+ [0,0,0,1]
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T12: matrix(
+ [cos(θ_2),-sin(θ_2),0,L_1], 
+ [0,0,1,0], 
+ [-sin(θ_2),-cos(θ_2),0,0], 
+ [0,0,0,1]
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T23: matrix(
+[cos(θ_3), -sin(θ_3), 0, L_2],[sin(θ_3), cos(θ_3), 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T34: matrix(
+[cos(θ_4), -sin(θ_4), 0, L_3], [0, 0, 1, 0], [-sin(θ_4), -cos(θ_4), 0, 0], [0,0,0,1]
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T45: matrix(
+[cos(θ_5), -sin(θ_5), 0, 0], [0, 0, -1, 0], [sin(θ_5), cos(θ_5), 0, 0], [0, 0, 0, 1]
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T56: matrix(
+[cos (θ_6), -sin(θ_6), 0, 0], [0, 0, 1, 0], [-sin(θ_6), -cos(θ_6), 0, 0], [0, 0, 0, 1]
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T13: trigreduce(T12.T23);
+T03: T01.T13;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+trigsimp(T45.T56);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T36: trigsimp(T34.%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T01.T13.T36;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+eq1: cos(θ_1)*(L_3*cos(θ_3+θ_2)+L_2*cos(θ_2)+L_1) = p_x;
+eq2: sin(θ_1)*(L_3*cos(θ_3+θ_2)+L_2*cos(θ_2)+L_1) = p_y;
+eq3: -(L_3*sin(θ_3+θ_2))-L_2*sin(θ_2) = p_z;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+eqt: - p_z(1+u^2) = L_3 (2*u*cos(θ_3) + (1-u^2)*sin(θ_3)) + 2 * L_2 * u;
+
+solve([eqt], [u]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+R12: matrix([cos(θ_2), -sin(θ_2), 0], [0, 0, 1], [-sin(θ_2), -cos(θ_2), 0])$
+R23: matrix([cos(θ_3), -sin(θ_3), 0], [sin(θ_3), cos(θ_3), 0], [0, 0, 1])$
+R34: matrix([cos(θ_4), -sin(θ_4), 0], [0, 0, 1], [-sin(θ_4), -cos(θ_4), 0])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+omega_2: transpose(R12).matrix([0], [0], [Φ_1]) + matrix([0], [0], [Φ_2]); 
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+omega_3: transpose(R23).omega_2 + matrix([0], [0], [Φ_3]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load("vect"); [-x_1*sin(y_2), -x_1*cos(y_2), x_2] ~ [L_2, 0, 0]; express(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+[0, 0, θ_1] ~ [L_1, 0, 0]$ express(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+transpose(R12) . matrix([0], [L_1 * φ_1], [0]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+y2: matrix([L_2/2], [0], [0], [1])$
+T12.y2$
+trigsimp(%);
+y3: matrix([0], [-L_3/2], [0], [1])$
+T01.T12.T23.y3$
+trigsimp(%);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 23.05.1"$

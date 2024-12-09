@@ -1,0 +1,145 @@
+<robot name="robotic-arm-3dof" version="1.0" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <link name="world"/>
+  <joint name="fixed_to_world" type="fixed">
+    <parent link="world" />
+    <child link="Cylinder_link" />
+  </joint>
+
+  <joint name="joint_1" type="revolute">
+    <limit lower="-3.14000" upper="3.14000" effort="1e4" velocity="10"/>
+    <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.20000"/>
+    <parent link="Cylinder_link"/>
+    <child link="Cylinder.001_link"/>
+    <axis xyz="0.00000 0.00000 1.00000"/>
+    <dynamics damping="0.2"/>
+  </joint>
+  <joint name="joint_2" type="revolute">
+    <limit lower="-3.14000" upper="3.14000" effort="1e4" velocity="10"/>
+    <origin rpy="0.00000 0.00000 0.00000" xyz="2.50000 0.00000 0.00000"/>
+    <parent link="Cylinder.001_link"/>
+    <child link="Cylinder.002_link"/>
+    <axis xyz="0.00000 1.00000 0.00000"/>
+    <dynamics damping="0.2"/>
+  </joint>
+  <joint name="joint_3" type="revolute">
+    <limit lower="-3.14000" upper="3.14000" effort="1e4" velocity="10"/>
+    <origin rpy="0.00000 0.00000 0.00000" xyz="1.20000 0.00000 0.00000"/>
+    <parent link="Cylinder.002_link"/>
+    <child link="Cylinder.003_link"/>
+    <axis xyz="0.00000 1.00000 0.00000"/>
+    <dynamics damping="0.2"/>
+  </joint>
+
+  <link name="Cylinder.001_link">
+    <collision name="Cylinder.001_collision">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="1.00000 0.00000 0.00000"/>
+      <geometry>
+        <box size="2.66965 0.80000 0.20000"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <inertia ixx="0.02723" ixy="0.00000" ixz="0.00000" iyy="0.58138" iyz="0.00000" izz="0.60282"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.53846 0.00000 0.00000"/>
+      <mass value="1.00000"/>
+    </inertial>
+    <visual name="Cylinder.001">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <material name="Default OBJ"/>
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Cylinder.001.dae" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="Cylinder.002_link">
+    <collision name="Cylinder.002_collision">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.45000 0.00000 0.00000"/>
+      <geometry>
+        <box size="1.22719 0.40000 0.40000"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <inertia ixx="0.01588" ixy="0.00000" ixz="0.00000" iyy="0.12671" iyz="0.00000" izz="0.12900"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.23077 0.00000 0.00000"/>
+      <mass value="1.00000"/>
+    </inertial>
+    <visual name="Cylinder.002">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <material name="Default OBJ.001"/>
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Cylinder.003.dae" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="Cylinder.003_link">
+    <collision name="Cylinder.003_collision">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.36250"/>
+      <geometry>
+        <box size="0.30000 0.30000 1.02500"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <inertia ixx="0.08836" ixy="0.00000" ixz="0.00000" iyy="0.08734" iyz="0.00000" izz="0.00864"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.26316"/>
+      <mass value="1.00000"/>
+    </inertial>
+    <visual name="Cylinder.003">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <material name="Default OBJ.002"/>
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Cylinder.004.dae" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="Cylinder_link">
+    <inertial>
+      <inertia ixx="50" ixy="0.00000" ixz="0.00000" iyy="50" iyz="0.00000" izz="50"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <mass value="50"/>
+    </inertial>
+    <visual name="Cylinder">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <material name="Default OBJ.003"/>
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Cylinder.dae" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </visual>
+  </link>
+  <material name="Default OBJ">
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
+  </material>
+  <material name="Default OBJ.001">
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
+  </material>
+  <material name="Default OBJ.002">
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
+  </material>
+  <material name="Default OBJ.003">
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
+  </material>
+
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/robotic_arm</robotNamespace>
+      <robotParam>/robot_description</robotParam>
+    </plugin>
+  </gazebo>
+
+  <xacro:macro name="define_transmission" params="joint_name">
+    <transmission name="trans_${joint_name}" type="SimpleTransmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${joint_name}">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor_${joint_name}">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>200</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+
+  <xacro:define_transmission joint_name="joint_1" />
+  <xacro:define_transmission joint_name="joint_2" />
+  <xacro:define_transmission joint_name="joint_3" />
+
+</robot>

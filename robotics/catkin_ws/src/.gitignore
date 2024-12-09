@@ -1,0 +1,2 @@
+# This file is ignored because it is in fact a symbolic link on Linux
+/CMakeLists.txt

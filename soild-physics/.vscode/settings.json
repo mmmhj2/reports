@@ -1,0 +1,63 @@
+{
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "xelatex",
+            "tools": [
+                "xelatex"
+            ]
+        },
+        {
+            "name": "biber",
+            "tools": [
+                "biber"
+            ]
+        },
+        {
+            "name": "asy",
+            "tools": [
+                "asy"
+            ]
+        },
+        {
+            "name": "xelatex -> asy -> biber -> xelatex * 2",
+            "tools": [
+                "xelatex",
+                "asy",
+                "biber",
+                "xelatex",
+                "xelatex"
+            ]
+        }
+    ],
+    "latex-workshop.latex.tools": [
+        {
+            "name": "xelatex",
+            "command": "xelatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "biber",
+            "command": "biber",
+            "args": [
+                "%DOCFILE%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "asy",
+            "command": "asy",
+            "args": [
+                "%DOCFILE%-*.asy"
+            ],
+            "env": {}
+        },
+    ],
+    "latex-workshop.latex.autoBuild.cleanAndRetry.enabled": false,
+    "latex-workshop.latex.autoBuild.run": "never"
+}

@@ -1,0 +1,727 @@
+
+本节主要介绍固体物理课程上学习到的各种基础知识，这些知识将用于支撑对半导体材料的性质的计算。
+这一部分主要由课程笔记与 \cite{solidphysics2014huang} 支撑。
+
+\subsection{代数学基本知识}
+
+我们首先介绍几个常用的代数学定义。
+
+\begin{definition}
+    群（group）是装备有二元关系$\cdot$的非空集合$G$构成的有序二元组$(G, +)$，该二元关系满足：
+    \begin{enumerate}[nosep]
+        \item 结合性，即
+            \begin{equation}x\cdot ( y \cdot z) = (x \cdot y) \cdot z, \; \forall x,y,z \in G\end{equation}
+        \item 存在单位元，即
+            \begin{equation}\exists e \in G, \text{s.t. } x \cdot e = e\cdot x = x, \; \forall x \in G\end{equation}
+        \item 存在逆元，即
+            \begin{equation}\forall x \in G, \exists y \in G, \text{s.t. } x \cdot y = y \cdot x = e\end{equation}
+    \end{enumerate}
+    若该二元关系还是可交换的，即
+    \begin{equation}x \cdot y = y \cdot x, \; \forall x, y \in G\end{equation}
+    那么这个群称为交换的，或阿贝尔的（abelian）。
+    若$G$的一个非空子集$H$与相同的二元关系形成的元组$(H,+)$也满足以上关系，那么称$H$是$G$的一个子群（subgroup）。
+\end{definition}
+
+可以证明，群的单位元和每个元素的逆元都是唯一的。
+
+\begin{definition}
+    若组成群的集合$G$是有限的，那么其势也称作该群的阶（order）。
+    对群中任何一个元素$a$，若存在一最小的正整数$n$，使得
+    \begin{equation}
+        \underbrace{a+\cdots+a}_{n \text{次}} = e,
+    \end{equation}
+    其中$e$是群的单位元，则称元素$a$的阶数（也称周期）为$n$。
+\end{definition}
+
+例如，整数模6同余群$Z_6$的阶数为$6$，其中，$1$的阶数为$6$，而$2$的阶数为$3$。
+
+\begin{definition}
+    格点（lattice）是向量空间$\mathbb R^n$的有限生成阿贝尔子群（finitely-generated abelian subgroup），满足
+    \begin{equation}\Lambda = \left\{ \sum_{i=1}^n a_i v_i \; \middle\vert\; a_i \in \mathbb Z \right\}\end{equation}
+    其中$v_i$是向量空间$\mathbb R^n$的基底。对偶空间中的格点称为该格点的对偶格点（dual lattice），满足
+    \begin{equation}\Lambda^* = \left\{ v^* \in \mathbb R^n \; \middle\vert \; v^* \cdot v \in \mathbb Z ,\, \forall v \in \Lambda \right\}\end{equation}
+    数学上可认为对偶格点中的元素在对偶空间${{\mathbb{R}}^n}^*$中。
+\end{definition}
+
+不同的基底可以生成相同的格点，然而从格点还原计算基底是困难的。
+但是这些基底的行列式的绝对值，即一个格点对应的面积或体积，永远是一致的。
+
+\subsection{晶格对称性的数学表述}
+
+晶体中所有原子的排列服从一定的规律，这种规则的排列称为晶体的晶格。
+晶格的特点是具有周期性，无论具有什么样的结构，总是可以看作是由某平行六面体划出的单元沿着三条边的方向重复排列而成的。
+这种重复的排列在数学上可由格点表示。
+
+\begin{definition}
+    晶体的最小周期单元称为该晶格的原胞（primitive cell），其棱张成的格点称为晶体的布拉伐格点（Bravais lattice），这一格点的基底，即原胞的棱，习惯上用$a_i$表示。
+\end{definition}
+
+若布拉伐格点已经给出，则可在其中圈出晶格的原胞。
+首先，选定格点中的一点，然后将布拉伐格点中与该点相邻的点以线段相连，取连线段的垂直平分线，圈出的凸多边形即为一个原胞，这种原胞称为维格纳-赛兹原胞（Wigner–Seitz cell）。
+
+晶体的周期性表明，晶体中任何具有物理意义的量总是满足关于晶格的平移对称性。
+
+\begin{proposition}
+    设$V: \mathbb R^{2,3} \to K$为晶格中一物理量，则
+    \begin{equation}V(x) = V(x + l), \; \forall l \in \Lambda\end{equation}
+    其中$\Lambda$是是晶格的布拉伐格点。
+\end{proposition}
+
+在考虑了晶胞的平移对称性后，我们还希望考虑其旋转对称性，而这在数学上通常通过群来完成。
+
+\begin{definition}
+    点群（point group）是欧几里得空间中具有共同不动点的等距变换构成的群，习惯上这一共同的不动点选取在欧几里得空间的原点处。这些群是正交群$O(n)$的子群。
+\end{definition}
+
+以二维空间为例，所有$n$次旋转，即每次转动$\frac{2\pi}{n}$角度的旋转，均可构成一个点群，这些点群表征了二维平面上的中心对称，记作$C_n$。
+这些群同构于$Z_n$。
+
+若同时考虑晶格的旋转对称性和平移对称性，则并非所有的旋转均可与平移兼容，所有这些兼容的仿射变换，即同时包括平移和旋转的变换，又构成一个群，称为空间群。
+
+\begin{definition}
+    三维空间中晶体中可能出现的仿射变换组成的群称为空间群（space group）。
+    二维空间中这样的群称为壁纸群（wallpaper group）或平面群（plane group）。
+\end{definition}
+
+当同时考虑平移和旋转对称性时，能够发现，并非所有平移和旋转变换均可兼容。
+
+\begin{theorem}
+    （晶体学限制定理）
+    在二维和三维的格点中，能够出现的表示旋转的点群，均为有限生成的群，且其中每个元素的阶数能且仅能是$1,2,3,4,6$其中之一。
+\end{theorem}
+
+\begin{proof}
+    课上给出了一个几何的证明，此处利用变换的迹给出另一个证明。
+    我们知道，矩阵的迹是相似不变的，即任意选择空间的基底，同一变换在不同基底之下的矩阵表示的迹是一致的。因此，在格点空间中，由于变换一定将整数坐标映射到整数坐标，因此一定可以选择恰当的基底，使得矩阵的迹是整数。而正交矩阵的迹与旋转角度有关：
+    \begin{equation}\mathrm{tr}(O) = 1 - 2 \cos \theta \in \mathbb Z \implies \cos \theta = 0, \pm 1, \pm \frac{1}{2}.\end{equation}
+    从而旋转角度仅能为
+    \begin{equation}\theta = 0^\circ, 60^\circ, 90^\circ, 120^\circ, 180^\circ. \qedhere\end{equation}
+\end{proof}
+
+三维空间中的点群可分为七个大类，其中每一类均有无限个群，然而由于晶体学限制定理，可能在三维晶体中出现的仅有32种。
+
+\begin{proposition}
+    晶体中能够出现的点群为以下三十二种之一：
+    \begin{enumerate}
+        \item 平凡群$C_1$，表示没有旋转对称性；
+        \item 循环群$C_2, C_3, C_4, C_6$，表示绕某轴旋转；
+        \item 二面体群$D_2, D_3, D_4, D_6$，表示绕某轴$n$次旋转和绕垂直该轴的二次旋转，注意平面上绕垂直于旋转轴的二次旋转等价于镜面对称，因此平面上所有正多边形（可视为有正反两面的二面体）都具有这种对称性；
+        \item 以上九种群通过添加额外的对称性形成的群：
+        \begin{enumerate}
+            \item 点反演$C_i, C_{2i}, C_{3i}, C_{4i}$，表示关于某点的中心对称；
+            \item 在循环群中添加额外的垂直于转轴的对称面形成的群$C_{2h}$, $C_{3h}$, $C_{4h}$, $C_{6h}$；
+            \item 在循环群中添加$n$个包含转轴的对称面形成的群$C_{2v}$, $C_{3v}$, $C_{4v}$, $C_{6v}$；
+            \item 在二面体群中添加对称性形成的群$D_{2h}$, $D_{3h}$, $D_{4h}$, $D_{6h}$，以及$D_{2d}$和$D_{3d}$。
+        \end{enumerate}
+        \item 正四面体群$T$，表示正四面体的对称性，包括$\ang{180}$旋转、$\pm\ang{120}$旋转，阶数为$12$，以及在其中添加对称形成的$T_h, T_d$；
+        \item 立方体群$O$，阶数为$24$，以及添加对称形成的$O_h$。
+    \end{enumerate}
+\end{proposition}
+
+一个群可能具有多个名字和不同的表现形式，例如$C_{2i} = C_s = S_1 = C_{1h}$，$C_{6i} = C_{6h}$，而二面体群在二维空间中表现为旋转与镜像，在三维空间中则可完全由旋转表示。
+
+这三十二种点群又分为七种晶系和十四种布拉伐格点，进而产生230中空间群。
+这些空间群就表示了晶体所有可能的结构。
+
+\subsection{倒易空间}
+
+在研究薛定谔方程时，我们通过傅里叶变换将实空间中的粒子变换到傅里叶空间中进行研究。
+在晶体中，我们也可以利用傅里叶变换，在对偶空间中研究晶体的性质，这一点尤其重要，因为我们知道，电磁波的衍射与傅里叶变换有密切的关系。
+
+\begin{definition}
+    晶体的布拉伐格点的对偶格点，称为该晶体的倒易格点（Reciprocal lattice），简称倒格点。
+\end{definition}
+
+\begin{proposition}
+    三维空间中倒格点的一组基底是
+    \begin{equation}b_1 = \frac{a_2 \times a_3}{a_1 \cdot (a_2 \times a_3)}, b_2 = \frac{a_3 \times a_1}{a_2 \cdot (a_3 \times a_1)}, b_3 = \frac{a_1 \times a_2}{a_3 \cdot (a_1 \times a_2)},\end{equation}
+    这是倒格点最常用的一组基底。这组基底满足正交性，即
+    \begin{equation}a_i b_j = \delta_{ij}.\end{equation}
+\end{proposition}
+
+基底的正交性容易验证，此处给出该基底确实为对偶格点基底的证明。
+
+\begin{proof}
+    首先，显然$b_i$是线性独立的，因此其必是$\mathbb R^3$的一组基底，因此对偶格点中的所有向量均可由其表出：
+    \begin{equation}v^* = h_1 b_1 + h_2 b_2 + h_3 b_3, \; \forall v^* \in \Lambda^*.\end{equation}
+    仅需证明$h_i$均为整数即可。
+    根据对偶格点的定义，有$v^* \cdot a_1\in \mathbb Z$，
+    从而
+    \begin{equation}(h_1 b_1 + h_2 b_2 + h_3 b_3) a_1 = h_1 \in \mathbb Z\end{equation}
+    其他两轴同理。
+    因此，$b_i$确为对偶格点的基底。
+\end{proof}
+
+在物理中，我们倾向于使用以下基底：
+\begin{equation}
+b_1 = \frac{\mathcolor{red}{2\pi} a_2 \times a_3}{a_1 \cdot (a_2 \times a_3)}, 
+b_2 = \frac{\mathcolor{red}{2\pi} a_3 \times a_1}{a_2 \cdot (a_3 \times a_1)}, 
+b_3 = \frac{\mathcolor{red}{2\pi} a_1 \times a_2}{a_3 \cdot (a_1 \times a_2)}
+\end{equation}
+这种表示方式不符合数学上的对偶格点的要求，但是在研究傅里叶展开时更加有用，其正交性也变为$a_i b_j = 2\pi \delta_{ij}$。
+
+倒易空间的重要性由以下命题揭示。
+\begin{proposition}
+    \label{proposition:pontryagin-duality}
+    若某一函数在正空间中具有周期性，即
+    \begin{equation}f(r) = f(r + R), \; \forall R \in \Lambda,\end{equation}
+    则其傅里叶变换在倒空间中具有相同的周期性，即
+    \begin{equation}F(k) = F(k + G), \; \forall G \in \Lambda^*.\end{equation}
+\end{proposition}
+
+\begin{proof}
+    考虑周期函数的傅里叶变换：
+    \begin{equation}F(k) = \iiint_{V_\text{晶胞}} f(r) \exp[-ik\cdot r] \,\mathrm d V.\end{equation}
+    计算$F(k + G)$：
+    \begin{equation}F(k+G) = \iiint_{V_\text{晶胞}} f(r) \exp[-i(k+G)\cdot r] \, \mathrm d V.\end{equation}
+    现在，根据倒空间的基底，注意到$G \cdot r \in 2 \pi \mathbb Z$，
+    从而
+    \begin{equation}F(k+G) = \iiint_{V_\text{晶胞}} f(r) \exp[-ik\cdot r] \exp[-2i\pi] = F(k). \qedhere\end{equation}
+\end{proof}
+
+这意味着，晶体的周期性不仅存在于实空间——即位置空间——中，也存在于傅里叶变换之后的空间——即动量空间——中。
+因此，晶体的晶胞也不仅仅存在于一个看得见、摸得着的实际的空间中，也存在于动量空间中。
+更进一步地，由于电磁波的衍射实际展示的是傅里叶变换后的光栅，这意味着在X射线衍射下，所有晶体展示的都是倒空间的晶格。
+特别地，倒空间中的维格纳-赛兹原胞称为（第一）布里渊区。
+
+回忆到傅里叶变换后的变量实际上是波矢$k$，而函数相当于原函数在指定波矢下波的响应，那么可以认为，晶格对波的响应也符合周期性，因此我们不必研究动量空间中所有的波矢，而只需要研究第一布里渊区内部的波矢即可。
+这是后文中许多研究的基础。
+
+在研究晶体时，我们希望有一种指明晶格中的几何特征的方法，而这可通过密勒指数实现。
+
+\begin{definition}
+    密勒指数（Miller index）$[hkl]$表示倒空间中与矢量
+    \begin{equation}
+        G = h b_1 + k b_2 + l b_3
+    \end{equation}
+    正交的平面。在正空间中，这相当于由
+    \begin{equation}
+        (1/h, 0, 0), \; (0, 1/k, 0), \; (0, 0, 1/l).
+    \end{equation}
+    三个点确定的平面。其中，若某一数为零，则取正无穷。
+    习惯上约定$h,k,l$三个数是互质的整数。
+\end{definition}
+
+假设晶体在正空间中为晶格参数为$a$的立方晶系，那么由密勒指数$[hkl]$规定的两个平行的晶面之间的距离为
+\begin{equation}
+    d_{hkl} = \frac{a}{\sqrt{h^2 + k^2 + l^2}}.
+\end{equation}
+这个距离可用于衍射的判定。
+
+\subsection{晶格动力学}
+本节中我们考虑一维原子链构成的晶体中，晶体原子偏移平衡点产生的波动。
+即使对一维原子链这样简单的模型，我们仍然需要考虑电子与原子核的相互影响，而这对求解过于复杂。
+因此，我们使用波恩-奥本海默近似来降低求解的复杂程度。
+\begin{theorem}
+    绕原子核运动的电子相较于原子核的质量极低，因此可认为电子无法影响原子核的运动，从而总是可以先求解电子的薛定谔方程，然后根据电子产生的平均势能求解原子核的薛定谔方程，这一近似称为波恩-奥本海默近似（Born-Oppenheimer approximation）。
+\end{theorem}
+
+利用该近似，我们可给出一维原子链的动力学方程。
+\begin{proposition}
+    一维单原子链的动力学方程具有
+    \begin{equation}
+        \hat D A(q) = \omega_q^2 A(q)
+    \end{equation}
+    的形式，其中$\hat D$称为动力学矩阵，$A$是每个原子的位移组成的向量，$\omega_q$是$q$波矢下的角频率。
+\end{proposition}
+
+\begin{proof}
+    设系统的势能为
+    \begin{equation}
+        W(u_1, \dots, u_n) = \sum_{i,j} W_{i,j} (u_i, u_j)
+    \end{equation}
+    在平衡点处进行泰勒展开，有
+    \begin{equation}
+        \begin{aligned}
+            W &= \sum_{i,j=1}^n W_{i,j}(0,0) + \sum_{i,j=1}^n \frac{\partial W_{i,j}}{\partial u_i} u_i \\
+            &+ \frac{1}{2} \sum_{i,j=1}^n \frac{\partial^2 W_{i,j}}{\partial u_i \partial u_j} u_i u_j + O(u^3).
+        \end{aligned}
+    \end{equation}
+    势能的零点可任意选择，因此我们令平衡处势能为零。
+    又平衡处一阶微分总是零，因此取二阶近似，可认为势能是关于位移的二次函数，即
+    \begin{equation}
+        W(u_1, \dots, u_n) = \sum_{i,j=1}^n V_{ij}' u_i u_j  = \sum_{i,j=1}^n V_{ij} (u_i - u_j)^2.
+    \end{equation}
+    利用该势能，可写出单个原子的运动方程
+    \begin{equation}
+        m_i \ddot u_i = - 2 \sum_{j=1}^n V_{ij}(u_i - u_j)
+    \end{equation}
+    带入谐波解$u_i = A_i(q) \exp[i \omega_q t]$，即可得到
+    \begin{equation}
+        - \omega_q^2 A_i(q) + \sum_j D_{i,j} A_j(q) = 0.
+    \end{equation}
+    重写为矩阵形式即可。
+\end{proof}
+
+一般认为仅有相邻的原子之间的相互作用才足够显著，其他原子则不予考虑，此时的动力学方程能够更加简单。
+
+我们考虑较简单的一种情况，即无穷长一维双原子链的情况。
+
+\begin{proposition}
+    考虑无穷长的甲、乙两种原子组成的一维双原子链，其质量分别为$m,M$。
+    平衡时，两种原子之间等间距分布，间距为$a$。
+    两种原子之间的相互作用可视为弹力，等价的弹性系数为$k$，则该原子链的运动方程为
+    \begin{equation}
+        \left\{
+            \begin{aligned}
+                m \ddot u_{2n} &= k(u_{2n+1} + u_{2n-1}) - 2ku_{2n} \\
+                M \ddot u_{2n+1} &= k(u_{2n+2} + u_{2n}) - 2ku_{2n+1} \\
+            \end{aligned}
+        \right.
+    \end{equation}
+    而其一组解具有行波的形式，即
+    \begin{equation}
+        \left\{
+        \begin{aligned}
+            u_{2n} &= A \exp[i(\omega_q t - \cdot 2na q)], \\
+            u_{2n+1} &= B\exp[i(\omega_q t - \cdot (2n+1)a q)].
+        \end{aligned}
+        \right.
+    \end{equation}
+    这种波称为格波（lattice wave）。其中$\omega_q$满足
+    \begin{equation}
+        \omega_q^2 = k \frac{m+M}{mM} \left( 1 \pm \sqrt{1 - \frac{4mM}{(m+M)^2} \sin^2 ( a q)} \right).
+    \end{equation}
+\end{proposition}
+
+\begin{proof}
+    首先给出运动方程。题设相邻两原子之间的势能为
+    \begin{equation}
+        E(u_i, u_{i+1}) = \frac{1}{2} k (u_i - u_{i-1})^2,
+    \end{equation}
+    则对甲种原子，其运动方程为
+    \begin{equation}
+        m \ddot u_\text{i} = k(u_{i+1} - u_i) + k(u_{i-1} - u_i) = k(u_{i+1} + u_{i-1}) - 2ku_i.
+    \end{equation}
+    现在将甲种原子放置在$2n$的位置上即可，乙原子的运动方程与其大致相同。
+    考虑一般的行波解
+    \begin{equation}
+        u = K \exp[i(\omega t - qx)],
+    \end{equation}
+    代入方程，得到
+    \begin{equation}
+        \left\{
+        \begin{aligned}
+            \omega_q^2 A &= \frac{2k}{m} A - \frac{k}{m}[\exp(-iaq) + \exp(i aq)] B, \\
+            \omega_q^2 B &= \frac{2k}{M} B - \frac{k}{M}[\exp(-i aq) + \exp(i aq)] A.
+        \end{aligned}
+        \right.
+    \end{equation}
+    重组成矩阵形式，即
+    \begin{equation}
+        \omega_q^2 X = D X,
+    \end{equation}
+    其中
+    \begin{equation}
+        \begin{aligned}
+            X &= \begin{pmatrix}
+                A \\ B
+            \end{pmatrix}, \\
+            D &= k \begin{pmatrix}
+                \frac{2}{m} & - \frac{\exp(-iaq) + \exp(iaq)}{m} \\
+                - \frac{\exp(-i aq) + \exp(iaq)}{M} & \frac{2}{M}
+            \end{pmatrix}.
+        \end{aligned}
+    \end{equation}
+    求解该特征值问题，得到
+    \begin{equation}
+        \omega_q^2 = k \frac{m+M}{mM} \left( 1 \pm \sqrt{1 - \frac{4mM}{(m+M)^2} \sin^2 aq} \right).
+    \end{equation}
+    这就是格波的色散关系。
+\end{proof}
+
+格波具有两种色散关系。
+在长波极限，即$q \to 0$时，两种色散关系分别具有机械波和电磁波类似的性质，因此这两种格波分别称为声学波和光学波，对应的色散关系称为声学支（acoustic branch）和光学支（optical branch）。
+
+若原子链是无穷长的，那么其运动学方程的形式比较简单，但是由于有无穷多个原子而无法在实际情况下求解。
+如果考虑有限长的原子链，那么链条两端的原子的运动学方程势必不同，从而求解更加困难。
+为解决这一问题，我们可以使用波恩-冯·卡门边界条件。
+
+\begin{proposition}
+    晶体中对向边界处的波函数应当相同，即一维原子链可视为一根有限长的环，环的长度为$Na$，其中$N$是原子个数，$a$是两原子之间的间距。
+    这种边界条件称为波恩-冯·卡门边界条件（Born-von Karman boundary condition）或循环边界条件（Cyclic boundary condition）。
+\end{proposition}
+利用该边界条件，我们可以给出格波的所有波矢。
+\begin{proposition}
+    晶体中原子偏移平衡点的位移是波矢为
+    \begin{equation}q = \frac{2n\pi}{L} = \frac{2n\pi}{Na}, \; n \in \mathbb Z\end{equation}
+    的波，其中$L$是材料的长度，$a$为晶格长度，$N$为材料中的晶格数。
+\end{proposition}
+
+\begin{proof}
+    考虑格波的周期性，有
+    \begin{equation}
+        u = K \exp[i(\omega t)] = K \exp[i(\omega t - N a q)].
+    \end{equation}
+    从而
+    \begin{equation}
+        N a q \in 2 \pi \mathbb Z \implies q \in \frac{2\pi}{Na} \mathbb Z.
+    \end{equation}
+\end{proof}
+
+根据上文提到的波矢的周期性关系，我们只关心第一布里渊区内的格波波矢数量，这可以很容易地计算出。
+\begin{corollary}
+    一维晶格中的布里渊区大小为$\frac{2\pi}{a}$，因此布里渊区中的格波波矢数量恰为材料中的晶胞数量。
+\end{corollary}
+
+晶格动力学模型的一大用处在于预测材料的比热。
+\begin{proposition}
+    晶格动力学模型预测，材料的体积比热为
+    \begin{equation}
+        C_V = \frac{1}{V} \sum_q \hbar \omega_q \frac{\partial n_q}{\partial T},
+    \end{equation}
+    其中
+    \begin{equation}
+        n_q = \frac{1}{\exp[k_B T \hbar \omega_q ] - 1}
+    \end{equation}
+    表示格波$q$的平均原子数。
+\end{proposition}
+
+\begin{proof}
+    我们已经知道，格波的波矢是量子化的，从而其能量可由哈密顿算符表出：
+    \begin{equation}
+        \hat H = \sum_q (\hat N + \frac{1}{2}) \hbar \omega_q,
+    \end{equation}
+    其中$\hat N = \hat a^\dagger \hat a$是粒子数算符，$\hat a^\dagger$和$\hat a$分别是产生和湮灭算符，这种量子称为声子（phonons）。
+    从而每个本征态的本征能量为
+    \begin{equation}
+        \epsilon_s = \sum_q (n_{s,q} + \frac{1}{2}) \hbar \omega_q.
+    \end{equation}
+    本征态可由每个振动模态下的粒子数表示，即
+    \begin{equation}
+        \left| \psi \right> = \left| n_1, n_2, \dots, n_N \right>.
+    \end{equation}
+    注意我们只考虑布里渊区中的模态。现在计算正则配分函数
+    \begin{equation}
+        \begin{aligned}
+            Z &= \sum_s \exp \left[ -\beta \sum_q (n_{q,s} + \frac{1}{2}) \hbar \omega_q \right] \\
+            &= \exp \left[-\frac{\beta}{2} \sum_q \hbar \omega_q\right] \sum_s \exp\left[-\beta \sum_q n_{q,s} \hbar \omega_q\right] \\
+            &= \exp \left[-\frac{\beta}{2} \sum_q \hbar \omega_q\right] \sum_s \prod_q \exp \left[ -\beta n \hbar \omega_q \right] \\
+            &= \exp \left[-\frac{\beta}{2} \sum_q \hbar \omega_q\right] \prod_q \sum_{n = 0}^{\infty} \exp \left[ -\beta n \hbar \omega_q \right] \\
+            & = \exp \left[-\frac{\beta}{2} \sum_q \hbar \omega_q\right] \prod_q \frac{1}{1-\exp[-\beta\hbar\omega_q]}.
+        \end{aligned}
+    \end{equation}
+    倒数第二步将对每个状态$s$的每个模式$q$求和变为对每个模式$q$的声子数$n$求和，最后一步则使用了幂级数展开。
+    从而内能为
+    \begin{equation}
+        U = - \frac{\partial \ln Z}{\partial \beta} = \sum_q \left(\frac{1}{\exp[\beta\hbar\omega(q)]-1} + \frac{1}{2} \right) \hbar \omega(q).
+    \end{equation}
+    而单位体积的热容为
+    \begin{equation}
+        C_V = \frac{1}{V} \frac{\partial}{\partial T} U = \frac{1}{V} \sum_q \hbar \omega(q) \frac{\partial}{\partial T} \frac{1}{\exp[k_B T \hbar \omega_q ] - 1}.
+    \end{equation}
+\end{proof}
+
+在高温下，利用幂级数展开来求近似解，可得
+\begin{equation}
+    C_V = \frac{1}{V} \sum_q k_B = \frac{3 N k_B}{V},
+\end{equation}
+其中$N$是原子个数，注意在三维空间中布里渊区中的$q$点共有$3N$个。
+这与经典理论下的预测和测量结果一致。
+
+\subsection{能带结构}
+在晶格动力学中，我们几乎完全忽略了电子对晶体结构的影响。
+然而，显然的是，电子对材料的性质——尤其是导电性和化学性质——具有相当重要的影响，甚至可以说决定了这些性质，因此，我们必须要将它们纳入考量。
+能带论则正是用于考量电子对物质性质影响的模型。
+能带论认为，固体中的电子在原子核产生的周期性势场中自由运动，而不受其他电子的影响。
+这一近似的理论在许多重要领域中得到了广泛的应用。
+本节主要关注一维晶体中的能带理论。
+
+电子在周期势场中运动的特点可由布洛赫定理说明。
+\begin{theorem}
+    （布洛赫定理）电子在晶格产生的周期性势场中自由运动的薛定谔方程的解，可由布洛赫函数组成的基底表出。布洛赫函数是形如
+    \begin{equation}
+        \psi(r) = \exp[i k \cdot r] u_k(r)
+    \end{equation}
+    的函数，其中$u_k$具有和晶格相同的周期性，即
+    \begin{equation}
+        u_k(r) = u_k(r + l), \; \forall l \in \Lambda.
+    \end{equation}
+\end{theorem}
+
+这个定理蕴涵了倒格点中的周期性。
+如果令
+\begin{equation}
+    k' = k + l^*, \; l^* \in \Lambda^*
+\end{equation}
+则因为
+\begin{equation}
+    l^* \cdot l \in 2 \pi \mathbb Z, \; \forall l \in \Lambda
+\end{equation}
+从而不会改变原基底，即
+\begin{equation}
+    \psi(r) = \exp[i k \cdot r] u_k(r) = \exp[i k' \cdot r] u_{k'}(r)
+\end{equation}
+因此对周期势场中电子的波函数的研究可被限制在第一布里渊区之中，这是对命题~\ref{proposition:pontryagin-duality}的一种重述。
+
+\begin{proof}
+    仅对一维单种原子情况的进行证明，设晶体长度为$L = Na$，其中$a$是单个晶胞的长度。
+    考虑单一电子在原子产生的周期势场$V(x)$中运动，根据波恩-奥本海默近似，我们忽略电子与原子之间的相互作用。
+    利用摄动理论，我们可认为电子在平均的均匀势场$\overline V$中运动，而实际的势场可使用摄动近似，
+    那么电子运动的定态薛定谔方程为：
+    \begin{equation}
+        - \frac{\hbar^2}{2m} \frac{\partial^2}{\partial x^2} \psi + \overline V \psi = \epsilon \psi.
+    \end{equation}
+    这是薛定谔方程的零阶近似，其波函数可记为$\psi^0$、本征能量为$\epsilon^0$。
+    零阶波函数以及对应的本征能量容易求出，即
+    \begin{equation}
+        \psi^0_k (x) = \frac{1}{\sqrt L} \exp[ikx], \; \epsilon^0 = \frac{\hbar^2 k^2}{2m} + \overline V,
+    \end{equation}
+    其中$1/\sqrt L$是归一化系数。
+    对有限长度的晶体，考虑波恩-冯·卡门边界条件，此时有$k L = k N a = 2 \pi n, n \in \mathbb Z$.
+    从而$k = \frac{2\pi n}{Na}$，与格波相同。
+    考虑一般的非简并态微扰的计算，本征值的一阶和二阶修正为
+    \begin{equation}
+        \epsilon_k^1 = \braket{k|\Delta V|k}, \; \epsilon_k^2 = \sum_{k' \neq k} \frac{\left\vert \braket{k'|\Delta V|k} \right\vert^2}{\epsilon_k^0 - \epsilon_{k'}^0},
+    \end{equation}
+    而波函数的一阶修正为
+    \begin{equation}
+        \psi^1_k = \sum_{k' \neq k} \frac{\left\vert \braket{k'|\Delta V|k} \right\vert^2}{\epsilon_k^0 - \epsilon_{k'}^0} \psi_{k'}^0,
+    \end{equation}
+    其中
+    \begin{equation}
+        \Delta V(x) = V(x) - \overline V, \; \ket{k} = \ket{\psi_k^0}.
+    \end{equation}
+    对一阶修正，注意到
+    \begin{equation}
+        \epsilon_k^1 = \braket{k|\Delta V|k} = \int |\psi_k^0|^2 V(x) \, \mathrm d x - \overline V = 0.
+    \end{equation}
+    对能量二阶修正与波函数一阶修正，注意到
+    \begin{equation}
+        \braket{k'|\Delta V(x)|k} = \braket{k'|V(x)|k} - \braket{k'|\overline V|k} = \braket{k'|V(x)|k},
+    \end{equation}
+    这是由于波函数具有正交性：
+    \begin{equation}
+        \braket{k'|k} = \int_0^L {\psi_{k'}^0}^* \psi_k^0 \, \mathrm d x = \delta_{kk'}.
+    \end{equation}
+    现在计算$\braket{k'|V|k}$，考虑到$V$在晶格中的周期性，有：
+    \begin{equation}
+        \begin{aligned}
+            \braket{k'|V|k} &= \frac{1}{L} \int_0^L \exp[i(k-k')x] V(x) \, \mathrm d x \\
+            &= \frac{1}{L} \sum_{n=1}^N \int_{(n-1)a}^{na} \exp[i(k-k')x] V(x) \, \mathrm d x \\
+            &= \frac{1}{L} \sum_{n=1}^N e^{i(k-k')(n-1)a} \int_0^a e^{i(k-k')x} V(x) \, \mathrm d x \\
+            &= \left[ \frac{1}{a} \int_0^a e^{i(k-k')x} V(x) \,\mathrm d x \right] \frac{1}{N} \sum_{n=1}^N \left[e^{i(k-k')a}\right]^{n-1}.
+        \end{aligned}
+    \end{equation}
+    接下来分两类讨论：
+    \begin{enumerate}
+        \item 若$k-k' \in \frac{2\pi}{a} \mathbb Z$，令$k-k' = \frac{2\pi n}{a}$，则
+        \begin{equation}
+            \frac{1}{N} \sum_{n=1}^N \left[e^{i(k-k')a}\right]^{n-1} = \frac{1}{N} \sum_{n=1}^N 1 = 1.
+        \end{equation}
+        从而
+        \begin{equation}
+            \braket{k'|V|k} = \frac{1}{a} \int_0^a \exp[2\pi i \frac{n}{a} x] V(x) \, \mathrm d x = V_n.
+        \end{equation}
+        \item 否则，有
+        \begin{equation}
+            \frac{1}{N} \sum_{n=1}^N \left[e^{i(k-k')a}\right]^{n-1} = \frac{1}{N} \frac{1 - \exp[i(k-k') Na]}{1 - \exp[i(k-k')a]}.
+        \end{equation}
+        又$k-k' \in \frac{2\pi}{Na} \mathbb Z$，从而
+        \begin{equation}
+            \frac{1}{N} \sum_{n=1}^N \left[e^{i(k-k')a}\right]^{n-1} = 0 \implies \braket{k'|V|k} = 0.
+        \end{equation}
+    \end{enumerate}
+    根据这一结果，一阶修正的波函数为
+    \begin{equation}
+        \begin{aligned}
+            \psi_k &= \psi_k^0 + \psi_k^1 \\
+            &= \frac{1}{\sqrt{L}} \exp[ikx] \left( 1 + \sum_n \frac{V_n \exp[2\pi i \frac{n}{a} x]}{\frac{\hbar^2}{2m} \left( k^2 - (k + \frac{2\pi n}{a})^2 \right)} \right) \\
+            &= \exp[ikx] u_k(x)
+        \end{aligned}
+    \end{equation}
+    不难验证$u_k(x)$对$a$的周期性，从而原命题得证。
+\end{proof}
+
+特别注意，当
+\begin{equation}
+    k^2 = (k + \frac{2\pi n}{a})^2 \implies k = - \frac{\pi n}{2a}
+\end{equation}
+时，即波矢在第一布里渊区边界上时，波函数会发散。此时注意到能量
+\begin{equation}
+    \epsilon_{k'}^0 = \frac{\hbar^2 k'^2}{2m} + \overline V = \frac{\hbar^2 (k + \frac{2\pi n}{a})^2}{2m} + \overline V = \epsilon_k^0
+\end{equation}
+这意味着有两个状态的能量一致，此时需使用简并态的摄动理论进行计算。
+
+\begin{proposition}
+    当波矢位于（第一）布里渊区边界附近时，电子的能量从抛物线$\frac{\hbar^2 k^2}{2m} + \overline V$中偏离，形成断开的能带（bands），从而能带的长度恰好与布里渊区的长度和倒格点的大小相同。
+\end{proposition}
+
+\begin{proof}
+    简并摄动理论中，我们认为简并空间中完整波函数的一阶近似是简并状态波函数的线性组合，即
+    \begin{equation}
+        \ket{\psi_k} = \sum_{k} \alpha_k \ket{\psi_k^0} + \lambda \ket{\psi_k^1} \approx \sum_k \alpha_k \ket{k}
+    \end{equation}
+    我们仅考虑接近布里渊区边界的$k$状态以及与其能量相似的另一个状态$k'$，即
+    \begin{equation}
+        k = - \frac{\pi n}{2 a} (1 - \delta), \; k' = (k + \frac{2\pi n}{a}) = \frac{\pi n}{2a}(1 + \delta) \quad (\delta \to 0).
+    \end{equation}
+    而波函数可写为
+    \begin{equation}
+        \psi = \alpha \psi_k + \beta \psi_{k'}.
+    \end{equation}
+    在考虑一阶摄动的情况下，我们希望求解其能量，即求解一阶薛定谔方程的本征值：
+    \begin{equation}
+        - \frac{\hbar^2}{2m} \frac{\partial^2}{\partial x^2} \psi + [\overline V + \Delta V(x)] \psi = E \psi.
+    \end{equation}
+    即
+    \begin{equation}
+        \begin{pmatrix}
+            \braket{k|\hat H^1|k} & \braket{k'|\hat H^1|k} \\
+            \braket{k|\hat H^1|k'} & \braket{k'|\hat H^1|k'} \\
+        \end{pmatrix}
+        \begin{pmatrix}
+            \alpha \\ \beta
+        \end{pmatrix} = E \begin{pmatrix}
+            \alpha \\ \beta
+        \end{pmatrix}.
+    \end{equation}
+    该矩阵的特征方程为
+    \begin{equation}
+        - (\epsilon_k^0 - E)(\epsilon_{k'}^0 - E) + |V_n|^2 = 0,
+    \end{equation}
+    解为
+    \begin{equation}
+        E = \frac{1}{2} \left( (\epsilon_k^0 + \epsilon_{k'}^0) \pm \sqrt{(\epsilon_{k}^0 - \epsilon_{k'}^0)^2 + 4 |V_n|^2} \right).
+    \end{equation}
+    这两个状态的能量非常接近，因此可对$\sqrt{(\epsilon_{k}^0 - \epsilon_{k'}^0)^2 + 4 |V_n|^2}$进行级数展开，得到
+    \begin{equation}
+        E = \frac{1}{2} \left( (\epsilon_k^0 + \epsilon_{k'}^0) \pm \left( 2 |V_n| + \frac{(\epsilon_k^0 + \epsilon_{k'}^0)^2}{4|V_n|} \right) \right).
+    \end{equation}
+    将$\epsilon_k^0$展开，得到
+    \begin{equation}
+        \epsilon_k^0 = \overline V + \frac{\hbar^2}{2m} \left(\frac{2\pi n}{2a}\right)^2 (1-\delta)^2 = \overline V + E_n (1 - \delta)^2,
+    \end{equation}
+    同理将$\epsilon_{k'}^0$展开，重写原式，得到
+    \begin{equation}
+        E = \left\{
+            \begin{aligned}
+                \overline V + E_n + | V_n | + \delta^2 E_n \left( \frac{2 E_n}{|V_n|} + 1\right) \\
+                \overline V + E_n - | V_n | - \delta^2 E_n \left( \frac{2 E_n}{|V_n|} - 1\right) \\
+            \end{aligned}
+        \right.
+    \end{equation}
+    这确实是两个分立的能量，而随着$\delta$趋于零，即波矢$k$向布里渊区边界运动，电子的能量会逐步偏移$\overline V + E_n$而趋向$\overline V + E_n \pm |V_n|$，两者之间的差距$2 |V_n|$称为这两个能带的带隙（gap），其中不能够存在电子，因此也称为禁带（forbidden band）。
+\end{proof}
+
+晶体中有一个值得注意的现象，即，随着其中晶胞数$N$的增大，$k$可能的取值$\frac{2\pi n}{Na}$会从分立的逐渐展宽为（准）连续的，形成能带。
+而在上文的证明中，我们又说明了能带会被禁带分割开，每个能带的长度与布里渊区的大小$\frac{2 \pi}{a}$相同，这样，每个能带中可能的状态数也能求出了。
+
+\begin{corollary}
+    一维晶体中每个能带内的量子态数目，等于晶格中原胞的数目，从而，对一般宏观的固体，能带可视为准连续的。
+\end{corollary}
+
+由于电子具有$\frac{1}{2}$的自旋，因此能带中实际能容纳的电子是状态数的两倍。
+
+上文的大部分结论可以容易地推广至三维情况，但由于三维晶体中每个维度分量均具有自己的能带，对整个晶体可能存在能带的交叠，从而存在一个维度上的禁带在其他维度上能导通的情况。
+
+在三维空间中查看能带是十分困难的，因为能带实际上是由能量的值构成的，因此在三维空间中，数据的总维度高达四维。
+为此，为了计算三维固体中的能带，通常选择在布里渊区中绘制一条路径，并沿路径给出其上$k$波矢对应的能量。
+对每种可能的晶胞结构，均有一条通过尽可能多的对称性良好的点的约定好的路径，这条路径称为k路径（k-path）。
+
+上面的讨论局限于原子形成的晶体，而实际上，晶体中由原子形成的分子，由于其中的内层电子主要受到原子核的影响，可将另一个原子及其价电子的影响视为摄动，从而形成分子的紧束缚模型（tight binding model）。
+\begin{proposition}
+    分子晶体中绕某原子运动的电子，其解也满足布洛赫定理，且其布洛赫波正是各个格点上原子波函数的线性组合，即
+    \begin{equation}
+        \phi_n(x) = \frac{1}{\sqrt N} \sum_{R \in \Lambda} \exp[ik\cdot R] \psi_n(x - R).
+    \end{equation}
+\end{proposition}
+\begin{proof}
+    利用摄动理论，我们首先完全忽略原子和电子之间的相互影响，而只考虑在位于$R_m$处单个原子附近的电子，其满足类氢原子的薛定谔方程
+    \begin{equation}
+        \left[- \frac{\hbar^2}{2m} \nabla^2 + V(x - R_m)\right] \psi_n(x - R_m) = \epsilon_n \psi_n(x - R_m),
+    \end{equation}
+    其中$V$是原子核的势场。
+    我们已经知道其解可按主量子数$n$、角量子数$l$和磁量子数$m$分类。
+    这些状态的而本征能量仅与主量子数$n$有关，因此均构成简并态，从而根据摄动理论，电子的薛定谔方程可视为这些简并态的线性组合：
+    \begin{equation}
+        \phi_n = \sum_m a_{mn} \psi_n(x - R_m).
+    \end{equation}
+    考虑晶体中电子的薛定谔方程，即
+    \begin{equation}
+        \left[- \frac{\hbar^2}{2m} \nabla^2 + U(x)\right] \phi_n(x) = \epsilon \phi_n(x),
+    \end{equation}
+    其中$U$即为晶体的周期势场，根据布洛赫定理，其解满足
+    \begin{equation}
+        \phi_n(x + R_l) = \exp[ik\cdot(x + R_l)] u_k(x + R_l) = \exp[ik \cdot R_l] \phi_n(x).
+    \end{equation}
+    重写为线性组合，得到
+    \begin{equation}
+        \begin{aligned}
+            \phi_n(x + R_l) &= \sum_m a_{(m+l)n} \psi_n(x - R_m + R_l) \\
+            &= \exp[ik \cdot R_l] \sum_m a_{mn} \psi_n(x - R_m).
+        \end{aligned}
+    \end{equation}
+    从而
+    \begin{equation}
+        a_{(m+l)n} = \exp[ik\cdot R_l] a_{mn} \implies a_{mn} = \exp[ik \cdot R_m] a_{0n}.
+    \end{equation}
+    现在考虑归一化的问题。
+    我们认为晶体中原子之间的距离远大于$n$能级原子轨道的半径，因此原子之间的电子波函数不能相互影响，即
+    \begin{equation}
+        \int \psi_n^* (x - R_m) \psi_n(x - R_l) \, \mathrm d x^3 = \delta_{ml}.
+    \end{equation}
+    计算波函数的积分，得到
+    \begin{equation}
+        \begin{aligned}
+            1 &= \int \phi_n^*(x) \phi_n(x) \,\mathrm d x^3 \\
+            &= a^*_{0n} a_{0n} \sum_m e^{-ik\cdot R_m} \sum_l e^{ik\cdot R_l} \int \psi^*_n(x - R_m) \psi_n(x - R_l) \,\mathrm d x^3 \\
+            &= a^*_{0n} a_{0n} \sum_m e^{-ik\cdot R_m} \sum_l e^{ik\cdot R_l} \delta_{ml} \\
+            &= N a^*_{0n} a_{0n} \qquad \implies a_{0n} = \frac{1}{\sqrt N}.
+        \end{aligned}
+    \end{equation}
+    从而
+    \begin{equation}
+        \phi_n(x) = \frac{1}{\sqrt N} \sum_{m} \exp[ik\cdot R_m] \psi_n(x - R_m).
+    \end{equation}
+    这就完成了证明。
+\end{proof}
+这个波函数的本征能量为
+\begin{equation}
+    \epsilon_k = \epsilon_n - \sum_R J(R) \exp[-i k \cdot R],
+\end{equation}
+其中
+\begin{equation}
+    J(R) = -\int \psi_n^*(x - R) [U(x) - V(x)] \psi_n(R)\, \mathrm d x^3
+\end{equation}
+表示了原子对电子的影响导致的势能，一般仅考虑最靠近的几个原子。
+
+将周期性边界条件代入解中，可立刻得到以下推论。
+\begin{corollary}
+    $N$个原子形成的分子晶体中，单一的原子轨道展开成$N$个量子态，当原子数量足够多时，也能形成能带。
+\end{corollary}
+
+能带论的一大成就是成功说明了晶体的导电性，利用以上的命题和一些简单的推论，即可完备地定义导体和绝缘体。
+
+\begin{proposition}
+    若电子位于填满的能带中，则不能表现出导电性，即满带电子不导电。
+\end{proposition}
+
+\begin{proof}
+    考虑晶体周期性势场中的薛定谔方程及其布洛赫解
+    \begin{equation}
+        \hat H \psi_k = \epsilon_k \psi_k, \; \psi_k = \exp[ikx] u_k(x).
+    \end{equation}
+    取波动方程的复共轭，得到
+    \begin{equation}
+        \hat H \psi_k^* = \epsilon_k \psi_k^*, \; \psi_k^* = \exp[-ikx] u_k^*(x),
+    \end{equation}
+    显然$\psi_k^*$也是一组可行的解，这个解的波矢为$-k$。
+    由于哈密顿算子是厄米的，其特征值是实数，从而取复共轭不改变本征能量$\epsilon_k$，这意味着波矢相反的两个解的本征能量相同。
+    如果能带已经被电子填满，那么对每一个电子，均能找到对应的波矢相反的电子。
+    现在，考虑本征能量的导数
+    \begin{equation}
+        \epsilon(k)' = \frac{2 \hbar^2 k}{2m} = \frac{\hbar p}{m},\; \epsilon(-k)' = - \frac{2 \hbar^2 k}{2m} = - \frac{\hbar p}{m}
+    \end{equation}
+    这意味着波矢相反的电子的动量也相反，从而当两者共同运动时，其速度一定相反，产生的电流抵消，晶体宏观上不能表现出导电性。
+    外加的电场只能影响本征能量中的势能，因此不影响上面的推导。
+\end{proof}
+
+从而我们从微观的角度可给出导体和绝缘体的定义。
+\begin{definition}
+    电子恰好填满最低一系列能带的物质，不能导电，称为绝缘体；存在被电子部分填充的能带的物质，能够导电，称为导体。
+\end{definition}
+
+在一维情况下，能带能否被填满能够直接通过价电子的奇偶性判定：单个晶胞中价电子为奇数的晶体，不能填满能带，因此必为导体，反之亦然。
+然而在三维情况下，由于能带交叠，导电性不能仅仅由电子的个数判断。
+例如，对碱土金属，虽然其价电子数目是偶数，但由于能带交叠，电子在填满较低能带之前就能填充更高的能带，从而形成不满的能带而导电。

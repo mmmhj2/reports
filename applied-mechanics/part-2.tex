@@ -21,4 +21,53 @@
 
 \section{第一题}
 
-
+对于该问题，考虑使用位移法微分方程：
+\begin{equation}
+    \begin{aligned}
+        \frac{\dif^2 u}{\dif r^2} + \left[ \frac{\dif}{\dif r} (\ln h )+ \frac{1}{r} \right] \frac{\dif u}{\dif r} + 
+        \left[\frac{\nu}{r}\frac{\dif}{\dif r} (\ln h) - \frac{1}{r^2}\right] u & \\ 
+        - (1 + \nu) \alpha \left[ t \frac{\dif}{\dif r} (\ln h) + \frac{\dif t}{\dif r}\right] +
+        \rho \omega^2 \frac{1 - \nu^2}{E} r &= 0,
+    \end{aligned}
+\end{equation}
+其中$r$为半径、$u$为位移、$h$为厚度、$t$为温度、$\omega$为角速度，$\nu, E, \rho, \alpha$分别为泊松比、杨氏模量、密度和线膨胀系数。
+对等厚圆盘，有
+\begin{equation}
+    \frac{\dif h}{\dif r} = 0
+\end{equation}
+因此
+\begin{equation}
+    \begin{aligned}
+        & \frac{\dif^2 u}{\dif r^2} + \frac{1}{r} \frac{\dif u}{\dif r} - \frac{u}{r^2} - (1 + \nu) \alpha \frac{\dif t}{\dif r} + \rho \omega^2 \frac{1 - \nu^2}{E} r = 0 \\
+        \iff & \frac{\dif^2 u}{\dif r^2} + \frac{1}{r} \frac{\dif u}{\dif r} - \frac{u}{r^2} = (1 + \nu) \alpha \frac{\dif t}{\dif r} - \rho \omega^2 \frac{1 - \nu^2}{E} r \\
+        \iff & \frac{\dif}{\dif r}\left( \frac{1}{r} \frac{\dif ru}{\dif r} \right) = (1 + \nu) \alpha \frac{\dif t}{\dif r} - \rho \omega^2 \frac{1 - \nu^2}{E} r
+    \end{aligned}
+\end{equation}
+积分，可得
+\begin{equation}
+    \frac{1}{r} \frac{\dif ru}{\dif r} = (1 + \nu) \alpha t- \rho \omega^2 r^2 \frac{1 - \nu^2}{2E} + C_1'.
+\end{equation}
+再次积分，得到
+\begin{equation}
+    ru = (1 + \nu) \alpha \int_{r_0}^r tr \dif r - \frac{1}{8} \rho \omega^2 r^4 \frac{1 - \nu^2}{2E} + C_1 r^2 + C_2,
+\end{equation}
+其中$C_1', C_2$为积分常数，$C_1 = 2C_1'$.
+根据本构方程（广义胡克定律），位移与应力之间具有以下关系：
+\begin{equation}
+    \begin{aligned}
+        \epsilon_r = \frac{\dif u}{\dif r} &= \frac{\sigma_r - \nu \sigma_\theta}{E} + \alpha t, \\
+        \epsilon_\theta = \frac{u}{r} &= \frac{\sigma_\theta - \nu \sigma_r}{E} + \alpha t.
+    \end{aligned}
+\end{equation}
+代入并求解应力，可得
+\begin{equation}
+    \begin{aligned}
+        \sigma_r &= K_1 - \frac{K_2}{r^2} -\frac{3+\nu}{8} \rho \omega^2 r^2 - \frac{\alpha E}{r^2} \int_{r_0}^r tr \dif r, \\
+        \sigma_\theta & = K_1 + \frac{K_2}{r^2} -\frac{1+3\nu}{8} \rho \omega^2 r^2  - E \alpha t + \frac{\alpha E}{r^2} \int_{r_0}^r tr \dif r,
+    \end{aligned}
+\end{equation}
+其中
+\begin{equation}
+    K_1 = \frac{C_1 E}{1-\nu}, K_2 = \frac{C_2 E}{1 + \nu},
+\end{equation}
+是两个根据边界条件求解的常数。

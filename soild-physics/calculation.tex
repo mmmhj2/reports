@@ -49,7 +49,7 @@
     \label{fig:truncated-octahedron}
 \end{figure}
 
-\begin{proof}
+\begin{proof}\small
     不妨设面心立方晶胞的边长为$\frac{2}{\pi}$，考虑正空间中的原胞产生的格点的基底
     \begin{equation}
         a_1 = (\frac{1}{\pi}, \frac{1}{\pi}, 0), \; a_2 = (\frac{1}{\pi}, 0, \frac{1}{\pi}), \; a_3 = (0, \frac{1}{\pi}, \frac{1}{\pi}).
@@ -155,13 +155,49 @@
 
 在以“精细”（Fine）预设计算出结果后，我们以其为基准，继续增加K点数和截断能来进行收敛性测试。
 
-首先考虑增加截断能，在“超精细”（Ultra-fine）预设下，截断能从$\qty{244.90}{\electronvolt}$提升至$\qty{250.00}{\electronvolt}$。
+首先考虑增加截断能，在“超精细”（Ultra-fine）预设下，截断能从$\qty{244.90}{\electronvolt}$提升至$\qty{270.00}{\electronvolt}$。
 计算的结果为：带隙$\qty{0.577}{\electronvolt}$、零点能$\qty{0.1236}{\electronvolt}$。
-两者的相对误差分别为$3.3\%$与$1.2\%$，均小于百分之五，可认为达到收敛。
+两者的相对误差分别为$3.3\%$与$1.2\%$。
+再将截断能提升至$\qty{290.00}{\electronvolt}$，
+计算的结果为：带隙$\qty{0.580}{\electronvolt}$、零点能$\qty{0.1254}{\electronvolt}$。
+两者的相对上一次计算的误差分别为$0.5\%$与$1.5\%$。
+计算结果列在表 \ref{tab:convergence-test-encut} 中。
+综上所述，可认为达到收敛。
+
+\begin{table}
+    \centering
+    \caption{截断能收敛性测试}
+    \label{tab:convergence-test-encut}
+    \begin{tabular}{cccccc}
+        \hline
+        截断能 （eV） & 带隙 （eV） & 相对误差 & 零点能（eV） & 相对误差 \\ \hline
+        $244.90$ & 0.596 & --- & 0.1251 & --- \\
+        $270.00$ & 0.577 & 3.3\% & 0.1236 & 1.2\% & \\
+        $290.00$ & 0.580 & 0.5\% & 0.1254 & 1.5\% \\ \hline
+    \end{tabular}
+\end{table}
 
 然后考虑增加K点，通过自定义设置将K点数从$5\times 5 \times 5$提升至$7 \times 7 \times 7$，计算的结果为：
 带隙$\qty{0.601}{\electronvolt}$、零点能$\qty{0.1242}{\electronvolt}$。
-两者的相对误差分别为$0.8\%$与$0.7\%$，均小于百分之一，可认为达到收敛。
+两者的相对误差分别为$0.8\%$与$0.7\%$。
+然后继续将K点数提升至$9 \times 9 \times 9$，计算的结果为：
+带隙$\qty{0.602}{\electronvolt}$、零点能$\qty{0.1241}{\electronvolt}$。
+两者的相对上一次计算的误差分别为$0.1\%$与$0.1\%$。
+计算结果列在表 \ref{tab:convergence-test-kpoints} 中。
+综上所述，可认为达到收敛。
+
+\begin{table}
+    \centering
+    \caption{K点数收敛性测试}
+    \label{tab:convergence-test-kpoints}
+    \begin{tabular}{cccccc}
+        \hline
+        K点数 & 带隙（eV） & 相对误差 & 零点能（eV） & 相对误差  \\ \hline
+        $5 \times 5 \times 5$ & 0.596 & --- & 0.1251 & --- \\
+        $7 \times 7 \times 7$ & 0.601 & 0.8\% & 0.1242 & 0.7\% \\
+        $9 \times 9 \times 9$ & 0.602 & 0.2\% & 0.1241 & 0.1\% \\ \hline
+    \end{tabular}
+\end{table}
 
 值得注意的是，增加截断能并不能使密度泛函理论导致的带隙的系统误差减小，反而使其误差更大了；
 而增加K点数对带隙的系统误差也没有显著的帮助。
